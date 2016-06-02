@@ -16,15 +16,18 @@
     <children>
         <Text text="Welcome to Monopoly Game" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
     
-        <Label text="Select Number Of Players :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label text="Select Number Of Players :" GridPane.rowIndex="2" />
     
-        <ComboBox fx:id="comboBoxNumPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-        <Label text="Select Number Of Humen Players :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <ComboBox fx:id="comboBoxNumHumenPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-        <Button fx:id="buttonSubmit" mnemonicParsing="false" onAction="#onSubmitButten" text="Submit" GridPane.columnIndex="2" GridPane.rowIndex="3">
+        <ComboBox fx:id="comboBoxNumPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Label text="Select Number Of Humen Players :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <ComboBox fx:id="comboBoxNumHumenPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <Button fx:id="buttonSubmit" mnemonicParsing="false" onAction="#onSubmitButten" text="Submit" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets left="120.0" />
          </GridPane.margin></Button>
+      <Label text="Select Game Name:" GridPane.rowIndex="1" />
+      <TextField fx:id="gameName" onAction="#OnGameNameTextBox" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Label fx:id="errorLabel" prefHeight="39.0" prefWidth="184.0" textFill="#ff0c0c" GridPane.rowIndex="4" />
     </children>
     <columnConstraints>
         <ColumnConstraints />
@@ -36,6 +39,7 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
+      <RowConstraints />
       <RowConstraints />
     </rowConstraints>
         <stylesheets>

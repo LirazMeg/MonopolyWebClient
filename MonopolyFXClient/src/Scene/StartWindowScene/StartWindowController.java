@@ -16,6 +16,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -24,6 +26,10 @@ import javafx.scene.control.ComboBox;
  */
 public class StartWindowController extends GenericController implements Initializable {
 
+    @FXML
+    private TextField textFieldGameName;
+    @FXML
+    private Label errorLabel;
     @FXML
     private ComboBox comboBoxNumPlayers;
     @FXML
@@ -45,15 +51,6 @@ public class StartWindowController extends GenericController implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
-//        comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-//            @Override
-//            // when preesed on first combo
-//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-//                setComboBoxNumHumenPlayers((int) newValue);
-//            }
-//        });
-
-////ttttrrryyyyyy
         comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             // when preesed on first combo
@@ -69,7 +66,7 @@ public class StartWindowController extends GenericController implements Initiali
                 int selectedItem = (int) comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem();
                 gameManager.setNumOfHumanPlayers(selectedItem);
                 showNode(buttonSubmit);
-                
+
 //                humanPlayerSelectedProp.set(true);
             }
         });
@@ -101,17 +98,17 @@ public class StartWindowController extends GenericController implements Initiali
         comboBoxNumHumenPlayers.setVisible(true);
     }
 
-    //when preesed on second combo
-//    @FXML
-//    private void onNumberOfHumenPlayers(ActionEvent event) {
-//        showNode(this.buttonSubmit);
-//        int selectedItem = (int) this.comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem();
-//        this.gameManager.setNumOfHumanPlayers(selectedItem);
-//        humanPlayerSelectedProp.set(true);
-//    }
     @FXML
     private void onSubmitButten(ActionEvent event) {
         buttonSubmitedProp.set(true);
+    }
+
+    @FXML
+    private void OnGameNameTextBox(ActionEvent event) {
+        if (this.isAName(textFieldGameName, this.errorLabel)) {
+            this.gameName = textFieldGameName.getText();
+        }
+
     }
 
     public ComboBox getComboBoxNumHumenPlayers() {
