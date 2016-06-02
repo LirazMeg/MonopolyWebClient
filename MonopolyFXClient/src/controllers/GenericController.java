@@ -192,4 +192,15 @@ public abstract class GenericController {
         }
         return res;
     }
+    
+        protected void showError(Label lable, String message) {
+        lable.setText(message);
+        lable.setVisible(true);
+        FadeTransition animation = new FadeTransition();
+        animation.setNode(lable);
+        animation.setDuration(Duration.seconds(0.3));
+        animation.setFromValue(0.0);
+        animation.setToValue(1.0);
+        animation.play();
+    }
 }

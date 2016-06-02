@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="241.0" prefWidth="498.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.OpeningScene.OpeningController">
+    <stylesheets>
+        <URL value="@Opening.css" />
+    </stylesheets>
+   <children>
+      <Button fx:id="buttonCreateGame" layoutX="367.0" layoutY="121.0" mnemonicParsing="false" onAction="#OnCreateGame" prefHeight="46.0" prefWidth="109.0" text="Create Game" />
+      <Button fx:id="buttonJoinGame" layoutX="27.0" layoutY="121.0" mnemonicParsing="false" onAction="#OnJoinGame" prefHeight="46.0" prefWidth="109.0" text="Join Game">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label fx:id="labelWelcom" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="13.0" prefHeight="92.0" prefWidth="475.0" text="Welcome To Monopoly Game Online!" textAlignment="CENTER" textFill="#1779e3" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
+         <font>
+            <Font name="Segoe UI" size="36.0" />
+         </font></Label>
+      <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="181.0" prefHeight="46.0" prefWidth="449.0" textAlignment="CENTER" textFill="#e33819" textOverrun="CENTER_WORD_ELLIPSIS" wrapText="true">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

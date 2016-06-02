@@ -62,14 +62,5 @@
             <Insets />
          </opaqueInsets>
       </GridPane>
-           <MenuBar prefHeight="25.0" prefWidth="669.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Upload Game From XML File">
-            <items>
-              <MenuItem fx:id="chooseXMLFile" mnemonicParsing="false" onAction="#OnChooseXMLFile" text="Choose XML File" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </children>
 </AnchorPane>

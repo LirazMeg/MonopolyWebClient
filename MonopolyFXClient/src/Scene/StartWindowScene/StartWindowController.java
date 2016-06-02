@@ -50,6 +50,7 @@ public class StartWindowController extends GenericController implements Initiali
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
         comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -66,12 +67,11 @@ public class StartWindowController extends GenericController implements Initiali
                 int selectedItem = (int) comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem();
                 gameManager.setNumOfHumanPlayers(selectedItem);
                 showNode(buttonSubmit);
-
-//                humanPlayerSelectedProp.set(true);
             }
         });
 
         // this.comboBoxNumHumenPlayers.setEditable(true);
+        hideNode(comboBoxNumPlayers);
         hideNode(comboBoxNumHumenPlayers);
         hideNode(buttonSubmit);
         this.buttonSubmitedProp = new SimpleBooleanProperty(false);
@@ -108,6 +108,7 @@ public class StartWindowController extends GenericController implements Initiali
         if (this.isAName(textFieldGameName, this.errorLabel)) {
             this.gameName = textFieldGameName.getText();
         }
+        showNode(comboBoxNumPlayers);
 
     }
 
@@ -122,8 +123,6 @@ public class StartWindowController extends GenericController implements Initiali
 
     @Override
     public void resetScene() {
-//        this.comboBoxNumPlayers.getItems().clear();
-//        this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
         hideNode(comboBoxNumHumenPlayers);
         hideNode(buttonSubmit);
         this.buttonSubmitedProp.set(false);

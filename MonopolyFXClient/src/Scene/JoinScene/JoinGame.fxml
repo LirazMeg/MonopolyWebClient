@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="442.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.JoinScene.JoinGameController">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ListView fx:id="listViewOfGames" onMouseClicked="#onChooseGame" onMouseDragged="#onInitDetails" prefHeight="400.0" prefWidth="316.0" />
+            <VBox prefHeight="400.0" prefWidth="299.0">
+               <children>
+                  <HBox layoutX="10.0" layoutY="226.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelNamePlayer" prefHeight="25.0" prefWidth="40.0" styleClass="Lable" text="Name:" />
+                        <TextField fx:id="textBoxPlayerName" disable="true" prefHeight="25.0" prefWidth="144.0" promptText="enter player name" styleClass="TextField" />
+                        <Label fx:id="labelErrorMessage" prefHeight="25.0" prefWidth="115.0" textFill="RED" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Game Name:" />
+                        <Label fx:id="labelGameName" prefHeight="14.0" prefWidth="135.0" />
+                        <Label fx:id="labelErrorMessage1" layoutX="79.0" layoutY="10.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Number of Human Players:" />
+                        <Label fx:id="labelNumOfPlayer" />
+                        <Label layoutX="153.0" layoutY="10.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="270.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Number of Pc Players:" />
+                        <Label fx:id="labelNumOfPcPlayer" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="110.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Number of Join Players:" />
+                        <Label fx:id="labelNumOfJoinPlayers" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer1" layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP1" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 1:" />
+                        <Label fx:id="labelPlayer1" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer2" layoutX="10.0" layoutY="292.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP2" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 2:" />
+                        <Label fx:id="labelPlayer2" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer3" layoutX="10.0" layoutY="335.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP3" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 3:" />
+                        <Label fx:id="labelPlayer3" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer4" layoutX="10.0" layoutY="347.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP4" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 4:" />
+                        <Label fx:id="labelPlayer4" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer5" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP5" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 5:" />
+                        <Label fx:id="labelPlayer5" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="panePlayer42" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="radioButtonP6" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
+                        <Label text="Player 6:" />
+                        <Label fx:id="labelPlayer6" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="buttonReturn" contentDisplay="CENTER" layoutX="565.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="117.0" text="Back To Menu" />
+      <Button fx:id="buttonJoinGame" layoutX="565.0" layoutY="460.0" mnemonicParsing="false" onAction="#onJoinGame" prefHeight="25.0" prefWidth="117.0" text="Join To Game" />
+   </children>
+   <stylesheets>
+      <URL value="@../../../../../../../../../../JavaProjects/Users/Barak/Desktop/Java%20-%20ex3/RummikubeClient/src/view/scenes/joinGame/JoinGame.css" />
+   </stylesheets>
+</AnchorPane>

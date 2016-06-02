@@ -77,17 +77,13 @@ public class MonopolyGameBoardController extends GenericController implements In
     private Button nextTurnButton;
     @FXML
     private Button moveButton;
-    @FXML
-    private MenuItem chooseXMLFile;
 
-    private String uploadFileName = "";
     private SimpleBooleanProperty yesButtonProp;
     private SimpleBooleanProperty noButtonProp;
     private SimpleBooleanProperty endGameProp;
     private SimpleBooleanProperty yesPerchesButtonProp;
     private SimpleBooleanProperty noPerchesButtonProp;
     private SimpleBooleanProperty nextTurnButtonProp;
-    private SimpleBooleanProperty uploadXMLFileMenuItemProp;
     private SimpleBooleanProperty moveButtonProp;
 
     private Map<Integer, Point2D> gridPaneMap = new HashMap<Integer, Point2D>();
@@ -132,7 +128,6 @@ public class MonopolyGameBoardController extends GenericController implements In
         this.noPerchesButtonProp = new SimpleBooleanProperty(false);
         this.nextTurnButtonProp = new SimpleBooleanProperty(false);
         this.isOnPertces = false;
-        this.uploadXMLFileMenuItemProp = new SimpleBooleanProperty(false);
         this.moveButtonProp = new SimpleBooleanProperty(false);
 
         hideNode(this.noButton);
@@ -141,10 +136,6 @@ public class MonopolyGameBoardController extends GenericController implements In
         hideNode(this.noPerchesButton);
         hideNode(this.nextTurnButton);
         hideNode(this.moveButton);
-    }
-
-    public SimpleBooleanProperty getUploadXMLFileMenuItemProp() {
-        return uploadXMLFileMenuItemProp;
     }
 
     public Button getNextTurnButton() {
@@ -182,22 +173,6 @@ public class MonopolyGameBoardController extends GenericController implements In
         hideNode(this.moveButton);
         actionGoToCard(this.to);
         this.moveButtonProp.set(true);
-    }
-
-    public void setUploadFileName(String uploadFileName) {
-        this.uploadFileName = uploadFileName;
-    }
-
-    public void OnChooseXMLFile(ActionEvent event) throws Exception {
-        String fileName = "";
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open File");
-        File file = fileChooser.showOpenDialog(this.gridPane.getScene().getWindow());
-        if (file != null) {
-            fileName = file.getPath();
-        }
-        setUploadFileName(fileName);
-        this.uploadXMLFileMenuItemProp.set(true);
     }
 
     public SimpleBooleanProperty getYesPerchesButtonProp() {
@@ -683,16 +658,9 @@ public class MonopolyGameBoardController extends GenericController implements In
         this.noPerchesButtonProp.set(false);
         this.nextTurnButtonProp.set(false);
         this.isOnPertces = false;
-        this.uploadXMLFileMenuItemProp.set(false);
         this.moveButtonProp.set(false);
 
         this.playerLabelList.clear();
-
-        try {
-            startNewGame(this.uploadFileName);
-        } catch (Exception ex) {
-            Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void resetBoardLogic() {
