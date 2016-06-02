@@ -133,7 +133,7 @@ public abstract class GenericController {
         }
     }
 
-        protected void addPayersNames(List<Label> labelsPlayers, List<game.client.ws.PlayerDetails> playersDetails , boolean isSecenJoin)
+    protected void addPayersNames(List<Label> labelsPlayers, List<game.client.ws.PlayerDetails> playersDetails , boolean isSecenJoin)
     {
         int maxJoinPlayers = playersDetails.size();
         int index = 0; 

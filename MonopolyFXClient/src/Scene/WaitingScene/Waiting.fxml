@@ -35,7 +35,7 @@
             <Label fx:id="labelP4" />
          </graphic></CheckBox>
       <Button layoutX="233.0" layoutY="347.0" mnemonicParsing="false" onAction="#onReturn" text="Back To menu" />
-      <Button layoutX="340.0" layoutY="347.0" mnemonicParsing="false" onAction="#onShow" text="Refresh" />
+      <Button layoutX="340.0" layoutY="347.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
       <CheckBox fx:id="checkBoxPlayer5" disable="true" layoutX="40.0" layoutY="260.0" mnemonicParsing="false" text="  connected">
          <graphic>
             <Label fx:id="labelP5" />

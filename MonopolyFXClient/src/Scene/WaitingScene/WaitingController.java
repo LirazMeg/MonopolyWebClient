@@ -13,8 +13,6 @@ import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.PlayerDetails;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -113,7 +111,7 @@ public class WaitingController extends GenericController implements Initializabl
 
     @Override
     protected void actionMethod(Timer timer){
-        Platform.runLater(() -> onShow(null));
+        Platform.runLater(() -> onRefresh(null));
         if(! (gameDetails.getJoinedHumanPlayers()== gameDetails.getHumanPlayers()))
         {
             createNewThread(ACTIONMEHT);
@@ -128,7 +126,7 @@ public class WaitingController extends GenericController implements Initializabl
     }
     
     @FXML
-    private void onShow(ActionEvent event) {
+    private void onRefresh(ActionEvent event) {
         setCheckBox();
     }
     
@@ -165,7 +163,7 @@ public class WaitingController extends GenericController implements Initializabl
                 thread = new Thread(() -> this.checkStartServer());
                 break;
             case RESIGNSERVER:
-                thread = new Thread(this::sendPlayerResign);
+                thread = new Thread(() -> this.sendPlayerResign());
                 break;
             default:
                 break;
