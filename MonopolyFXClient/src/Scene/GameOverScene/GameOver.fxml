@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="265.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.GameOverScene.GameOverController">
+    <stylesheets>
+        <URL value="@gameover.css" />
+    </stylesheets>
+   <children>
+      <Label fx:id="congratulationsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="92.0" prefHeight="50.0" prefWidth="571.0" text="Congratulations! You won!" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="92.0">
+         <font>
+            <Font name="Tahoma Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="winPlayerName" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="78.0" prefWidth="571.0" textAlignment="CENTER" textFill="#ba07fc">
+         <font>
+            <Font name="Tahoma Bold" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="playAnotherGameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="169.0" mnemonicParsing="false" onAction="#OnplayAnotherGameButton" prefHeight="66.0" prefWidth="151.0" text="Play Another Game" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="385.0" AnchorPane.topAnchor="169.0">
+         <font>
+            <Font name="Tahoma Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" layoutX="390.0" layoutY="169.0" mnemonicParsing="false" onAction="#OnexitButton" prefHeight="66.0" prefWidth="151.0" text="Exit" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Tahoma Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

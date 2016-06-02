@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="535.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.MonopolyGame.MonopolyGameBoardController">
+   <children>
+      <GridPane fx:id="gridPane" layoutY="25.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="669.0" stylesheets="@monopolygameboard.css">
+          <columnConstraints>
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <rowConstraints>
+              <RowConstraints />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+          <children>
+              <Label fx:id="msgLabel" alignment="CENTER" minHeight="100.0" minWidth="467.0" prefHeight="100.0" prefWidth="467.0" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+              <ImageView fx:id="surpriseCard" fitHeight="161.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                  <image>
+                      <Image url="@../../pics/Surprise.png" />
+                  </image>
+              </ImageView>
+              <ImageView fx:id="warrantCard" fitHeight="167.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
+                  <image>
+                      <Image url="@../../pics/Warrant.png" />
+                  </image>
+              </ImageView>
+              <Button fx:id="yesButton" alignment="CENTER" mnemonicParsing="false" onAction="#OnYesButton" prefHeight="50.0" prefWidth="100.0" text="Yes" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+              <Button fx:id="noButton" mnemonicParsing="false" onAction="#OnNoButton" prefHeight="50.0" prefWidth="100.0" text="No" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Button fx:id="yesPerchesButton" alignment="CENTER" mnemonicParsing="false" onAction="#OnYesPerchesButton" prefHeight="50.0" prefWidth="100.0" text="Yes" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="noPerchesButton" mnemonicParsing="false" onAction="#OnNoPerchesButton" prefHeight="50.0" prefWidth="100.0" text="No" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Button fx:id="nextTurnButton" minHeight="30.0" minWidth="320.0" mnemonicParsing="false" onAction="#OnNextTurnButton" prefHeight="29.0" prefWidth="340.0" text="Move To Next Turn" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="moveButton" minHeight="30.0" minWidth="320.0" mnemonicParsing="false" onAction="#OnMoveButton" prefHeight="39.0" prefWidth="320.0" text="Move" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </GridPane>
+           <MenuBar prefHeight="25.0" prefWidth="669.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Upload Game From XML File">
+            <items>
+              <MenuItem fx:id="chooseXMLFile" mnemonicParsing="false" onAction="#OnChooseXMLFile" text="Choose XML File" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </children>
+</AnchorPane>

@@ -2,4 +2,5 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/MonopolyWebApp/MonopolyWebServiceService?wsdl" uri="xml-resources/web-service-references/MonopolyWebServiceService/wsdl/localhost_8080/MonopolyWebApp/MonopolyWebServiceService.wsdl"/>
     <system systemId="http://localhost:8080/MonopolyWebApp/MonopolyWebServiceService?xsd=1" uri="xml-resources/web-service-references/MonopolyWebServiceService/wsdl/localhost_8080/MonopolyWebApp/MonopolyWebServiceService.xsd_1.xsd"/>
+    <system systemId="file:/C:/Users/efrat/Documents/NetBeansProjects/MonopolyWebClient/MonopolyFXClient/../../FX/MonopolyGame_FXVer/MonopolyGame/xml-resources/jaxb/monopoly/monopoly_config.xsd" uri="xml-resources/jaxb/monopoly/monopoly_config.xsd"/>
 </catalog>

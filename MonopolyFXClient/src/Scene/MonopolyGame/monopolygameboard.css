@@ -1,0 +1,69 @@
+
+.root{
+    /* -fx-base: rgb(132, 145, 47);
+   -fx-background: rgb(225, 228, 203);*/
+    -fx-background-color:  #F2F2F2;
+}
+.imagebackground{
+    -fx-opacity: 0.5;
+}
+.imageview{
+
+}
+.button {
+    -fx-background-imge-repate:stretch; 
+    -fx-text-fill: black;
+    -fx-content-display: center;
+    -fx-text-alignment: center;
+    -fx-display: inline-block;
+    -fx-font-family:tahoma;
+    -fx-font-size:8pt;
+    -fx-border-color: black;
+    -fx-pref-width: 80px !important;
+    -fx-pref-height: 68px !important;
+    -fx-text-align: center;
+    -fx-wrap-text:true;
+    -fx-font-weight: bold;
+}
+#noButton ,#yesButton , #yesPerchesButton ,#noPerchesButton {
+    -fx-pref-width: 60px !important;
+    -fx-pref-height: 30px !important;
+    -fx-font: bold italic 10pt "Arial";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+
+}
+#noButton :hover ,#yesButton:hover , #yesPerchesButton:hover ,#noPerchesButton:hover , #nextTurnButton:hover{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+#nextTurnButton , #moveButton{
+    -fx-pref-width: 260px !important;
+    -fx-pref-height: 32px !important;
+
+}
+.label{
+    -fx-font-family:tahoma; 
+    -fx-wrap-text:true;
+
+}
+
+#msgLabel{
+
+    -fx-font-size:8pt;
+    -fx-color: darkblue;
+    -fx-font-weight: bold;
+
+}
+
+#errorLabel{
+    -fx-font-size:10pt;
+    -fx-color: red;
+}
+
+#PlayerLable{
+    -fx-background-imge-repate:stretch; 
+    -fx-content-display: center;
+    -fx-text-alignment: center;
+    -fx-display: inline-block;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.collections.*?>
+
+<GridPane fx:id="pane" alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.StartWindowScene.StartWindowController">
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25" />
+    </padding>
+    <children>
+        <Text text="Welcome to Monopoly Game" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+    
+        <Label text="Select Number Of Players :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    
+        <ComboBox fx:id="comboBoxNumPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Label text="Select Number Of Humen Players :" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <ComboBox fx:id="comboBoxNumHumenPlayers" editable="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Button fx:id="buttonSubmit" mnemonicParsing="false" onAction="#onSubmitButten" text="Submit" GridPane.columnIndex="2" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets left="120.0" />
+         </GridPane.margin></Button>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+      <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+      <RowConstraints />
+    </rowConstraints>
+        <stylesheets>
+        <URL value="@startwindow.css" />
+    </stylesheets>
+</GridPane>
