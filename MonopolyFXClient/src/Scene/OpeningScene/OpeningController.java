@@ -63,6 +63,14 @@ public class OpeningController extends GenericController implements Initializabl
         return this.createGameProp;
     }
 
+    public Button getButtonCreateGame() {
+        return buttonCreateGame;
+    }
+
+    public Button getButtonJoinGame() {
+        return buttonJoinGame;
+    }
+
     public SimpleBooleanProperty getJoinGameProp() {
         return this.joinGameProp;
     }
