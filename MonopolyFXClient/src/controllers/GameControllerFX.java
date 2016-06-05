@@ -22,11 +22,11 @@ public class GameControllerFX {
     }
 
     public GameController getLogicGame() {
-        return spesificLogicGame;
+        return this.spesificLogicGame;
     }
 
     public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
+        return this.currentPlayerIndex;
     }
 
     public void setLogicGame(GameController logicGame) {
