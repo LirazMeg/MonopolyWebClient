@@ -333,16 +333,15 @@ public class MonopolyGameApp extends Application {
     private OpeningController getOpeningController(FXMLLoader fxmlLoader, Stage primaryStage) {
         OpeningController fxmlDocumentController = (OpeningController) fxmlLoader.getController();
 
-        fxmlDocumentController.getCreateGame().addListener((source, oldValue, newValue) -> {
+        fxmlDocumentController.getCreateGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getCreateGame().set(false);
-                //this.monopoly.createGame(0, 0, STYLESHEET_MODENA);
+                fxmlDocumentController.getCreateGameProp().set(false);
                 primaryStage.setScene(this.startWindowScene);
             }
         });
-        fxmlDocumentController.getJoinGame().addListener((source, oldValue, newValue) -> {
+        fxmlDocumentController.getJoinGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getJoinGame().set(false);
+                fxmlDocumentController.getJoinGameProp().set(false);
                 this.joinGameController.setListViewGame();
                 primaryStage.setScene(this.joinGameScene);
             }
