@@ -154,7 +154,7 @@ public class WaitingController extends GenericController implements Initializabl
         switch(selection)
         {
             case PLAYERSDETAILS:
-                thread = new Thread(() -> this.getPlayersDetailsFromServer());
+                thread = new Thread(this::getPlayersDetailsFromServer);
                 break;
             case GAMEDETAILS:
                 thread = new Thread(() -> this.getGameDetailsFromServer());
