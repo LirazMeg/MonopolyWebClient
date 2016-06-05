@@ -76,7 +76,7 @@ public class MonopolyGameApp extends Application {
         setLogicGame(false, null);
         makeScene(stage);
 
-        stage.setScene(startWindowScene);
+        stage.setScene(this.openingScene);
         stage.setTitle("Monopoly Game");
         stage.setResizable(false);
 
@@ -122,8 +122,11 @@ public class MonopolyGameApp extends Application {
 
         FXMLLoader joinGameLoader = getLoader(JOIN_GAME_FXML_PATH);
         Parent joinGameParent = joinGameLoader.load(joinGameLoader.getLocation().openStream());
-        this.openingScene = new Scene(joinGameParent);
+        this.joinGameScene = new Scene(joinGameParent);
 
+        this.openingController = getOpeningController(openingLoader, primaryStage);
+        this.openingController.setGameManager(gameManager.getLogicGame());
+        this.openingController.setStage(primaryStage);
         this.startWindowController = getStartWindowController(startWindowSceneLoader, primaryStage);
         this.startWindowController.setGameManager(gameManager.getLogicGame());
         this.playerRegisterController = getPlayerRegistrationController(playerRsisterationLoader, primaryStage);
@@ -134,12 +137,10 @@ public class MonopolyGameApp extends Application {
         this.gameOverController.setGameManager(gameManager.getLogicGame());
         this.waitingController = getWaitingController(waitingLoader, primaryStage);
         this.waitingController.setGameManager(gameManager.getLogicGame());
-        this.openingController = getOpeningController(openingLoader, primaryStage);
-        this.openingController.setGameManager(gameManager.getLogicGame());
+
         this.joinGameController = getJoinGameController(joinGameLoader, primaryStage);
         this.joinGameController.setGameManager(gameManager.getLogicGame());
 
-        this.openingController.setStage(primaryStage);
     }
 
     private FXMLLoader getLoader(String path) {
