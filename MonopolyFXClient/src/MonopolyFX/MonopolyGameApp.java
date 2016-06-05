@@ -176,7 +176,7 @@ public class MonopolyGameApp extends Application {
                         //playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
                         primaryStage.setScene(MonopolyGameApp.this.waitingScene);
                         primaryStage.centerOnScreen();
-                    }catch (DuplicateGameName_Exception | InvalidParameters_Exception ex) {
+                    } catch (DuplicateGameName_Exception | InvalidParameters_Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -320,12 +320,16 @@ public class MonopolyGameApp extends Application {
 
         excuteReturn(fxmlDocumentController, primaryStage);
 
-        fxmlDocumentController.getAllPlayersConnected().addListener((source, oldValue, newValue) -> {
+        fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getAllPlayersConnected().set(false);
+                primaryStage.setScene(this.openingScene);
+            }
+        });
 
-                //this.gameManager.setGame(fxmlDocumentController.getName(), fxmlDocumentController.getId(), fxmlDocumentController.getEventId());
-                primaryStage.setScene(this.monopolyBoardScene);
+        fxmlDocumentController.getRefreshProp().addListener((source, oldValue, newValue) -> {
+            if (newValue) {
+               // if(this.monopoly.getEvents(0, 0))
+                //chack if start game
             }
         });
         return fxmlDocumentController;
@@ -359,7 +363,7 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 fxmlDocumentController.getJoinGame().set(false);
 
-                this.waitingController.setGameDetails(fxmlDocumentController.getGameName(), fxmlDocumentController.getEventId());
+                //this.waitingController.setGameDetails(fxmlDocumentController.getGameName(), fxmlDocumentController.getEventId());
                 primaryStage.setScene(this.waitingScene);
             }
         });

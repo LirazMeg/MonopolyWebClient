@@ -9,44 +9,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="428.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
+<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="237.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
     <stylesheets>
         <URL value="@Waiting.css" />
     </stylesheets>
    <children>
-      <Label layoutX="40.0" layoutY="34.0" text="Waiting...">
+      <Label layoutX="72.0" layoutY="103.0" text="Waiting...">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></Label>
-      <CheckBox fx:id="checkBoxPlayer1" disable="true" layoutX="40.0" layoutY="80.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP1" />
-         </graphic></CheckBox>
-      <CheckBox fx:id="checkBoxPlayer2" disable="true" layoutX="40.0" layoutY="125.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP2" />
-         </graphic></CheckBox>
-      <CheckBox fx:id="checkBoxPlayer3" disable="true" layoutX="40.0" layoutY="169.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP3" />
-         </graphic></CheckBox>
-      <CheckBox fx:id="checkBoxPlayer4" disable="true" layoutX="40.0" layoutY="217.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP4" />
-         </graphic></CheckBox>
-      <Button layoutX="233.0" layoutY="347.0" mnemonicParsing="false" onAction="#onReturn" text="Back To menu" />
-      <Button layoutX="340.0" layoutY="347.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
-      <CheckBox fx:id="checkBoxPlayer5" disable="true" layoutX="40.0" layoutY="260.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP5" />
-         </graphic>
-      </CheckBox>
-      <CheckBox fx:id="checkBoxPlayer6" disable="true" layoutX="40.0" layoutY="310.0" mnemonicParsing="false" text="  connected">
-         <graphic>
-            <Label fx:id="labelP6" />
-         </graphic>
-      </CheckBox>
-      <ImageView fitHeight="270.0" fitWidth="200.0" layoutX="196.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+      <Button layoutX="25.0" layoutY="146.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
+      <Button layoutX="158.0" layoutY="146.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
+      <ImageView fitHeight="76.0" fitWidth="372.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../FX/MonopolyGame_FXVer/MonopolyGame/src/pics/monopoly_us_pack_logo.png" />
          </image>
