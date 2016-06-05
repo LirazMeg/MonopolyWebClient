@@ -10,12 +10,13 @@ import Scene.JoinScene.JoinGameController;
 import Scene.MonopolyGame.MonopolyGameBoardController;
 import Scene.OpeningScene.OpeningController;
 import Scene.PlayerRegistretionScene.PlayersRegistretionController;
-import Scene.StartWindowScene.StartWindowController;
+import Scene.StartWindowScene.StartNewGameController;
 import Scene.WaitingScene.WaitingController;
 import controllers.GameController;
 import controllers.GameControllerFX;
 import controllers.GenericController;
 import game.client.ws.DuplicateGameName_Exception;
+import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
@@ -41,7 +42,7 @@ import javafx.stage.WindowEvent;
  * @author efrat
  */
 public class MonopolyGameApp extends Application {
-    
+
     private static final String START_WINDOW_FXML_PATH = "/Scene/StartWindowScene/StartWindow.fxml";
     private static final String PLAYERS_REGISTRETION_FXML_PATH = "/Scene/PlayerRegistretionScene/PlayerRegistration.fxml";
     private static final String MONOPOLY_BOARD_FXML_PATH = "/Scene/MonopolyGame/MonopolyGameBoard.fxml";
@@ -49,9 +50,9 @@ public class MonopolyGameApp extends Application {
     private static final String WAITING_FXML_PATH = "/Scene/WaitingScene/Waiting.fxml";
     private static final String OPENING_FXML_PATH = "/Scene/OpeningScene/Opening.fxml";
     private static final String JOIN_GAME_FXML_PATH = "/Scene/JoinScene/JoinGame.fxml";
-    
+
     private Scene startWindowScene;
-    private StartWindowController startWindowController;
+    private StartNewGameController startWindowController;
     private Scene playerRsisterationScene;
     private PlayersRegistretionController playerRegisterController;
     private Scene monopolyBoardScene;
@@ -64,32 +65,33 @@ public class MonopolyGameApp extends Application {
     private OpeningController openingController;
     private Scene joinGameScene;
     private JoinGameController joinGameController;
-    
+
     private GameControllerFX gameManager;
     private MonopolyWebService monopoly;
     private MonopolyWebServiceService service;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         service = new MonopolyWebServiceService();
         monopoly = service.getMonopolyWebServicePort();
+
         setLogicGame(false, null);
         makeScene(stage);
-      List<String> waitingGames = this.monopoly.getWaitingGames();
-      if(waitingGames.size() > 0){
+        List<String> waitingGames = this.monopoly.getWaitingGames();
+        if (waitingGames.size() > 0) {
             stage.setScene(this.openingScene);
-           this.joinGameController.setListGamesName(waitingGames);
-           this.joinGameController. setListViewGame();
+            this.joinGameController.setListGamesName(waitingGames);
+            this.joinGameController.setListViewGames();
         } else {
             stage.setScene(this.startWindowScene);
         }
         stage.setTitle("Monopoly Game");
         stage.setResizable(false);
-        
+
         stage.show();
     }
-    
+
     private void setLogicGame(boolean isUplaodGame, GameController logic) throws Exception {
         //filechocher
         if (!isUplaodGame) {
@@ -101,48 +103,48 @@ public class MonopolyGameApp extends Application {
             gameManager.setLogicGame(logic);
         }
     }
-    
+
     private void makeScene(Stage primaryStage) throws IOException {
         FXMLLoader startWindowSceneLoader = getLoader(START_WINDOW_FXML_PATH);
         Parent startWindowParent = startWindowSceneLoader.load(startWindowSceneLoader.getLocation().openStream());
         this.startWindowScene = new Scene(startWindowParent);
-        
+
         FXMLLoader playerRsisterationLoader = getLoader(PLAYERS_REGISTRETION_FXML_PATH);
         Parent playerRsisterationParent = playerRsisterationLoader.load(playerRsisterationLoader.getLocation().openStream());
         this.playerRsisterationScene = new Scene(playerRsisterationParent);
-        
+
         FXMLLoader monopolyBoardLoader = getLoader(MONOPOLY_BOARD_FXML_PATH);
         Parent monopolyBoardParent = monopolyBoardLoader.load(monopolyBoardLoader.getLocation().openStream());
         this.monopolyBoardScene = new Scene(monopolyBoardParent);
-        
+
         FXMLLoader gameOverLoader = getLoader(GAME_OVER_FXML_PATH);
         Parent gameOverParent = gameOverLoader.load(gameOverLoader.getLocation().openStream());
         this.gameOverScene = new Scene(gameOverParent);
-        
+
         FXMLLoader waitingLoader = getLoader(WAITING_FXML_PATH);
         Parent waitingParent = waitingLoader.load(waitingLoader.getLocation().openStream());
         this.waitingScene = new Scene(waitingParent);
-        
+
         FXMLLoader openingLoader = getLoader(OPENING_FXML_PATH);
         Parent openingParent = openingLoader.load(openingLoader.getLocation().openStream());
         this.openingScene = new Scene(openingParent);
-        
+
         FXMLLoader joinGameLoader = getLoader(JOIN_GAME_FXML_PATH);
         Parent joinGameParent = joinGameLoader.load(joinGameLoader.getLocation().openStream());
         this.joinGameScene = new Scene(joinGameParent);
-        
+
         this.openingController = getOpeningController(openingLoader, primaryStage);
         this.openingController.setGameManager(gameManager.getLogicGame());
-        
-        this.startWindowController = getStartWindowController(startWindowSceneLoader, primaryStage);
+
+        this.startWindowController = getStartNewGameController(startWindowSceneLoader, primaryStage);
         this.startWindowController.setGameManager(gameManager.getLogicGame());
-        
+
         if (getSizeOfWaitingGamesList() > 0) {
             this.openingController.setStage(primaryStage);
         } else {
             this.startWindowController.setStage(primaryStage);
         }
-        
+
         this.playerRegisterController = getPlayerRegistrationController(playerRsisterationLoader, primaryStage);
         this.playerRegisterController.setGameManager(gameManager.getLogicGame());
         this.monopolyGameBoardController = getGameBoardController(monopolyBoardLoader, primaryStage);
@@ -151,12 +153,12 @@ public class MonopolyGameApp extends Application {
         this.gameOverController.setGameManager(gameManager.getLogicGame());
         this.waitingController = getWaitingController(waitingLoader, primaryStage);
         this.waitingController.setGameManager(gameManager.getLogicGame());
-        
+
         this.joinGameController = getJoinGameController(joinGameLoader, primaryStage);
         this.joinGameController.setGameManager(gameManager.getLogicGame());
-        
+        initAllControoler();
     }
-    
+
     private FXMLLoader getLoader(String path) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         URL url = getClass().getResource(path);
@@ -170,9 +172,9 @@ public class MonopolyGameApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    private StartWindowController getStartWindowController(FXMLLoader fxmlLoader, Stage primaryStage) {
-        StartWindowController fxmlDocumentController = (StartWindowController) fxmlLoader.getController();
+
+    private StartNewGameController getStartNewGameController(FXMLLoader fxmlLoader, Stage primaryStage) {
+        StartNewGameController fxmlDocumentController = (StartNewGameController) fxmlLoader.getController();
         SimpleBooleanProperty btn = fxmlDocumentController.getSubmitButtonPror();
         btn.addListener(new ChangeListener<Boolean>() {
             @Override
@@ -180,15 +182,16 @@ public class MonopolyGameApp extends Application {
                 if (newValue) {
                     try {
                         fxmlDocumentController.getSubmitButtonPror().set(false);
-                        String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
-                        int numOfPlayers = Integer.parseInt(numOfPlayersStr);
-                        String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
-                        int numOfHumenPlayers = Integer.parseInt(numOfHumenPlayersStr);
+                        //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
+                        int numOfPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfPlayers();
+                        //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
+                        int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfHumanPlayers();
                         int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
                         String gameName = fxmlDocumentController.getGameName();
                         monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
-                        //playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
-                        primaryStage.setScene(MonopolyGameApp.this.waitingScene);
+                        initGameName(gameName);
+                        playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(1, numOfPlayers);
+                        primaryStage.setScene(MonopolyGameApp.this.playerRsisterationScene);
                         primaryStage.centerOnScreen();
                     } catch (DuplicateGameName_Exception ex) {
                         MonopolyGameApp.this.startWindowController.setErrorLabel(ex.getMessage());
@@ -202,56 +205,74 @@ public class MonopolyGameApp extends Application {
         });
         return fxmlDocumentController;
     }
-    
+
     private PlayersRegistretionController getPlayerRegistrationController(FXMLLoader fxmlLoader, Stage primaryStage) {
         PlayersRegistretionController fxmlDocumentController = (PlayersRegistretionController) fxmlLoader.getController();
-        
+        fxmlDocumentController.getSubmitPlayerButtonProp().addListener((source, oldValue, newValue) -> {
+            if (newValue) {
+                try {
+                    fxmlDocumentController.getSubmitPlayerButtonProp().set(false);
+                    String playerName = fxmlDocumentController.getPlayerName().getText();
+                    String gameName = fxmlDocumentController.getGameName();
+
+                    int playerId = this.monopoly.joinGame(gameName, playerName);
+                    initPlayerId(playerId);
+
+                } catch (GameDoesNotExists_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    fxmlDocumentController.setErrorLabel(ex.getMessage());
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    fxmlDocumentController.setErrorLabel(ex.getMessage());
+                }
+            }
+        });
         return fxmlDocumentController;
     }
-    
+
     private MonopolyGameBoardController getGameBoardController(FXMLLoader fxmlLoader, Stage primaryStage) {
         MonopolyGameBoardController fxmlDocumentController = (MonopolyGameBoardController) fxmlLoader.getController();
         fxmlDocumentController.initBoardLogic(this.gameManager.getLogicGame().getMonopolyGame());
-        
+
         SimpleBooleanProperty btn = this.playerRegisterController.getStartGameButtonProp();
         btn.addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                this.playerRegisterController.getStartGameButtonProp().set(false);
-                MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(MonopolyGameApp.this.playerRegisterController.getPlayerLabelList());
-                MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(MonopolyGameApp.this.gameManager.getLogicGame().getPleyerIndex());
+
+                //MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(MonopolyGameApp.this.playerRegisterController.getPlayerLabelList());
+                //MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(MonopolyGameApp.this.gameManager.getLogicGame().getPleyerIndex());
                 try {
-                    fxmlDocumentController.startPlaying(MonopolyGameApp.this.gameManager.getLogicGame().getCurrentPlayer());
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    this.playerRegisterController.getStartGameButtonProp().set(false);
+                    primaryStage.setScene(waitingScene);
+                    // fxmlDocumentController.startPlaying(MonopolyGameApp.this.gameManager.getLogicGame().getCurrentPlayer());
                 } catch (Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                primaryStage.setScene(monopolyBoardScene);
+                primaryStage.setScene(this.waitingScene);
                 primaryStage.centerOnScreen();
             }
         });
-        
+
         SimpleBooleanProperty yesBtnProperty = fxmlDocumentController.getYesButtonProp();
         yesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getYesButtonProp().set(false);
             }
         });
-        
+
         SimpleBooleanProperty yesPerchesBtnProperty = fxmlDocumentController.getYesPerchesButtonProp();
         yesPerchesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getYesPerchesButtonProp().set(false);
             }
         });
-        
+
         SimpleBooleanProperty noPerchesBtnProperty = fxmlDocumentController.getNoPerchesButtonProp();
         noPerchesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getNoPerchesButtonProp().set(false);
             }
         });
-        
+
         SimpleBooleanProperty noBtnProperty = fxmlDocumentController.getNoButtonProp();
         noBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
@@ -260,7 +281,7 @@ public class MonopolyGameApp extends Application {
                 primaryStage.setScene(gameOverScene);
             }
         });
-        
+
         SimpleBooleanProperty nextTurnBtnProperty = fxmlDocumentController.getNextTurnButtonProp();
         nextTurnBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
@@ -274,7 +295,7 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getMoveButtonProp().set(false);
             }
         });
-        
+
         SimpleBooleanProperty endGameProperty = fxmlDocumentController.getEndGameProp();
         endGameProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
@@ -317,7 +338,7 @@ public class MonopolyGameApp extends Application {
         });
         return fxmlDocumentController;
     }
-    
+
     private void excuteReturn(GenericController controller, final Stage primaryStage) {
         controller.getReturnToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
@@ -332,12 +353,11 @@ public class MonopolyGameApp extends Application {
             }
         });
     }
-    
+
     private WaitingController getWaitingController(FXMLLoader fxmlLoader, Stage primaryStage) {
         WaitingController fxmlDocumentController = (WaitingController) fxmlLoader.getController();
-        
-       // excuteReturn(fxmlDocumentController, primaryStage);
 
+        // excuteReturn(fxmlDocumentController, primaryStage);
         fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 primaryStage.setScene(this.openingScene);
@@ -346,16 +366,18 @@ public class MonopolyGameApp extends Application {
 
         fxmlDocumentController.getRefreshProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-               // if(this.monopoly.getEvents(0, 0))
-                //chack if start game
+                fxmlDocumentController.getRefreshProp().set(false);
+                if (eventStartGameExist()) {
+                    primaryStage.setScene(this.monopolyBoardScene);
+                }
             }
         });
         return fxmlDocumentController;
     }
-    
+
     private OpeningController getOpeningController(FXMLLoader fxmlLoader, Stage primaryStage) {
         OpeningController fxmlDocumentController = (OpeningController) fxmlLoader.getController();
-        
+
         fxmlDocumentController.getCreateGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getCreateGameProp().set(false);
@@ -365,18 +387,18 @@ public class MonopolyGameApp extends Application {
         fxmlDocumentController.getJoinGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getJoinGameProp().set(false);
-                this.joinGameController.setListViewGame();
+                this.joinGameController.setListViewGames();
                 primaryStage.setScene(this.joinGameScene);
             }
         });
         return fxmlDocumentController;
     }
-    
+
     private JoinGameController getJoinGameController(FXMLLoader fxmlLoader, Stage primaryStage) {
         JoinGameController fxmlDocumentController = (JoinGameController) fxmlLoader.getController();
-        
+
         excuteReturn(fxmlDocumentController, primaryStage);
-        
+
         fxmlDocumentController.getJoinGame().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getJoinGame().set(false);
@@ -387,10 +409,44 @@ public class MonopolyGameApp extends Application {
         });
         return fxmlDocumentController;
     }
-    
+
     private int getSizeOfWaitingGamesList() {
         List<String> waitingGames = this.monopoly.getWaitingGames();
         return waitingGames.size();
     }
-    
+
+    private boolean eventStartGameExist() {
+        return this.waitingController.checkIfEventStartGameExist();
+    }
+
+    private void initAllControoler() {
+        this.gameOverController.setMonopolyServic(this.monopoly);
+        this.joinGameController.setMonopolyServic(this.monopoly);
+        this.monopolyGameBoardController.setMonopolyServic(this.monopoly);
+        this.openingController.setMonopolyServic(this.monopoly);
+        this.startWindowController.setMonopolyServic(this.monopoly);
+        this.playerRegisterController.setMonopolyServic(this.monopoly);
+        this.waitingController.setMonopolyServic(this.monopoly);
+    }
+
+    private void initPlayerId(int playerId) {
+        this.gameOverController.setPlayerId(playerId);
+        this.joinGameController.setPlayerId(playerId);
+        this.monopolyGameBoardController.setPlayerId(playerId);
+        this.openingController.setPlayerId(playerId);
+        this.startWindowController.setPlayerId(playerId);
+        this.playerRegisterController.setPlayerId(playerId);
+        this.waitingController.setPlayerId(playerId);
+    }
+
+    public void initGameName(String gameName) {
+        this.gameOverController.setGameName(gameName);
+        this.joinGameController.setGameName(gameName);
+        this.monopolyGameBoardController.setGameName(gameName);
+        this.openingController.setGameName(gameName);
+        this.startWindowController.setGameName(gameName);
+        this.playerRegisterController.setGameName(gameName);
+        this.waitingController.setGameName(gameName);
+    }
+
 }

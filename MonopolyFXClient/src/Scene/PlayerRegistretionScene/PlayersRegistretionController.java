@@ -28,7 +28,6 @@ import models.Player;
  * @author efrat
  */
 public class PlayersRegistretionController extends GenericController implements Initializable {
-
     @FXML
     private TextField playerName;
     @FXML
@@ -48,6 +47,14 @@ public class PlayersRegistretionController extends GenericController implements 
     private int playersNameCounter = 1;
     private boolean newUpLoadGame = false;
 
+    public TextField getPlayerName() {
+        return playerName;
+    }
+ public void setErrorLabel(String msg) {
+        this.errorLabel.setText(msg);
+        showNode(this.errorLabel);
+
+    }
     public void setHumanPlayersCounterAndNumOfPlayers(int humanPlayersCounter, int numOfPlayers) {
         this.humanPlayersCounter = humanPlayersCounter;
         this.numOfPlayers = numOfPlayers;
@@ -88,7 +95,7 @@ public class PlayersRegistretionController extends GenericController implements 
         if (humanPlayersCounter == 0) {
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
             submitPlayerButtonProp.set(true);
-            this.gameManager.addPlayerToPlayersList(playerName.getText());
+           // this.gameManager.addPlayerToPlayersList(playerName.getText());
             hideNode(playerName);
             hideNode(submitPlayerButton);
             showNode(startGameButton);

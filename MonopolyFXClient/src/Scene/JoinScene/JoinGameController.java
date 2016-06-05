@@ -102,7 +102,7 @@ public class JoinGameController extends GenericController implements Initializab
 
     private SimpleBooleanProperty joinGame;
     private String namePlayer;
-    private List<String> gameNamesList;
+    private List<String> gameNamesList = new ArrayList<>();
     private ToggleGroup players;
     private List<game.client.ws.PlayerDetails> playersDetails;
     private List<Label> labelsPlayers;
@@ -129,7 +129,7 @@ public class JoinGameController extends GenericController implements Initializab
         this.radioButtonP4.setToggleGroup(players);
         this.radioButtonP5.setToggleGroup(players);
         this.radioButtonP6.setToggleGroup(players);
-      
+
         hideNode(buttonJoinGame);
 
     }
@@ -168,12 +168,9 @@ public class JoinGameController extends GenericController implements Initializab
         labelsPlayers.add(labelPlayer2);
         labelsPlayers.add(labelPlayer3);
         labelsPlayers.add(labelPlayer4);
-
+        labelsPlayers.add(labelPlayer5);
+        labelsPlayers.add(labelPlayer6);
         return labelsPlayers;
-    }
-
-    public void setListViewGame() {
-        timing();
     }
 
     @Override
@@ -288,7 +285,7 @@ public class JoinGameController extends GenericController implements Initializab
         } catch (GameDoesNotExists_Exception gdne) {
             System.out.print(gdne.getMessage());
         } catch (InvalidParameters_Exception ipx) {
-             showError(labelErrorMessage, ipx.getMessage());
+            showError(labelErrorMessage, ipx.getMessage());
         }
     }
 
@@ -316,11 +313,10 @@ public class JoinGameController extends GenericController implements Initializab
         }
     }
 
-    private void setListViewGames() {
+    public void setListViewGames() {
         ObservableList items = FXCollections.observableArrayList();
         items.addAll(this.gameNamesList);
         this.listViewOfGames.setItems(items);
     }
 
-   
 }

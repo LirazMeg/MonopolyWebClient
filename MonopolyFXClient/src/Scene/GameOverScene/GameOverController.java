@@ -66,4 +66,6 @@ public class GameOverController extends GenericController implements Initializab
         this.playAnotherGameButtonProp = new SimpleBooleanProperty(false);
         this.winPlayerName.setText(this.gameManager.getCurrentPlayer().getName());
     }
+
+  
 }

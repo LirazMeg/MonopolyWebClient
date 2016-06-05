@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
  *
  * @author efrat
  */
-public class StartWindowController extends GenericController implements Initializable {
+public class StartNewGameController extends GenericController implements Initializable {
     
     @FXML
     private TextField textFieldGameName;

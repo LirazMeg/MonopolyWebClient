@@ -47,8 +47,12 @@ public abstract class GenericController {
     protected String gameName;
     protected int evntIndex = 0;
     protected SimpleBooleanProperty returnToMenuProp;
-    protected List<Event> eventToHandel= new ArrayList<>();
+    protected List<Event> eventToHandel = new ArrayList<>();
     //   protected int evntIndex = 0;
+
+    public void setMonopoly(MonopolyWebService monopoly) {
+        this.monopoly = monopoly;
+    }
 
     public Stage getMainStage() {
         return mainStage;
@@ -116,6 +120,10 @@ public abstract class GenericController {
         ft.setFromValue(1.0);
         ft.setToValue(0.0);
         ft.play();
+    }
+
+    public void setMonopolyServic(MonopolyWebService monopoly) {
+        this.monopoly = monopoly;
     }
 
     abstract public void resetScene();
@@ -215,7 +223,7 @@ public abstract class GenericController {
     }
 
     public void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
-    
+
         List<Event> events = monopoly.getEvents(this.evntIndex, this.playerId);
         this.evntIndex += events.size();
         PlayerDetails playerDetails = monopoly.getPlayerDetails(this.playerId);
@@ -226,6 +234,14 @@ public abstract class GenericController {
                 this.eventToHandel.add(event);
             }
         }
-     //   return eventsFilter;
+        //   return eventsFilter;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }
