@@ -117,21 +117,21 @@ public class JoinGameController extends GenericController implements Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        returnToMenu = new SimpleBooleanProperty(false);
-        joinGame = new SimpleBooleanProperty(false);
-        players = new ToggleGroup();
-        radioButtonP1.setToggleGroup(players);
-        radioButtonP2.setToggleGroup(players);
-        radioButtonP3.setToggleGroup(players);
-        radioButtonP4.setToggleGroup(players);
-        radioButtonP5.setToggleGroup(players);
-        radioButtonP6.setToggleGroup(players);
+        this.returnToMenu = new SimpleBooleanProperty(false);
+        this.joinGame = new SimpleBooleanProperty(false);
+        this.players = new ToggleGroup();
+        this.radioButtonP1.setToggleGroup(players);
+        this.radioButtonP2.setToggleGroup(players);
+        this.radioButtonP3.setToggleGroup(players);
+        this.radioButtonP4.setToggleGroup(players);
+        this.radioButtonP5.setToggleGroup(players);
+        this.radioButtonP6.setToggleGroup(players);
         hideNode(buttonJoinGame);
 
     }
 
     public SimpleBooleanProperty getJoinGame() {
-        return joinGame;
+        return this.joinGame;
     }
 
     @FXML
@@ -324,11 +324,11 @@ public class JoinGameController extends GenericController implements Initializab
 
     private void guiJoinGame() {
         hideRadioButtons();
-        joinGame.set(true);
+       this.joinGame.set(true);
     }
 
     private void getWaitingGamesFromServer() {
-        gameNames = this.monopoly.getWaitingGames();
+        this.gameNames = this.monopoly.getWaitingGames();
     }
 
     @Override
