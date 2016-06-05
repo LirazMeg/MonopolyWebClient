@@ -9,6 +9,9 @@ import MonopolyFX.component.ButtonMonopoly;
 import MonopolyFX.component.PlayerLabel;
 import controllers.GameController;
 import controllers.GenericController;
+import game.client.ws.Event;
+import game.client.ws.GameDoesNotExists_Exception;
+import game.client.ws.InvalidParameters_Exception;
 import generated.ParkingSquareType;
 import java.io.File;
 import java.net.URL;
@@ -17,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -665,6 +670,92 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void resetBoardLogic() {
         this.gridPane.getChildren().clear();
+    }
+
+    @Override
+    protected void actionMethod(Timer timer) {
+        List<Event> events;
+        try {
+            events = this.monopoly.getEvents(playerId, eventId);
+            for (Event event : events) {
+                switch (event.getType()) {
+                    case GAME_OVER:
+                        gameOver(event, timer);
+                        break;
+                    case GAME_START:
+                        startGame();
+                        break;
+                    case GAME_WINNER:
+                        gameWinner(event);
+                        break;
+                    case PLAYER_RESIGNED:
+                        playerResigned(event, timer);
+                        break;
+                    case PLAYER_TURN:
+                        playerTurn(event);
+                        break;
+                    case PLAYER_LOST:
+                        playerLost(event);
+                        break;
+                    case PLAYER_USED_GET_OUT_OF_JAIL_CARD:
+                        playerUsedGetOutOFJAilCard(event);
+                        break;
+                    default:
+                        eventId--;
+                        break;
+                }
+//                playerDetails = this.monopoly.getPlayerDetails(playerId);
+//                gameDet = this.monopoly.getGameDetails(gameName);
+//                Platform.runLater(() -> SetView());
+                eventId++;
+            }
+        } catch (InvalidParameters_Exception ex) {
+            errorLabel.setText(ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void gameOver(Event event, Timer timer) {
+        if (!isEventNull(event)) {
+            timer.cancel();
+            Platform.runLater(() -> endGameProp.set(true));
+        }
+    }
+
+    private boolean isEventNull(Event event) {
+        boolean res = event == null;
+
+        if (res) {
+            System.out.println("error event sequenceCreated  is null");
+        }
+
+        return res;
+    }
+
+    private void startGame() throws Exception {
+    startPlaying(this.gameManager.getCurrentPlayer());
+    }
+
+    private void gameWinner(Event event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void playerResigned(Event event, Timer timer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void playerTurn(Event event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void playerLost(Event event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void playerUsedGetOutOFJAilCard(Event event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
