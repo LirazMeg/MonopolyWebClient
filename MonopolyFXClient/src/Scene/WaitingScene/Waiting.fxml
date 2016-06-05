@@ -20,7 +20,7 @@
          </font></Label>
       <Button layoutX="25.0" layoutY="146.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
       <Button layoutX="158.0" layoutY="146.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
-      <ImageView fitHeight="76.0" fitWidth="372.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="76.0" fitWidth="230.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="96.0" AnchorPane.leftAnchor="24.010223388671875" AnchorPane.rightAnchor="11.989776611328125" AnchorPane.topAnchor="14.0">
          <image>
             <Image url="@../../../../../FX/MonopolyGame_FXVer/MonopolyGame/src/pics/monopoly_us_pack_logo.png" />
          </image>
