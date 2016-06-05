@@ -185,40 +185,7 @@ public class JoinGameController extends GenericController implements Initializab
         Platform.runLater(() -> listViewOfGames.setItems(items));
     }
 
-//    private void setXMLGame(GameDetails gameDetails, List<PlayerDetails> playersDetails) {
-//        if (gameDetails.isLoadedFromXML()) {
-//            textBoxPlayerName.setDisable(true);
-//            setTogelGroup(players);
-//
-//            for (PlayerDetails player : playersDetails) {
-//                if (player.getStatus().equals(PlayerStatus.RETIRED) && player.getType().equals(PlayerType.HUMAN)) {
-//                    if (labelPlayer1.getText().equals(player.getName())) {
-//                        showNode(radioButtonP1);
-//                    } else if (labelPlayer2.getText().equals(player.getName())) {
-//                        showNode(radioButtonP2);
-//                    } else if (labelPlayer3.getText().equals(player.getName())) {
-//                        showNode(radioButtonP3);
-//                    } else if (labelPlayer4.getText().equals(player.getName())) {
-//                        showNode(radioButtonP4);
-//                    }
-//                } else if (player.getStatus().equals(PlayerStatus.ACTIVE) && player.getType().equals(PlayerType.HUMAN)) {
-//                    if (labelPlayer1.getText().equals(player.getName())) {
-//                        hideNode(radioButtonP1);
-//                    } else if (labelPlayer2.getText().equals(player.getName())) {
-//                        hideNode(radioButtonP2);
-//                    } else if (labelPlayer3.getText().equals(player.getName())) {
-//                        hideNode(radioButtonP3);
-//                    } else if (labelPlayer4.getText().equals(player.getName())) {
-//                        hideNode(radioButtonP4);
-//                    }
-//                }
-//
-//            }
-//        } else {
-//            textBoxPlayerName.setDisable(false);
-//            hideRadioButtons();
-//        }
-//    }
+
     private void hideRadioButtons() {
         if (radioButtonP1.isSelected()) {
             hideNode(radioButtonP1);

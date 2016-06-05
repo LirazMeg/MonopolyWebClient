@@ -18,7 +18,8 @@ import java.util.List;
  * @author Liraz
  */
 public class PullingMsgAndFilterController {
-private int index = 0;
+
+    private int index = 0;
     private int playerId;
 
     public void setPlayerId(int playerId) {
@@ -27,8 +28,8 @@ private int index = 0;
 
     public List<Event> getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
         List<Event> eventsFilter = new ArrayList<>();
-        List<Event> events =  monopoly.getEvents(this.index, this.playerId);
-        this.index+=events.size();
+        List<Event> events = monopoly.getEvents(this.index, this.playerId);
+        this.index += events.size();
         PlayerDetails playerDetails = monopoly.getPlayerDetails(this.playerId);
         String name = playerDetails.getName();
 
@@ -39,53 +40,53 @@ private int index = 0;
         }
         return eventsFilter;
     }
-    
-    
-    public void activeEvent(Event event){
-    
-    switch (event.getType()){
-        case GAME_START:
-            break;
-        case GAME_OVER:
-            break;
-        case GAME_WINNER:
-            break;
-        case PLAYER_LOST:
-            break;
-        case DICE_ROLL:
-            break;
-        case MOVE:
-            break;
-        case PASSED_START_SQUARE:
-            break;
-        case LANDED_ON_START_SQUARE:
-            break;
-        case GO_TO_JAIL:
-            break;
-        case PROPMT_PLAYER_TO_BY_ASSET:
-            break;
-        case PROPMPT_PLAYER_TO_BY_HOUSE:
-            break;
-        case ASSET_BOUGHT:
-            break;
-        case HOUSE_BOUGHT:
-            break;
-        case SURPRISE_CARD:
-            break;
-        case WARRANT_CARD:
-            break;
-        case GET_OUT_OF_JAIL_CARD:
-            break;
-        case PAYMENT:
-            break;
-        case PLAYER_USED_GET_OUT_OF_JAIL_CARD:
-            break;
-        case PLAYER_TURN:
-            break;
-        case PLAYER_RESIGNED:
-            break;
-        default:
-            throw new AssertionError(event.getType().name());
-}
+
+    public void activeEvent(Event event) {
+
+        switch (event.getType()) {
+            case GAME_START:
+
+                break;
+            case GAME_OVER:
+                break;
+            case GAME_WINNER:
+                break;
+            case PLAYER_LOST:
+                break;
+            case DICE_ROLL:
+                break;
+            case MOVE:
+                break;
+            case PASSED_START_SQUARE:
+                break;
+            case LANDED_ON_START_SQUARE:
+                break;
+            case GO_TO_JAIL:
+                break;
+            case PROPMT_PLAYER_TO_BY_ASSET:
+                break;
+            case PROPMPT_PLAYER_TO_BY_HOUSE:
+                break;
+            case ASSET_BOUGHT:
+                break;
+            case HOUSE_BOUGHT:
+                break;
+            case SURPRISE_CARD:
+                break;
+            case WARRANT_CARD:
+                break;
+            case GET_OUT_OF_JAIL_CARD:
+                break;
+            case PAYMENT:
+                break;
+            case PLAYER_USED_GET_OUT_OF_JAIL_CARD:
+                break;
+            case PLAYER_TURN:
+                break;
+            case PLAYER_RESIGNED:
+                break;
+            default:
+                throw new AssertionError(event.getType().name());
+        }
     }
 }
