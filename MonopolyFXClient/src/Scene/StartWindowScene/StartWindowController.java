@@ -25,7 +25,7 @@ import javafx.scene.control.TextField;
  * @author efrat
  */
 public class StartWindowController extends GenericController implements Initializable {
-
+    
     @FXML
     private TextField textFieldGameName;
     @FXML
@@ -36,21 +36,21 @@ public class StartWindowController extends GenericController implements Initiali
     private ComboBox comboBoxNumHumenPlayers;
     @FXML
     private Button buttonSubmit;
-
+    
     private SimpleBooleanProperty buttonSubmitedProp;
     private SimpleBooleanProperty humanPlayerSelectedProp;
-
+    
     public SimpleBooleanProperty getSubmitButtonPror() {
         return this.buttonSubmitedProp;
     }
-
+    
     public SimpleBooleanProperty getHumanPlayerSelectedProp() {
         return humanPlayerSelectedProp;
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
         this.comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -59,8 +59,8 @@ public class StartWindowController extends GenericController implements Initiali
                 setComboBoxNumHumenPlayers((int) newValue);
             }
         });
-
-        comboBoxNumHumenPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        
+        this.comboBoxNumHumenPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             // when preesed on first combo
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -77,17 +77,17 @@ public class StartWindowController extends GenericController implements Initiali
         this.buttonSubmitedProp = new SimpleBooleanProperty(false);
         this.humanPlayerSelectedProp = new SimpleBooleanProperty(false);
     }
-
+    
     private void resetCombo(int size) {
         for (int i = 0; i < size; i++) {
             this.comboBoxNumHumenPlayers.getItems().remove(i);
         }
     }
-
+    
     public ComboBox getComboBoxNumPlayers() {
         return comboBoxNumPlayers;
     }
-
+    
     public void setComboBoxNumHumenPlayers(int newNumOfPlayer) {
         this.gameManager.setNumOfPlayers(newNumOfPlayer);
         this.comboBoxNumHumenPlayers.getSelectionModel().selectLast();
@@ -98,34 +98,40 @@ public class StartWindowController extends GenericController implements Initiali
         comboBoxNumHumenPlayers.setDisable(false);
         comboBoxNumHumenPlayers.setVisible(true);
     }
-
+    
     @FXML
     private void onSubmitButten(ActionEvent event) {
         buttonSubmitedProp.set(true);
     }
-
+    
     @FXML
     private void OnGameNameTextBox(ActionEvent event) {
         if (this.isAName(textFieldGameName, this.errorLabel)) {
             this.gameName = textFieldGameName.getText();
         }
         showNode(comboBoxNumPlayers);
-
+        
     }
-
+    
+    public void setErrorLabel(String errorLabelMsg) {
+        this.errorLabel.setText(errorLabelMsg);
+        showNode(this.errorLabel);
+        
+    }
+    
     public TextField getTextFieldGameName() {
         return textFieldGameName;
     }
-
+    
     public ComboBox getComboBoxNumHumenPlayers() {
         return comboBoxNumHumenPlayers;
     }
-
+    
     private void setHumanPlayerComboBox(int numOfPlayer) {
         this.gameManager.setNumOfPlayers(numOfPlayer);
         setComboBoxNumHumenPlayers(numOfPlayer);
     }
-
+    
     @Override
     public void resetScene() {
         hideNode(comboBoxNumHumenPlayers);
@@ -133,5 +139,5 @@ public class StartWindowController extends GenericController implements Initiali
         this.buttonSubmitedProp.set(false);
         this.humanPlayerSelectedProp.set(false);
     }
-
+    
 }
