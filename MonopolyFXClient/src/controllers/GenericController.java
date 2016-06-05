@@ -7,9 +7,14 @@ package controllers;
 
 import MonopolyFX.MonopolyGameApp;
 import controllers.GameController;
+import game.client.ws.Event;
+import game.client.ws.GameDoesNotExists_Exception;
+import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
+import game.client.ws.PlayerDetails;
 import game.client.ws.PlayerStatus;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,8 +45,10 @@ public abstract class GenericController {
     protected MonopolyWebServiceService monopolyService;
     protected Integer playerId;
     protected String gameName;
-    protected int eventId;
-    protected SimpleBooleanProperty returnToMenu;
+    protected int evntIndex = 0;
+    protected SimpleBooleanProperty returnToMenuProp;
+    protected List<Event> eventToHandel= new ArrayList<>();
+    //   protected int evntIndex = 0;
 
     public Stage getMainStage() {
         return mainStage;
@@ -68,11 +75,11 @@ public abstract class GenericController {
     }
 
     public int getEventId() {
-        return eventId;
+        return evntIndex;
     }
 
-    public SimpleBooleanProperty getReturnToMenu() {
-        return returnToMenu;
+    public SimpleBooleanProperty getReturnToMenuProp() {
+        return returnToMenuProp;
     }
 
     public GameController getGameManager() {
@@ -133,67 +140,70 @@ public abstract class GenericController {
         }
     }
 
-    protected void addPayersNames(List<Label> labelsPlayers, List<game.client.ws.PlayerDetails> playersDetails , boolean isSecenJoin)
-    {
+    protected void addPayersNames(List<Label> labelsPlayers, List<game.client.ws.PlayerDetails> playersDetails, boolean isSecenJoin) {
         int maxJoinPlayers = playersDetails.size();
-        int index = 0; 
+        int index = 0;
         game.client.ws.PlayerDetails player;
         for (Label labelPlayer : labelsPlayers) {
-            if (maxJoinPlayers > ZERO)
-            {
+            if (maxJoinPlayers > ZERO) {
                 showNode(labelPlayer);
                 player = playersDetails.get(index);
-                if (player.getStatus().equals(PlayerStatus.ACTIVE) || isSecenJoin)
-                {
+                if (player.getStatus().equals(PlayerStatus.ACTIVE) || isSecenJoin) {
                     labelPlayer.setText(player.getName());
                 }
                 index++;
-            }
-            else
-            {
+            } else {
                 labelPlayer.setText("");
                 hideNode(labelPlayer);
             }
-            
+
             maxJoinPlayers--;
         }
     }
+
     public void setGame(String name, Integer clientId, int eventID) {
         gameName = name;
         this.playerId = clientId;
-        this.eventId = eventID;
+        this.evntIndex = eventID;
     }
 
-    protected void actionMethod(Timer timer) {};
-    protected void createNewThread(int selection){};
-    protected void guiSet(int selection){};
+    protected void actionMethod(Timer timer) {
+    }
+
+    ;
+    protected void createNewThread(int selection) {
+    }
+
+    ;
+    protected void guiSet(int selection) {
+    }
+
+    ;
 
     protected void onReturn(ActionEvent event) {
-        Platform.runLater(() -> returnToMenu.set(true));
+        Platform.runLater(() -> returnToMenuProp.set(true));
     }
-    
+
     protected String getText(TextField box) {
-       return box.getText();
+        return box.getText();
     }
-       
-    protected boolean isAName(TextField box, Label lable)
-    {
+
+    protected boolean isAName(TextField box, Label lable) {
         String name;
-        boolean res = false;        
+        boolean res = false;
         if (box != null) {
             name = getText(box);
-            res = !name.isEmpty() && name.matches("[a-zA-Z]+");       
-            if (!res)
-            {
-                lable.setText("This name ("+ name + ") already exist, Try again" );
+            res = !name.isEmpty() && name.matches("[a-zA-Z]+");
+            if (!res) {
+                lable.setText("This name (" + name + ") already exist, Try again");
                 lable.setVisible(!res);
                 box.clear();
             }
         }
         return res;
     }
-    
-        protected void showError(Label lable, String message) {
+
+    protected void showError(Label lable, String message) {
         lable.setText(message);
         lable.setVisible(true);
         FadeTransition animation = new FadeTransition();
@@ -202,5 +212,20 @@ public abstract class GenericController {
         animation.setFromValue(0.0);
         animation.setToValue(1.0);
         animation.play();
+    }
+
+    public void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
+    
+        List<Event> events = monopoly.getEvents(this.evntIndex, this.playerId);
+        this.evntIndex += events.size();
+        PlayerDetails playerDetails = monopoly.getPlayerDetails(this.playerId);
+        String name = playerDetails.getName();
+
+        for (Event event : events) {
+            if (event.getPlayerName().equals(name)) {
+                this.eventToHandel.add(event);
+            }
+        }
+     //   return eventsFilter;
     }
 }

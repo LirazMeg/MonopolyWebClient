@@ -676,7 +676,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     protected void actionMethod(Timer timer) {
         List<Event> events;
         try {
-            events = this.monopoly.getEvents(playerId, eventId);
+            events = this.monopoly.getEvents(playerId, evntIndex);
             for (Event event : events) {
                 switch (event.getType()) {
                     case GAME_OVER:
@@ -701,13 +701,13 @@ public class MonopolyGameBoardController extends GenericController implements In
                         playerUsedGetOutOFJAilCard(event);
                         break;
                     default:
-                        eventId--;
+                        evntIndex--;
                         break;
                 }
 //                playerDetails = this.monopoly.getPlayerDetails(playerId);
 //                gameDet = this.monopoly.getGameDetails(gameName);
 //                Platform.runLater(() -> SetView());
-                eventId++;
+                evntIndex++;
             }
         } catch (InvalidParameters_Exception ex) {
             errorLabel.setText(ex.getMessage());

@@ -77,9 +77,10 @@ public class MonopolyGameApp extends Application {
         setLogicGame(false, null);
         makeScene(stage);
       List<String> waitingGames = this.monopoly.getWaitingGames();
-        if (waitingGames.size() > 0) {
+      if(waitingGames.size() > 0){
             stage.setScene(this.openingScene);
-          //  this.joinGameController.setListGamesName(waitingGames);
+           this.joinGameController.setListGamesName(waitingGames);
+           this.joinGameController. setListViewGame();
         } else {
             stage.setScene(this.startWindowScene);
         }
@@ -318,9 +319,9 @@ public class MonopolyGameApp extends Application {
     }
     
     private void excuteReturn(GenericController controller, final Stage primaryStage) {
-        controller.getReturnToMenu().addListener((source, oldValue, newValue) -> {
+        controller.getReturnToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                controller.getReturnToMenu().set(false);
+                controller.getReturnToMenuProp().set(false);
                 try {
                     this.setLogicGame(false, null);
                     makeScene(primaryStage);
@@ -335,7 +336,7 @@ public class MonopolyGameApp extends Application {
     private WaitingController getWaitingController(FXMLLoader fxmlLoader, Stage primaryStage) {
         WaitingController fxmlDocumentController = (WaitingController) fxmlLoader.getController();
         
-        excuteReturn(fxmlDocumentController, primaryStage);
+       // excuteReturn(fxmlDocumentController, primaryStage);
 
         fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
