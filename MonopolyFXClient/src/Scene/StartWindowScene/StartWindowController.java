@@ -89,6 +89,7 @@ public class StartWindowController extends GenericController implements Initiali
     }
 
     public void setComboBoxNumHumenPlayers(int newNumOfPlayer) {
+        this.gameManager.setNumOfPlayers(newNumOfPlayer);
         this.comboBoxNumHumenPlayers.getSelectionModel().selectLast();
         this.comboBoxNumHumenPlayers.getItems().clear();
         for (int i = 1; i <= newNumOfPlayer; i++) {

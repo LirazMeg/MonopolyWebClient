@@ -164,10 +164,10 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 try {
                     fxmlDocumentController.getSubmitButtonPror().set(false);
-                    String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
-                    int numOfPlayers = Integer.parseInt(numOfPlayersStr);
-                    String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
-                    int numOfHumenPlayers = Integer.parseInt(numOfHumenPlayersStr);
+                    //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
+                    int numOfPlayers = this.gameManager.getLogicGame().getNumOfPlayers();
+                    //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
+                    int numOfHumenPlayers = this.gameManager.getLogicGame().getNumOfHumanPlayers();
                     int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
                     String gameName = fxmlDocumentController.getGameName();
                     monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
