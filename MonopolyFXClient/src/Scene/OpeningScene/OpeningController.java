@@ -24,8 +24,8 @@ import javafx.scene.control.Label;
 public class OpeningController extends GenericController implements Initializable {
 
     public static final String EMPTY = "";
-    private SimpleBooleanProperty createGame;
-    private SimpleBooleanProperty joinGame;
+    private SimpleBooleanProperty createGameProp;
+    private SimpleBooleanProperty joinGameProp;
     private File fileToLoad;
 
     @FXML
@@ -43,37 +43,37 @@ public class OpeningController extends GenericController implements Initializabl
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        createGame = new SimpleBooleanProperty(false);
-        joinGame = new SimpleBooleanProperty(false);
+        createGameProp = new SimpleBooleanProperty(false);
+        joinGameProp = new SimpleBooleanProperty(false);
     }
 
     @FXML
     private void OnCreateGame(ActionEvent event) {
-        createGame.set(true);
+        createGameProp.set(true);
         errorLabel.setText(EMPTY);
     }
 
     @FXML
     private void OnJoinGame(ActionEvent event) {
-        joinGame.set(true);
-        errorLabel.setText(EMPTY);
+        this.joinGameProp.set(true);
+       this.errorLabel.setText(EMPTY);
     }
 
-    public SimpleBooleanProperty getCreateGame() {
-        return createGame;
+    public SimpleBooleanProperty getCreateGameProp() {
+        return this.createGameProp;
     }
 
-    public SimpleBooleanProperty getJoinGame() {
-        return joinGame;
+    public SimpleBooleanProperty getJoinGameProp() {
+        return this.joinGameProp;
     }
 
     private void guiJoin() {
-        errorLabel.setText(EMPTY);
-        joinGame.set(true);
+        this.errorLabel.setText(EMPTY);
+        this.joinGameProp.set(true);
     }
 
     private void guiError(String msg) {
-        errorLabel.setText(msg);
+        this.errorLabel.setText(msg);
     }
 
     @Override

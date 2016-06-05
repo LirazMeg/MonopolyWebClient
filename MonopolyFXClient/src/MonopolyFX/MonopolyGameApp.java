@@ -122,7 +122,11 @@ public class MonopolyGameApp extends Application {
 
         FXMLLoader joinGameLoader = getLoader(JOIN_GAME_FXML_PATH);
         Parent joinGameParent = joinGameLoader.load(joinGameLoader.getLocation().openStream());
-        this.openingScene = new Scene(joinGameParent);
+        this.joinGameScene = new Scene(joinGameParent);
+
+        this.openingController = getOpeningController(openingLoader, primaryStage);
+        this.openingController.setGameManager(gameManager.getLogicGame());
+        this.openingController.setStage(primaryStage);
 
         this.startWindowController = getStartWindowController(startWindowSceneLoader, primaryStage);
         this.startWindowController.setGameManager(gameManager.getLogicGame());
@@ -134,12 +138,9 @@ public class MonopolyGameApp extends Application {
         this.gameOverController.setGameManager(gameManager.getLogicGame());
         this.waitingController = getWaitingController(waitingLoader, primaryStage);
         this.waitingController.setGameManager(gameManager.getLogicGame());
-        this.openingController = getOpeningController(openingLoader, primaryStage);
-        this.openingController.setGameManager(gameManager.getLogicGame());
         this.joinGameController = getJoinGameController(joinGameLoader, primaryStage);
         this.joinGameController.setGameManager(gameManager.getLogicGame());
 
-        this.openingController.setStage(primaryStage);
     }
 
     private FXMLLoader getLoader(String path) {
@@ -332,16 +333,15 @@ public class MonopolyGameApp extends Application {
     private OpeningController getOpeningController(FXMLLoader fxmlLoader, Stage primaryStage) {
         OpeningController fxmlDocumentController = (OpeningController) fxmlLoader.getController();
 
-        fxmlDocumentController.getCreateGame().addListener((source, oldValue, newValue) -> {
+        fxmlDocumentController.getCreateGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getCreateGame().set(false);
-                //this.monopoly.createGame(0, 0, STYLESHEET_MODENA);
+                fxmlDocumentController.getCreateGameProp().set(false);
                 primaryStage.setScene(this.startWindowScene);
             }
         });
-        fxmlDocumentController.getJoinGame().addListener((source, oldValue, newValue) -> {
+        fxmlDocumentController.getJoinGameProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getJoinGame().set(false);
+                fxmlDocumentController.getJoinGameProp().set(false);
                 this.joinGameController.setListViewGame();
                 primaryStage.setScene(this.joinGameScene);
             }
