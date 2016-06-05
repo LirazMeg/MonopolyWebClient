@@ -160,24 +160,25 @@ public class MonopolyGameApp extends Application {
     private StartWindowController getStartWindowController(FXMLLoader fxmlLoader, Stage primaryStage) {
         StartWindowController fxmlDocumentController = (StartWindowController) fxmlLoader.getController();
         SimpleBooleanProperty btn = fxmlDocumentController.getSubmitButtonPror();
-        btn.addListener((source, oldValue, newValue) -> {
-            if (newValue) {
-                try {
-                    fxmlDocumentController.getSubmitButtonPror().set(false);
-                    //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
-                    int numOfPlayers = this.gameManager.getLogicGame().getNumOfPlayers();
-                    //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
-                    int numOfHumenPlayers = this.gameManager.getLogicGame().getNumOfHumanPlayers();
-                    int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
-                    String gameName = fxmlDocumentController.getGameName();
-                    monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
-                    //playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
-                    primaryStage.setScene(this.waitingScene);
-                    primaryStage.centerOnScreen();
-                } catch (DuplicateGameName_Exception ex) {
-                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvalidParameters_Exception ex) {
-                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        btn.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> source, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    try {
+                        fxmlDocumentController.getSubmitButtonPror().set(false);
+                        //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
+                        int numOfPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfPlayers();
+                        //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
+                        int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfHumanPlayers();
+                        int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
+                        String gameName = fxmlDocumentController.getGameName();
+                        MonopolyGameApp.this.monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
+                        //playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
+                        primaryStage.setScene(MonopolyGameApp.this.waitingScene);
+                        primaryStage.centerOnScreen();
+                    }catch (DuplicateGameName_Exception | InvalidParameters_Exception ex) {
+                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
