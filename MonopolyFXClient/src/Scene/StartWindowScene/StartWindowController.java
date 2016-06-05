@@ -52,7 +52,7 @@ public class StartWindowController extends GenericController implements Initiali
     public void initialize(URL url, ResourceBundle rb) {
 
         this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
-        comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        this.comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             // when preesed on first combo
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -110,6 +110,10 @@ public class StartWindowController extends GenericController implements Initiali
         }
         showNode(comboBoxNumPlayers);
 
+    }
+
+    public TextField getTextFieldGameName() {
+        return textFieldGameName;
     }
 
     public ComboBox getComboBoxNumHumenPlayers() {

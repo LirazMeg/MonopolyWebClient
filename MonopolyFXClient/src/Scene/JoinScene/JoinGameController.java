@@ -218,7 +218,6 @@ public class JoinGameController extends GenericController implements Initializab
 //            hideRadioButtons();
 //        }
 //    }
-
     private void hideRadioButtons() {
         if (radioButtonP1.isSelected()) {
             hideNode(radioButtonP1);
@@ -335,5 +334,9 @@ public class JoinGameController extends GenericController implements Initializab
     @Override
     public void resetScene() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @FXML
+    public void onReturn(ActionEvent event) {
     }
 }

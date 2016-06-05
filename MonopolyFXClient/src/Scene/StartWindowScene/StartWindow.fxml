@@ -26,7 +26,7 @@
             <Insets left="120.0" />
          </GridPane.margin></Button>
       <Label text="Select Game Name:" GridPane.rowIndex="1" />
-      <TextField fx:id="gameName" onAction="#OnGameNameTextBox" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextField fx:id="textFieldGameName" onAction="#OnGameNameTextBox" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <Label fx:id="errorLabel" prefHeight="39.0" prefWidth="184.0" textFill="#ff0c0c" GridPane.rowIndex="4" />
     </children>
     <columnConstraints>
