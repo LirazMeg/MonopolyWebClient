@@ -45,11 +45,16 @@ public abstract class GenericController {
     protected MonopolyWebService monopoly;
     protected MonopolyWebServiceService monopolyService;
     protected Integer playerId;
+    protected String playerName;
     protected String gameName;
     protected int evntIndex = 0;
     protected SimpleBooleanProperty returnToMenuProp;
     protected List<Event> eventToHandel = new ArrayList<>();
     //   protected int evntIndex = 0;
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 
     public void setMonopoly(MonopolyWebService monopoly) {
         this.monopoly = monopoly;
@@ -176,9 +181,7 @@ public abstract class GenericController {
         this.evntIndex = eventID;
     }
 
-    protected void actionMethod(Timer timer) {
-        
-        
+    protected void actionMethod(Timer timer) {     
     }
 
     ;

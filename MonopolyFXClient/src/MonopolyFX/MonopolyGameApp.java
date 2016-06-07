@@ -5,6 +5,7 @@
  */
 package MonopolyFX;
 
+import MonopolyFX.component.PlayerLabel;
 import Scene.GameOverScene.GameOverController;
 import Scene.JoinScene.JoinGameController;
 import Scene.MonopolyGame.MonopolyGameBoardController;
@@ -20,7 +21,11 @@ import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
+import game.client.ws.PlayerDetails;
+import game.client.ws.PlayerType;
+import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,8 +41,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import jdk.nashorn.internal.runtime.Timing;
+import models.ComputerPlayer;
+import models.HumanPlayer;
 import models.Player;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -100,6 +120,7 @@ public class MonopolyGameApp extends Application {
             gameManager = new GameControllerFX();
             GameController gameLogic = new GameController("monopoly_config", false, false);
             gameManager.setLogicGame(gameLogic);
+
         } else {
             gameManager = new GameControllerFX();
             gameManager.setLogicGame(logic);
@@ -184,21 +205,18 @@ public class MonopolyGameApp extends Application {
                 if (newValue) {
                     try {
                         fxmlDocumentController.getSubmitButtonPror().set(false);
-                        //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
                         int numOfPlayers = MonopolyGameApp.this.gameManager.getSpesificGame().getNumOfPlayers();
-                        //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
                         int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getSpesificGame().getNumOfHumanPlayers();
                         int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
                         String gameName = fxmlDocumentController.getGameName();
+
                         monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
                         initGameName(gameName);
-                        playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(1, numOfPlayers);
+                        playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
                         primaryStage.setScene(MonopolyGameApp.this.playerRsisterationScene);
                         primaryStage.centerOnScreen();
-                    } catch (DuplicateGameName_Exception ex) {
-                        MonopolyGameApp.this.startWindowController.setErrorLabel(ex.getMessage());
-                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvalidParameters_Exception ex) {
+
+                    } catch (DuplicateGameName_Exception | InvalidParameters_Exception ex) {
                         MonopolyGameApp.this.startWindowController.setErrorLabel(ex.getMessage());
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -218,12 +236,9 @@ public class MonopolyGameApp extends Application {
                     String gameName = fxmlDocumentController.getGameName();
 
                     int playerId = this.monopoly.joinGame(gameName, playerName);
-                    initPlayerId(playerId);
+                    initPlayerIdAndName(playerId, playerName);
 
-                } catch (GameDoesNotExists_Exception ex) {
-                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                    fxmlDocumentController.setErrorLabel(ex.getMessage());
-                } catch (InvalidParameters_Exception ex) {
+                } catch (GameDoesNotExists_Exception | InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
                 }
@@ -239,18 +254,13 @@ public class MonopolyGameApp extends Application {
         SimpleBooleanProperty btn = this.playerRegisterController.getStartGameButtonProp();
         btn.addListener((source, oldValue, newValue) -> {
             if (newValue) {
-
-                //MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(MonopolyGameApp.this.playerRegisterController.getPlayerLabelList());
-                //MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(MonopolyGameApp.this.gameManager.getSpesificGame().getPleyerIndex());
                 try {
                     this.playerRegisterController.getStartGameButtonProp().set(false);
                     primaryStage.setScene(waitingScene);
-                    // fxmlDocumentController.startPlaying(MonopolyGameApp.this.gameManager.getSpesificGame().getCurrentPlayer());
+                    primaryStage.centerOnScreen();
                 } catch (Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                primaryStage.setScene(this.waitingScene);
-                primaryStage.centerOnScreen();
             }
         });
 
@@ -258,6 +268,7 @@ public class MonopolyGameApp extends Application {
         yesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getYesButtonProp().set(false);
+                fxmlDocumentController.timing();
             }
         });
 
@@ -265,6 +276,12 @@ public class MonopolyGameApp extends Application {
         yesPerchesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getYesPerchesButtonProp().set(false);
+                try {
+                    this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), true);
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    fxmlDocumentController.setErrorLabel(ex.getMessage());
+                }
             }
         });
 
@@ -272,6 +289,12 @@ public class MonopolyGameApp extends Application {
         noPerchesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getNoPerchesButtonProp().set(false);
+                try {
+                    this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    fxmlDocumentController.setErrorLabel(ex.getMessage());
+                }
             }
         });
 
@@ -284,19 +307,28 @@ public class MonopolyGameApp extends Application {
             }
         });
 
-        SimpleBooleanProperty nextTurnBtnProperty = fxmlDocumentController.getNextTurnButtonProp();
-        nextTurnBtnProperty.addListener((source, oldValue, newValue) -> {
+        SimpleBooleanProperty playerResingeProp = fxmlDocumentController.getPlayerResingeProp();
+        playerResingeProp.addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getNextTurnButtonProp().set(false);
-                ;
+                fxmlDocumentController.getPlayerResingeProp().set(false);
+                List<String> waitingGames = this.monopoly.getWaitingGames();
+                if (waitingGames.size() > 0) {
+                    primaryStage.setScene(this.openingScene);
+                    this.joinGameController.setListGamesName(waitingGames);
+                    this.joinGameController.setListViewGames();
+                } else {
+                    this.startWindowController.resetScene();
+                    primaryStage.setScene(this.startWindowScene);
+                }
             }
         });
-        SimpleBooleanProperty moveButtonProp = fxmlDocumentController.getMoveButtonProp();
-        moveButtonProp.addListener((source, oldValue, newValue) -> {
-            if (newValue) {
-                fxmlDocumentController.getMoveButtonProp().set(false);
-            }
-        });
+//        
+//        SimpleBooleanProperty moveButtonProp = fxmlDocumentController.getMoveButtonProp();
+//        moveButtonProp.addListener((source, oldValue, newValue) -> {
+//            if (newValue) {
+//                fxmlDocumentController.getMoveButtonProp().set(false);
+//            }
+//        });
 
         SimpleBooleanProperty endGameProperty = fxmlDocumentController.getEndGameProp();
         endGameProperty.addListener((source, oldValue, newValue) -> {
@@ -372,8 +404,18 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getRefreshProp().set(false);
                 if (eventStartGameExist()) {
                     Player currPlayer = getCurrentPlayer();
-                    this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
                     try {
+                        String gameName = fxmlDocumentController.getGameName();
+                        //set players list in gameManager
+                        setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                        //set players label list 
+                        List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();
+
+                        this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
+                        MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(playersLabel);
+                        PlayerLabel playerLabel = MonopolyGameApp.this.monopolyGameBoardController.getPlayerLabelByName(currPlayer.getName());
+
+                        MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(playerLabel);
                         MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
                     } catch (Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -441,7 +483,7 @@ public class MonopolyGameApp extends Application {
         this.waitingController.setMonopolyServic(this.monopoly);
     }
 
-    private void initPlayerId(int playerId) {
+    private void initPlayerIdAndName(int playerId, String playerName) {
         this.gameOverController.setPlayerId(playerId);
         this.joinGameController.setPlayerId(playerId);
         this.monopolyGameBoardController.setPlayerId(playerId);
@@ -449,6 +491,15 @@ public class MonopolyGameApp extends Application {
         this.startWindowController.setPlayerId(playerId);
         this.playerRegisterController.setPlayerId(playerId);
         this.waitingController.setPlayerId(playerId);
+
+        this.gameOverController.setPlayerName(playerName);
+        this.joinGameController.setPlayerName(playerName);
+        this.monopolyGameBoardController.setPlayerName(playerName);
+        this.openingController.setPlayerName(playerName);
+        this.startWindowController.setPlayerName(playerName);
+        this.playerRegisterController.setPlayerName(playerName);
+        this.waitingController.setPlayerName(playerName);
+
     }
 
     public void initGameName(String gameName) {
@@ -462,16 +513,66 @@ public class MonopolyGameApp extends Application {
     }
 
     private Player getCurrentPlayer() {
-        Player currPlayer= null;
+        Player currPlayer = null;
         String playerName = this.waitingController.getCurentPlayer();
         if (!"".equals(playerName)) {
             currPlayer = this.gameManager.getSpesificGame().getPlayerByName(playerName);
             if (currPlayer == null) {
-               
+
             }
         } else {
         }
         return currPlayer;
+    }
+
+    private void convertStringToXmlFile(String gameXml) {
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
+        try {
+            builder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Document doc = null;
+        try {
+            doc = (Document) builder.parse(new InputSource(new StringReader(gameXml)));
+        } catch (SAXException ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Write the parsed document to an xml file
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = null;
+        try {
+            transformer = transformerFactory.newTransformer();
+        } catch (TransformerConfigurationException ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DOMSource source = new DOMSource((Node) doc);
+
+        StreamResult result = new StreamResult(new File("/resources/monopoloy_config_server.xml"));
+        try {
+            transformer.transform(source, result);
+        } catch (TransformerException ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void setGamePlayers(List<PlayerDetails> playersDetails) {
+
+        for (PlayerDetails playerDetails : playersDetails) {
+            Player playerToAdd = null;
+            if (playerDetails.getType().equals(PlayerType.COMPUTER)) {
+                playerToAdd = new ComputerPlayer(playerDetails.getName());
+            } else {
+                playerToAdd = new HumanPlayer(playerDetails.getName());
+            }
+            this.gameManager.getSpesificGame().getPlayers().add(playerToAdd);
+        }
     }
 
 }

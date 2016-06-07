@@ -40,7 +40,10 @@ public class SquareType extends SquareBase {
         return toReturn;
     }
 
-  
+    public void updateOwner(Player player) {
+        this.asset.setHaveOwner(player);
+    }
+
     public enum Type {
         CITY, UTILITY, TRANSPORTATION, SURPRISE, WARRANT
     }

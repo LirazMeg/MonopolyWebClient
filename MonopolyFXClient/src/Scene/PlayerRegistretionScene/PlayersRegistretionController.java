@@ -28,6 +28,7 @@ import models.Player;
  * @author efrat
  */
 public class PlayersRegistretionController extends GenericController implements Initializable {
+
     @FXML
     private TextField playerName;
     @FXML
@@ -50,21 +51,23 @@ public class PlayersRegistretionController extends GenericController implements 
     public TextField getPlayerName() {
         return playerName;
     }
- public void setErrorLabel(String msg) {
+
+    public void setErrorLabel(String msg) {
         this.errorLabel.setText(msg);
         showNode(this.errorLabel);
 
     }
+
     public void setHumanPlayersCounterAndNumOfPlayers(int humanPlayersCounter, int numOfPlayers) {
         this.humanPlayersCounter = humanPlayersCounter;
         this.numOfPlayers = numOfPlayers;
-        int numOfComputerPlayers = numOfPlayers - humanPlayersCounter;
-        if (numOfComputerPlayers > 0) {
-            for (int i = 1; i <= numOfComputerPlayers; i++) {
-                String name = "Computer Player " + i;
-                this.gameManager.addComputerPlayerToPlayersList(name);
-            }
-        }
+//        int numOfComputerPlayers = numOfPlayers - humanPlayersCounter;
+//        if (numOfComputerPlayers > 0) {
+//            for (int i = 1; i <= numOfComputerPlayers; i++) {
+//                String name = "Computer Player " + i;
+//                this.gameManager.addComputerPlayerToPlayersList(name);
+//            }
+//        }
 
     }
 
@@ -95,49 +98,39 @@ public class PlayersRegistretionController extends GenericController implements 
         if (humanPlayersCounter == 0) {
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
             submitPlayerButtonProp.set(true);
-           // this.gameManager.addPlayerToPlayersList(playerName.getText());
+            // this.gameManager.addPlayerToPlayersList(playerName.getText());
             hideNode(playerName);
             hideNode(submitPlayerButton);
             showNode(startGameButton);
 
         } else {
-            //need to delet
-            boolean isExists = checkIfAlreadyExists(playerName.getText());
-            if (!isExists) {
-                boolean isEmpty = checkIfEmpty(playerName.getText());
-                if (!isEmpty) {
-                    playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
-                    this.gameManager.addPlayerToPlayersList(playerName.getText());
-                    humanPlayersCounter--;
-                    playersNameCounter++;
-                    if (humanPlayersCounter == 1) {
-                        humanPlayersCounter = 0;
-                    } else if (humanPlayersCounter == 0) {
-                        playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-                        submitPlayerButtonProp.set(true);
-                        hideNode(playerName);
-                        hideNode(submitPlayerButton);
-                        showNode(startGameButton);
-                    }
-                } else {
-                    errorLabel.setText("Invalid name, please try again");
-                    errorLabel.setVisible(true);
+            boolean isEmpty = checkIfEmpty(playerName.getText());
+            if (!isEmpty) {
+                playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
+                this.gameManager.addPlayerToPlayersList(playerName.getText());
+                humanPlayersCounter--;
+                playersNameCounter++;
+                if (humanPlayersCounter == 1) {
+                    humanPlayersCounter = 0;
+                } else if (humanPlayersCounter == 0) {
+                    playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
+                    hideNode(playerName);
+                    hideNode(submitPlayerButton);
+                    showNode(startGameButton);
+                    submitPlayerButtonProp.set(true);
                 }
-
-            } else {
-                errorLabel.setText("NAME ALREADY EXISTS! Please Try Again");
-                errorLabel.setVisible(true);
             }
+
         }
+
         this.playerName.clear();
-        //  setCurrentPlayInLogic();
 
     }
 
     public void OnStartGameButton(ActionEvent event) {
         this.humanPlayersCounter = this.gameManager.getNumOfHumanPlayers();
         //this.gameManager.setCurrentPlayer(this.gameManager.getPlayers().get(this.gameManager.getPleyerIndex()));
-        getPlayerLabelList();
+        //getPlayerLabelList();
         setCurrentPlayInLogic();
         startGameButtonProp.set(true);
 
@@ -166,8 +159,7 @@ public class PlayersRegistretionController extends GenericController implements 
     }
 
     public List<PlayerLabel> getPlayerLabelList() {
-        List<PlayerLabel> playerLabelList = new ArrayList<PlayerLabel>();
-
+        List<PlayerLabel> playerLabelList = new ArrayList<>();
         List<Player> playersList = this.gameManager.getPlayers();
         int i = 1;
         PlayerLabel newPlayer;
@@ -175,10 +167,10 @@ public class PlayersRegistretionController extends GenericController implements 
         for (Player player : playersList) {
             if (player.getClass().equals(ComputerPlayer.class)) {
                 imgPlayer = "Computer Player";
-                newPlayer = new PlayerLabel(player.toString(), imgPlayer);
+                newPlayer = new PlayerLabel(player, imgPlayer);
             } else {
                 imgPlayer = "Player";
-                newPlayer = new PlayerLabel(player.toString(), imgPlayer + i);
+                newPlayer = new PlayerLabel(player, imgPlayer + i);
                 i++;
             }
             playerLabelList.add(newPlayer);

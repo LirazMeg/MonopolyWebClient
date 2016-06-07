@@ -32,6 +32,7 @@ import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.PlayerDetails;
+import models.Player;
 
 /**
  * FXML Controller class
@@ -147,7 +148,8 @@ public class JoinGameController extends GenericController implements Initializab
     private void onChooseGame(MouseEvent event) {
         this.gameName = (String) listViewOfGames.getSelectionModel().getSelectedItem();
         this.labelsPlayers = addLabels();
-
+        updatelabelPlayers(this.gameManager.getPlayers());
+        
         if (gameName != null && !gameName.equals(EMPTY)) {
             getDetailsFromServer();
         }
@@ -317,6 +319,14 @@ public class JoinGameController extends GenericController implements Initializab
         ObservableList items = FXCollections.observableArrayList();
         items.addAll(this.gameNamesList);
         this.listViewOfGames.setItems(items);
+    }
+
+    private void updatelabelPlayers(List<Player> players) {
+        int i = 0;
+        for (Player player : players) {
+            this.labelsPlayers.get(i).setText(player.getName());
+            i++;
+        }
     }
 
 }

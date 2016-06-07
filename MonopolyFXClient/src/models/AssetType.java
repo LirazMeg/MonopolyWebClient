@@ -76,4 +76,6 @@ public abstract class AssetType {
         }
         return isHaveOwner;
     }
+
+    
 }

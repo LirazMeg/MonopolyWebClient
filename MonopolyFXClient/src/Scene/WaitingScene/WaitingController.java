@@ -5,6 +5,7 @@
  */
 package Scene.WaitingScene;
 
+import MonopolyFX.component.PlayerLabel;
 import controllers.GenericController;
 import game.client.ws.Event;
 import game.client.ws.EventType;
@@ -23,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import models.ComputerPlayer;
 import models.Player;
 
 /**
@@ -88,7 +90,6 @@ public class WaitingController extends GenericController implements Initializabl
         boolean res = false;
         for (Event event : this.eventToHandel) {
             if ((event.getType().equals(EventType.GAME_START))) {
-           //     this.eventToHandel.remove(event);
                 res = true;
                 break;
             }
@@ -104,5 +105,26 @@ public class WaitingController extends GenericController implements Initializabl
 
         }
         return name;
+    }
+     public List<PlayerLabel> getPlayerLabelList() {
+        List<PlayerLabel> playerLabelList = new ArrayList<PlayerLabel>();
+
+        List<Player> playersList = this.gameManager.getPlayers();
+        int i = 1;
+        PlayerLabel newPlayer;
+        String imgPlayer = "";
+        for (Player player : playersList) {
+            if (player.getClass().equals(ComputerPlayer.class)) {
+                imgPlayer = "Computer Player";
+                newPlayer = new PlayerLabel(player, imgPlayer);
+            } else {
+                imgPlayer = "Player";
+                newPlayer = new PlayerLabel(player, imgPlayer + i);
+                i++;
+            }
+            playerLabelList.add(newPlayer);
+        }
+        showNode(playerLabelList.get(0));
+        return playerLabelList;
     }
 }

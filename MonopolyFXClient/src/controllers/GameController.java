@@ -540,4 +540,9 @@ public final class GameController {
         }
         return toReturn;
     }
+
+    public void playerResinged(String playerName) {
+        this.players.remove(getPlayerByName(playerName));
+    }
+
 }
