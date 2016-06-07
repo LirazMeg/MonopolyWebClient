@@ -372,6 +372,7 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getRefreshProp().set(false);
                 if (eventStartGameExist()) {
                     Player currPlayer = getCurrentPlayer();
+                    this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
                     try {
                         MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
                     } catch (Exception ex) {
