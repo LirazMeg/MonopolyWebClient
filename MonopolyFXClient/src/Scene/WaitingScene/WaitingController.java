@@ -15,12 +15,15 @@ import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.PlayerDetails;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import models.Player;
 
 /**
  * FXML Controller class
@@ -73,15 +76,33 @@ public class WaitingController extends GenericController implements Initializabl
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public boolean checkIfEventStartGameExist() {
+    @Override
+    protected void actionMethod(Timer timer) {
+        try {
+            this.eventToHandel = this.monopoly.getEvents(this.playerId, this.evntIndex);
+        } catch (InvalidParameters_Exception ex) {
+            Logger.getLogger(WaitingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+ public boolean checkIfEventStartGameExist() {
         boolean res = false;
         for (Event event : this.eventToHandel) {
             if ((event.getType().equals(EventType.GAME_START))) {
-                this.eventToHandel.remove(event);
+           //     this.eventToHandel.remove(event);
                 res = true;
                 break;
             }
         }
         return res;
+    }
+    public String getCurentPlayer() {
+        String name = "";
+        for (Event event : this.eventToHandel) {
+            if (event.getType().equals(EventType.PLAYER_TURN)) {
+                name = event.getPlayerName();
+            }
+
+        }
+        return name;
     }
 }

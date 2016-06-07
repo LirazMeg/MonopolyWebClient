@@ -8,6 +8,7 @@ package controllers;
 import MonopolyFX.MonopolyGameApp;
 import controllers.GameController;
 import game.client.ws.Event;
+import game.client.ws.EventType;
 import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
@@ -133,7 +134,7 @@ public abstract class GenericController {
         node.setVisible(false);
     }
 
-    protected void timing() {
+    public void timing() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -176,6 +177,8 @@ public abstract class GenericController {
     }
 
     protected void actionMethod(Timer timer) {
+        
+        
     }
 
     ;
@@ -222,7 +225,7 @@ public abstract class GenericController {
         animation.play();
     }
 
-    public void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
+  public  void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
 
         List<Event> events = monopoly.getEvents(this.evntIndex, this.playerId);
         this.evntIndex += events.size();
@@ -244,4 +247,6 @@ public abstract class GenericController {
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
+    
+     
 }

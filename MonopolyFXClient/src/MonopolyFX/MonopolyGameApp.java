@@ -36,6 +36,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import jdk.nashorn.internal.runtime.Timing;
+import models.Player;
 
 /**
  *
@@ -134,10 +136,10 @@ public class MonopolyGameApp extends Application {
         this.joinGameScene = new Scene(joinGameParent);
 
         this.openingController = getOpeningController(openingLoader, primaryStage);
-        this.openingController.setGameManager(gameManager.getLogicGame());
+        this.openingController.setGameManager(gameManager.getSpesificGame());
 
         this.startWindowController = getStartNewGameController(startWindowSceneLoader, primaryStage);
-        this.startWindowController.setGameManager(gameManager.getLogicGame());
+        this.startWindowController.setGameManager(gameManager.getSpesificGame());
 
         if (getSizeOfWaitingGamesList() > 0) {
             this.openingController.setStage(primaryStage);
@@ -146,16 +148,16 @@ public class MonopolyGameApp extends Application {
         }
 
         this.playerRegisterController = getPlayerRegistrationController(playerRsisterationLoader, primaryStage);
-        this.playerRegisterController.setGameManager(gameManager.getLogicGame());
+        this.playerRegisterController.setGameManager(gameManager.getSpesificGame());
         this.monopolyGameBoardController = getGameBoardController(monopolyBoardLoader, primaryStage);
-        this.monopolyGameBoardController.setGameManager(gameManager.getLogicGame());
+        this.monopolyGameBoardController.setGameManager(gameManager.getSpesificGame());
         this.gameOverController = getGameOverController(gameOverLoader, primaryStage);
-        this.gameOverController.setGameManager(gameManager.getLogicGame());
+        this.gameOverController.setGameManager(gameManager.getSpesificGame());
         this.waitingController = getWaitingController(waitingLoader, primaryStage);
-        this.waitingController.setGameManager(gameManager.getLogicGame());
+        this.waitingController.setGameManager(gameManager.getSpesificGame());
 
         this.joinGameController = getJoinGameController(joinGameLoader, primaryStage);
-        this.joinGameController.setGameManager(gameManager.getLogicGame());
+        this.joinGameController.setGameManager(gameManager.getSpesificGame());
         initAllControoler();
     }
 
@@ -183,9 +185,9 @@ public class MonopolyGameApp extends Application {
                     try {
                         fxmlDocumentController.getSubmitButtonPror().set(false);
                         //String numOfPlayersStr = (String) fxmlDocumentController.getComboBoxNumPlayers().getValue();
-                        int numOfPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfPlayers();
+                        int numOfPlayers = MonopolyGameApp.this.gameManager.getSpesificGame().getNumOfPlayers();
                         //String numOfHumenPlayersStr = (String) fxmlDocumentController.getComboBoxNumHumenPlayers().getValue();
-                        int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getLogicGame().getNumOfHumanPlayers();
+                        int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getSpesificGame().getNumOfHumanPlayers();
                         int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
                         String gameName = fxmlDocumentController.getGameName();
                         monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
@@ -232,18 +234,18 @@ public class MonopolyGameApp extends Application {
 
     private MonopolyGameBoardController getGameBoardController(FXMLLoader fxmlLoader, Stage primaryStage) {
         MonopolyGameBoardController fxmlDocumentController = (MonopolyGameBoardController) fxmlLoader.getController();
-        fxmlDocumentController.initBoardLogic(this.gameManager.getLogicGame().getMonopolyGame());
+        fxmlDocumentController.initBoardLogic(this.gameManager.getSpesificGame().getMonopolyGame());
 
         SimpleBooleanProperty btn = this.playerRegisterController.getStartGameButtonProp();
         btn.addListener((source, oldValue, newValue) -> {
             if (newValue) {
 
                 //MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(MonopolyGameApp.this.playerRegisterController.getPlayerLabelList());
-                //MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(MonopolyGameApp.this.gameManager.getLogicGame().getPleyerIndex());
+                //MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(MonopolyGameApp.this.gameManager.getSpesificGame().getPleyerIndex());
                 try {
                     this.playerRegisterController.getStartGameButtonProp().set(false);
                     primaryStage.setScene(waitingScene);
-                    // fxmlDocumentController.startPlaying(MonopolyGameApp.this.gameManager.getLogicGame().getCurrentPlayer());
+                    // fxmlDocumentController.startPlaying(MonopolyGameApp.this.gameManager.getSpesificGame().getCurrentPlayer());
                 } catch (Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -277,7 +279,7 @@ public class MonopolyGameApp extends Application {
         noBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getNoButtonProp().set(false);
-                this.gameOverController.setWinnerName(this.gameManager.getLogicGame().getCurrentPlayer().getName());
+                this.gameOverController.setWinnerName(this.gameManager.getSpesificGame().getCurrentPlayer().getName());
                 primaryStage.setScene(gameOverScene);
             }
         });
@@ -300,7 +302,7 @@ public class MonopolyGameApp extends Application {
         endGameProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getEndGameProp().set(false);
-                this.gameOverController.setWinnerName(this.gameManager.getLogicGame().getWinnerName());
+                this.gameOverController.setWinnerName(this.gameManager.getSpesificGame().getWinnerName());
                 primaryStage.setScene(gameOverScene);
             }
         });
@@ -361,6 +363,7 @@ public class MonopolyGameApp extends Application {
         fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 primaryStage.setScene(this.openingScene);
+
             }
         });
 
@@ -368,6 +371,13 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 fxmlDocumentController.getRefreshProp().set(false);
                 if (eventStartGameExist()) {
+                    Player currPlayer = getCurrentPlayer();
+                    try {
+                        MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
+                    } catch (Exception ex) {
+                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     primaryStage.setScene(this.monopolyBoardScene);
                 }
             }
@@ -416,6 +426,7 @@ public class MonopolyGameApp extends Application {
     }
 
     private boolean eventStartGameExist() {
+        this.waitingController.timing();
         return this.waitingController.checkIfEventStartGameExist();
     }
 
@@ -447,6 +458,19 @@ public class MonopolyGameApp extends Application {
         this.startWindowController.setGameName(gameName);
         this.playerRegisterController.setGameName(gameName);
         this.waitingController.setGameName(gameName);
+    }
+
+    private Player getCurrentPlayer() {
+        Player currPlayer= null;
+        String playerName = this.waitingController.getCurentPlayer();
+        if (!"".equals(playerName)) {
+            currPlayer = this.gameManager.getSpesificGame().getPlayerByName(playerName);
+            if (currPlayer == null) {
+               
+            }
+        } else {
+        }
+        return currPlayer;
     }
 
 }

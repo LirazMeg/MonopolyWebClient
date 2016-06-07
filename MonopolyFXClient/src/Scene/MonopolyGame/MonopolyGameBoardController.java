@@ -735,7 +735,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     private void startGame() throws Exception {
-    startPlaying(this.gameManager.getCurrentPlayer());
+        startPlaying(this.gameManager.getCurrentPlayer());
     }
 
     private void gameWinner(Event event) {

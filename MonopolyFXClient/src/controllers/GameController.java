@@ -529,4 +529,15 @@ public final class GameController {
         }
         return name;
     }
+
+    public Player getPlayerByName(String playerName) {
+        Player toReturn = null;
+        for (Player player : this.players) {
+            if (playerName.equals(player.getName())) {
+                toReturn = player;
+                break;
+            }
+        }
+        return toReturn;
+    }
 }

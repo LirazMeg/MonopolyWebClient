@@ -101,6 +101,7 @@ public class PlayersRegistretionController extends GenericController implements 
             showNode(startGameButton);
 
         } else {
+            //need to delet
             boolean isExists = checkIfAlreadyExists(playerName.getText());
             if (!isExists) {
                 boolean isEmpty = checkIfEmpty(playerName.getText());
