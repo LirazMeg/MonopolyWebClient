@@ -417,6 +417,8 @@ public class MonopolyGameApp extends Application {
                         MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(playersLabel);
                         PlayerLabel playerLabel = MonopolyGameApp.this.monopolyGameBoardController.getPlayerLabelByName(currPlayer.getName());
                         MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(playerLabel);
+                        
+                        MonopolyGameApp.this.monopolyGameBoardController.timing();
                         MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
                         primaryStage.setScene(this.monopolyBoardScene);
                     } catch (Exception ex) {

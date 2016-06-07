@@ -240,7 +240,8 @@ public class MonopolyGameBoardController extends GenericController implements In
     public void OnYesButton(ActionEvent event) throws InterruptedException, Exception {
         Player currentPlayer = this.gameManager.getCurrentPlayer();
         hideYesAndNoButton();
-        //timing();
+        //check
+        timing();
         yesButtonProp.set(true);
     }
 
@@ -249,13 +250,13 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void startPlaying(Player currentPlayer) throws InterruptedException, Exception {
-        timing();
+      //  timing();
         if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
             addMsgLabel(", It's Your Turn, Roll The Dice");
             showNode(this.currentPlayerLabel);
             //  showNode(this.nextTurnButton);
             hideYesAndNoButton();
-            playMove(currentPlayer);
+            // playMove(currentPlayer);
         } else {
             showNode(noButton);
             showNode(yesButton);
@@ -316,6 +317,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         setCurrentPlayerLabel(getPlayerLabelByName(this.gameManager.getCurrentPlayer().getName()));
         this.currentPlayerLabel.setToolTipText(this.gameManager.getCurrentPlayer().toString());
         showNode(this.currentPlayerLabel);
+        timing();
     }
 
     public void setRollTheDice() throws InterruptedException {
