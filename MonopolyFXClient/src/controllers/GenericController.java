@@ -52,6 +52,10 @@ public abstract class GenericController {
     protected List<Event> eventToHandel = new ArrayList<>();
     //   protected int evntIndex = 0;
 
+    public void setEventToHandel(List<Event> eventToHandel) {
+        this.eventToHandel = eventToHandel;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }

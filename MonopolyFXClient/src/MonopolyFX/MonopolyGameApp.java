@@ -237,7 +237,6 @@ public class MonopolyGameApp extends Application {
 
                     int playerId = this.monopoly.joinGame(gameName, playerName);
                     initPlayerIdAndName(playerId, playerName);
-
                 } catch (GameDoesNotExists_Exception | InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
@@ -403,25 +402,28 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 fxmlDocumentController.getRefreshProp().set(false);
                 if (eventStartGameExist()) {
-                    Player currPlayer = getCurrentPlayer();
+                    String gameName = fxmlDocumentController.getGameName();
                     try {
-                        String gameName = fxmlDocumentController.getGameName();
                         //set players list in gameManager
                         setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                    } catch (GameDoesNotExists_Exception ex) {
+                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Player currPlayer = getCurrentPlayer();
+                    try {
                         //set players label list 
                         List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();
-
                         this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
                         MonopolyGameApp.this.monopolyGameBoardController.setPlayerLabelList(playersLabel);
                         PlayerLabel playerLabel = MonopolyGameApp.this.monopolyGameBoardController.getPlayerLabelByName(currPlayer.getName());
-
                         MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(playerLabel);
                         MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
+                        primaryStage.setScene(this.monopolyBoardScene);
                     } catch (Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                        String exp = ex.getMessage();
                     }
 
-                    primaryStage.setScene(this.monopolyBoardScene);
                 }
             }
         });
@@ -469,8 +471,11 @@ public class MonopolyGameApp extends Application {
     }
 
     private boolean eventStartGameExist() {
-        this.waitingController.timing();
-        return this.waitingController.checkIfEventStartGameExist();
+        //hereeeeeeeeeeeeee!!!!!!!!!!!!!!!!!!!
+        //this.monopolyGameBoardController.timing();
+        //this.waitingController.timing();
+        //return this.waitingController.checkIfEventStartGameExist();
+        return this.monopolyGameBoardController.checkIfEventStartGameExist();
     }
 
     private void initAllControoler() {
@@ -513,15 +518,19 @@ public class MonopolyGameApp extends Application {
     }
 
     private Player getCurrentPlayer() {
+
         Player currPlayer = null;
         String playerName = this.waitingController.getCurentPlayer();
-        if (!"".equals(playerName)) {
+        if (!(playerName.isEmpty())) {
             currPlayer = this.gameManager.getSpesificGame().getPlayerByName(playerName);
-            if (currPlayer == null) {
-
-            }
-        } else {
         }
+//        if (!"".equals(playerName)) {
+//            currPlayer = this.gameManager.getSpesificGame().getPlayerByName(playerName);
+//            if (currPlayer == null) {
+//
+//            }
+//        } else {
+//        }
         return currPlayer;
     }
 

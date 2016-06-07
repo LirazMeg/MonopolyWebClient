@@ -9,21 +9,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="237.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
+<AnchorPane id="AnchorPane" prefHeight="105.0" prefWidth="237.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
     <stylesheets>
         <URL value="@Waiting.css" />
     </stylesheets>
    <children>
-      <Label layoutX="72.0" layoutY="103.0" text="Waiting...">
+      <Label layoutX="71.0" layoutY="25.0" text="Waiting...">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></Label>
-      <Button layoutX="25.0" layoutY="146.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
-      <Button layoutX="158.0" layoutY="146.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
-      <ImageView fitHeight="76.0" fitWidth="372.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../FX/MonopolyGame_FXVer/MonopolyGame/src/pics/monopoly_us_pack_logo.png" />
-         </image>
-      </ImageView>
+      <Button layoutX="24.0" layoutY="68.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
+      <Button layoutX="157.0" layoutY="68.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
    </children>
 </AnchorPane>

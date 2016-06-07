@@ -7,9 +7,11 @@ package Scene.MonopolyGame;
 
 import MonopolyFX.component.ButtonMonopoly;
 import MonopolyFX.component.PlayerLabel;
+import Scene.WaitingScene.WaitingController;
 import controllers.GameController;
 import controllers.GenericController;
 import game.client.ws.Event;
+import game.client.ws.EventType;
 import game.client.ws.InvalidParameters_Exception;
 import generated.ParkingSquareType;
 import java.net.URL;
@@ -247,6 +249,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void startPlaying(Player currentPlayer) throws InterruptedException, Exception {
+        timing();
         if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
             addMsgLabel(", It's Your Turn, Roll The Dice");
             showNode(this.currentPlayerLabel);
@@ -716,8 +719,26 @@ public class MonopolyGameBoardController extends GenericController implements In
             errorLabel.setText(ex.getMessage());
         } catch (Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+            String exp = ex.getMessage();
         }
 
+    }
+
+    public boolean checkIfEventStartGameExist() {
+        ////////////////hereeeee
+        try {
+            this.eventToHandel = this.monopoly.getEvents(this.playerId, this.evntIndex);
+        } catch (InvalidParameters_Exception ex) {
+            Logger.getLogger(WaitingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        boolean res = false;
+        for (Event event : this.eventToHandel) {
+            if ((event.getType().equals(EventType.GAME_START))) {
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 
     private void gameOver(Event event, Timer timer) {
@@ -788,11 +809,15 @@ public class MonopolyGameBoardController extends GenericController implements In
         changMsgLabel(name + ", " + msg);
     }
 
-    private void payment(Event event) {
+    private void payment(Event event) throws InterruptedException {
         String currPlayer = event.getPlayerName();
         String payTo = event.getPaymentToPlayerName();
         int amount = event.getPaymentAmount();
-//    if(event.getPaymentToPlayerName().)
+        if (event.isPaymemtFromUser()) {//if the user pays the paymentToPlayerName treasury (true)
+            changMsgLabel(currPlayer + ", Just Paid " + payTo + " " + amount + " Nis");
+        } else {//indicates if the payment is paid to the user (false)
+            changMsgLabel(currPlayer + ", Just Got " + amount + " Nis From " + payTo);
+        }
     }
 
     public PlayerLabel getPlayerLabelByName(String name) {

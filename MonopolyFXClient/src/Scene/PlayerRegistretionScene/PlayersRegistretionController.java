@@ -107,7 +107,8 @@ public class PlayersRegistretionController extends GenericController implements 
             boolean isEmpty = checkIfEmpty(playerName.getText());
             if (!isEmpty) {
                 playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
-                this.gameManager.addPlayerToPlayersList(playerName.getText());
+                //this.gameManager.addPlayerToPlayersList(playerName.getText());
+                
                 humanPlayersCounter--;
                 playersNameCounter++;
                 if (humanPlayersCounter == 1) {
@@ -131,7 +132,7 @@ public class PlayersRegistretionController extends GenericController implements 
         this.humanPlayersCounter = this.gameManager.getNumOfHumanPlayers();
         //this.gameManager.setCurrentPlayer(this.gameManager.getPlayers().get(this.gameManager.getPleyerIndex()));
         //getPlayerLabelList();
-        setCurrentPlayInLogic();
+       // setCurrentPlayInLogic();
         startGameButtonProp.set(true);
 
         //resetValues();

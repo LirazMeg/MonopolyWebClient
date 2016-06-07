@@ -86,7 +86,8 @@ public class WaitingController extends GenericController implements Initializabl
             Logger.getLogger(WaitingController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
- public boolean checkIfEventStartGameExist() {
+
+    public boolean checkIfEventStartGameExist() {
         boolean res = false;
         for (Event event : this.eventToHandel) {
             if ((event.getType().equals(EventType.GAME_START))) {
@@ -96,7 +97,13 @@ public class WaitingController extends GenericController implements Initializabl
         }
         return res;
     }
+
     public String getCurentPlayer() {
+        try {
+            this.eventToHandel = this.monopoly.getEvents(this.playerId, this.evntIndex);
+        } catch (InvalidParameters_Exception ex) {
+            Logger.getLogger(WaitingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String name = "";
         for (Event event : this.eventToHandel) {
             if (event.getType().equals(EventType.PLAYER_TURN)) {
@@ -106,7 +113,8 @@ public class WaitingController extends GenericController implements Initializabl
         }
         return name;
     }
-     public List<PlayerLabel> getPlayerLabelList() {
+
+    public List<PlayerLabel> getPlayerLabelList() {
         List<PlayerLabel> playerLabelList = new ArrayList<PlayerLabel>();
 
         List<Player> playersList = this.gameManager.getPlayers();
