@@ -240,8 +240,9 @@ public class MonopolyGameBoardController extends GenericController implements In
     public void OnYesButton(ActionEvent event) throws InterruptedException, Exception {
         Player currentPlayer = this.gameManager.getCurrentPlayer();
         hideYesAndNoButton();
+       
         //check
-        timing();
+        //timing();
         yesButtonProp.set(true);
     }
 

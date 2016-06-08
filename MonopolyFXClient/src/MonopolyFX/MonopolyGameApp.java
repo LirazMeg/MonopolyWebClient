@@ -266,8 +266,12 @@ public class MonopolyGameApp extends Application {
         SimpleBooleanProperty yesBtnProperty = fxmlDocumentController.getYesButtonProp();
         yesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getYesButtonProp().set(false);
-                fxmlDocumentController.timing();
+                try {
+                    fxmlDocumentController.getYesButtonProp().set(false);
+                    this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
