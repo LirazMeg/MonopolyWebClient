@@ -240,9 +240,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     public void OnYesButton(ActionEvent event) throws InterruptedException, Exception {
         Player currentPlayer = this.gameManager.getCurrentPlayer();
         hideYesAndNoButton();
-       
-        //check
-        //timing();
+        timing();
         yesButtonProp.set(true);
     }
 
@@ -251,22 +249,24 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void startPlaying(Player currentPlayer) throws InterruptedException, Exception {
-      //  timing();
+        System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.startPlaying()");
         if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
-            addMsgLabel(", It's Your Turn, Roll The Dice");
             showNode(this.currentPlayerLabel);
             //  showNode(this.nextTurnButton);
             hideYesAndNoButton();
-            // playMove(currentPlayer);
+
         } else {
-            showNode(noButton);
-            showNode(yesButton);
-            changMsgLabel(currentPlayer.getName() + ", It's Your Turn, Do You Want To Roll The Dice?");
+
+//            showNode(yesButton);
+//            showNode(noButton);
         }
+        timing();
     }
 
     public void OnYesPerchesButton(ActionEvent event) throws Exception {
+        showNode(this.msgLabel);
         this.yesPerchesButtonProp.set(true);
+     
     }
 
     public void OnNoPerchesButton(ActionEvent event) throws InterruptedException {
@@ -275,13 +275,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 //        showNode(this.nextTurnButton);
     }
 
-//    public void OnNextTurnButton(ActionEvent event) throws Exception {
-//       // nextTurn();
-//     //   setRollTheDice();
-//        hideNode(this.nextTurnButton);
-//        //startPlaying(this.gameManager.getCurrentPlayer());
-//        this.nextTurnButtonProp.set(true);
-//    }
     private void changMsgLabel(String msg) throws InterruptedException {
         this.msgLabel.setText(msg);
         Thread.sleep(1000);
@@ -313,12 +306,12 @@ public class MonopolyGameBoardController extends GenericController implements In
         }
     }
 
-    public void nextTurn() throws Exception {
+    public void setCurrentPlayer() throws Exception {
         hideNode(this.currentPlayerLabel);
         setCurrentPlayerLabel(getPlayerLabelByName(this.gameManager.getCurrentPlayer().getName()));
         this.currentPlayerLabel.setToolTipText(this.gameManager.getCurrentPlayer().toString());
         showNode(this.currentPlayerLabel);
-        timing();
+
     }
 
     public void setRollTheDice() throws InterruptedException {
@@ -604,7 +597,7 @@ public class MonopolyGameBoardController extends GenericController implements In
             this.gameManager.handelPlayerPresence(currentPlayer);
             changMsgLabel(", Has Left The Game! Let's Continue...");
         }
-        // nextTurn();
+        // setCurrentPlayer();
         if (this.gameManager.checkIfIsGameOver()) {
             this.endGameProp.set(true);
         }
@@ -661,6 +654,7 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     @Override
     protected void actionMethod(Timer timer) {
+        System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.actionMethod()");
         List<Event> events;
         try {
             events = this.monopoly.getEvents(playerId, evntIndex);
@@ -689,22 +683,21 @@ public class MonopolyGameBoardController extends GenericController implements In
                     case PASSED_START_SQUARE:
                     case LANDED_ON_START_SQUARE:
                     case GO_TO_JAIL:
+                    case SURPRISE_CARD:
+                    case WARRANT_CARD:
+                    case GET_OUT_OF_JAIL_CARD:
                         showMsg(event);
                         break;
                     case PROPMPT_PLAYER_TO_BY_HOUSE:
                     case PROPMT_PLAYER_TO_BY_ASSET:
                         proprmPlayerToBuy(event);
+                        timer.cancel();
+                        break;
                     case ASSET_BOUGHT:
                         assetBought(event);
                         break;
                     case HOUSE_BOUGHT:
                         houseBought(event);
-                        break;
-                    case SURPRISE_CARD:
-                        break;
-                    case WARRANT_CARD:
-                        break;
-                    case GET_OUT_OF_JAIL_CARD:
                         break;
                     case PAYMENT:
                         payment(event);
@@ -723,12 +716,14 @@ public class MonopolyGameBoardController extends GenericController implements In
         } catch (Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
             String exp = ex.getMessage();
+            this.errorLabel.setText(exp);
         }
 
     }
 
     public boolean checkIfEventStartGameExist() {
-        ////////////////hereeeee
+        System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.checkIfEventStartGameExist()");
+
         try {
             this.eventToHandel = this.monopoly.getEvents(this.playerId, this.evntIndex);
         } catch (InvalidParameters_Exception ex) {
@@ -779,47 +774,55 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     private void playerTurn(Event event) throws InterruptedException, Exception {
-        changMsgLabel(event.getPlayerName() + ", It's Your Turne");
+        addMsgLabel(event.getPlayerName() + ", It's Your Turne");
         this.gameManager.setCurrentPlayer(this.gameManager.getPlayerByName(event.getPlayerName()));
-        nextTurn();
+        setCurrentPlayer();
 
     }
 
     private void showDiceResult(Event event) throws InterruptedException {
         String playerName = event.getPlayerName();
-        int resOne = event.getFirstDiceResult();
-        int resTwo = event.getSecondDiceResult();
-        changMsgLabel(playerName + ", Your Dice : " + resOne + ", " + resTwo);
+        addMsgLabel(playerName + ", " + event.getEventMessage());
     }
 
     private void moveEvent(Event event) throws Exception {
         Player currentPlayer = this.gameManager.getCurrentPlayer();
         int squareNum = event.getNextBoardSquareID();
-        this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
 
+        if (event.isPlayerMove()) {
+            this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
+            //calculate num of steps
+            //this.gameManager.getCurrentPlayer().move(0, isOnPertces);
+        } else {
+            addMsgLabel(event.getEventMessage());
+        }
     }
 
     private void proprmPlayerToBuy(Event event) throws InterruptedException {
         showMsg(event);
         if (event.getPlayerName().equals(this.playerName)) {
             showPerchesButton();
+            //timing();
         }
     }
 
     private void showMsg(Event event) throws InterruptedException {
         String name = event.getPlayerName();
         String msg = event.getEventMessage();
-        changMsgLabel(name + ", " + msg);
+        addMsgLabel(name + ", " + msg);
     }
 
     private void payment(Event event) throws InterruptedException {
         String currPlayer = event.getPlayerName();
         String payTo = event.getPaymentToPlayerName();
+        if (payTo.isEmpty()) {
+            payTo = "Tresury";
+        }
         int amount = event.getPaymentAmount();
         if (event.isPaymemtFromUser()) {//if the user pays the paymentToPlayerName treasury (true)
-            changMsgLabel(currPlayer + ", Just Paid " + payTo + " " + amount + " Nis");
+            addMsgLabel(currPlayer + ", Just Paid " + payTo + " " + amount + " Nis");
         } else {//indicates if the payment is paid to the user (false)
-            changMsgLabel(currPlayer + ", Just Got " + amount + " Nis From " + payTo);
+            addMsgLabel(currPlayer + ", Just Got " + amount + " Nis From " + payTo);
         }
     }
 

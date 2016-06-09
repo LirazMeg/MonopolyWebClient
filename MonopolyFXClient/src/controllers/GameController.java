@@ -234,8 +234,7 @@ public final class GameController {
     public void nextPlayerTurn() {
         this.pleyerIndex = (this.pleyerIndex + 1) % this.players.size();
         this.currentPlayer = players.get(this.pleyerIndex);
-//        ConsolUI.MsgPreseEnterToContinue();
-//        ConsolUI.msgNextTurnPlayer(this.currentPlayer.getName());
+
     }
 
     public void makeMove(int numOfSteps, boolean isCanPasStart) throws Exception {

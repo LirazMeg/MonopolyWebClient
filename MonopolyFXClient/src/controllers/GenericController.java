@@ -211,9 +211,9 @@ public abstract class GenericController {
         boolean res = false;
         if (box != null) {
             name = getText(box);
-            res = !name.isEmpty() && name.matches("[a-zA-Z]+");
+            res = !name.isEmpty() && name.matches("[a-zA-Z]+");// if is letters
             if (!res) {
-                lable.setText("This name (" + name + ") already exist, Try again");
+                lable.setText("This name (" + name + ")is illigel, please try name witch leters only, Try again");
                 lable.setVisible(!res);
                 box.clear();
             }

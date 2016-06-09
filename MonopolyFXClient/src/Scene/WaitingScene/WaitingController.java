@@ -56,6 +56,7 @@ public class WaitingController extends GenericController implements Initializabl
 
     @FXML
     private void onRefresh(ActionEvent event) {
+        System.out.println("Scene.WaitingScene.WaitingController.onRefresh()");
         this.refreshProp.set(true);
     }
 
@@ -108,6 +109,7 @@ public class WaitingController extends GenericController implements Initializabl
         for (Event event : this.eventToHandel) {
             if (event.getType().equals(EventType.PLAYER_TURN)) {
                 name = event.getPlayerName();
+                break;
             }
 
         }
