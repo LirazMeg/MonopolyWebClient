@@ -64,6 +64,7 @@ public class StartNewGameController extends GenericController implements Initial
             @Override
             // when preesed on first combo
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                //need to check why exption
                 int selectedItem = Integer.parseInt((String) comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem());
                 gameManager.setNumOfHumanPlayers(selectedItem);
                 showNode(buttonSubmit);

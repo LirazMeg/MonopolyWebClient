@@ -279,6 +279,8 @@ public class MonopolyGameApp extends Application {
                 try {
                     int playerId = fxmlDocumentController.getPlayerId();
                     this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
+
+                    fxmlDocumentController.timing();
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
@@ -428,7 +430,7 @@ public class MonopolyGameApp extends Application {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                         String exp = ex.getMessage();
                     }
-
+                    primaryStage.setScene(this.monopolyBoardScene);
                 }
             }
         });
@@ -476,7 +478,12 @@ public class MonopolyGameApp extends Application {
     }
 
     private boolean eventStartGameExist() {
-        return this.monopolyGameBoardController.checkIfEventStartGameExist();
+        this.waitingController.timing();
+        boolean res = this.waitingController.checkIfEventStartGameExist();
+        if (res) {
+            this.monopolyGameBoardController.addToEventId(1);
+        }
+        return res;
     }
 
     private void initAllControoler() {
@@ -577,6 +584,10 @@ public class MonopolyGameApp extends Application {
             }
             this.gameManager.getSpesificGame().getPlayers().add(playerToAdd);
         }
+    }
+
+    private void checkIfEventStartGameExist() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -83,6 +83,9 @@ public class WaitingController extends GenericController implements Initializabl
     protected void actionMethod(Timer timer) {
         try {
             this.eventToHandel = this.monopoly.getEvents(this.playerId, this.evntIndex);
+            if (this.eventToHandel.size() > 0) {
+                timer.cancel();
+            }
         } catch (InvalidParameters_Exception ex) {
             Logger.getLogger(WaitingController.class.getName()).log(Level.SEVERE, null, ex);
         }

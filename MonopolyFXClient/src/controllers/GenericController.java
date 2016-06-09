@@ -56,6 +56,10 @@ public abstract class GenericController {
         this.eventToHandel = eventToHandel;
     }
 
+    public void addToEventId(int i) {
+        this.evntIndex += i;
+    }
+
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
@@ -185,7 +189,7 @@ public abstract class GenericController {
         this.evntIndex = eventID;
     }
 
-    protected void actionMethod(Timer timer) {     
+    protected void actionMethod(Timer timer) {
     }
 
     ;
@@ -232,7 +236,7 @@ public abstract class GenericController {
         animation.play();
     }
 
-  public  void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
+    public void getEventsAndFiltr(MonopolyWebService monopoly) throws InvalidParameters_Exception, GameDoesNotExists_Exception {
 
         List<Event> events = monopoly.getEvents(this.evntIndex, this.playerId);
         this.evntIndex += events.size();
@@ -254,6 +258,5 @@ public abstract class GenericController {
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
-    
-     
+
 }

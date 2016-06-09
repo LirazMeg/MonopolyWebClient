@@ -81,7 +81,7 @@ public class PlayersRegistretionController extends GenericController implements 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
+        this.playerNameLabel.setText("Please Enter Your Name:");
         this.playersNameCounter++;
         this.startGameButton.setDisable(true);
         this.startGameButton.setVisible(false);
@@ -95,36 +95,15 @@ public class PlayersRegistretionController extends GenericController implements 
     public void OnSubmitPlayerButton(ActionEvent event) {
         errorLabel.setText("");
 
-        if (humanPlayersCounter == 0) {
+        if (isAName(this.playerName, this.errorLabel)) {
+
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-            submitPlayerButtonProp.set(true);
             // this.gameManager.addPlayerToPlayersList(playerName.getText());
             hideNode(playerName);
             hideNode(submitPlayerButton);
             showNode(startGameButton);
-
-        } else {
-            boolean isEmpty = checkIfEmpty(playerName.getText());
-            if (!isEmpty) {
-                playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
-                //this.gameManager.addPlayerToPlayersList(playerName.getText());
-                
-                humanPlayersCounter--;
-                playersNameCounter++;
-                if (humanPlayersCounter == 1) {
-                    humanPlayersCounter = 0;
-                } else if (humanPlayersCounter == 0) {
-                    playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-                    hideNode(playerName);
-                    hideNode(submitPlayerButton);
-                    showNode(startGameButton);
-                    submitPlayerButtonProp.set(true);
-                }
-            }
-
+            submitPlayerButtonProp.set(true);
         }
-
-        this.playerName.clear();
 
     }
 
@@ -132,7 +111,7 @@ public class PlayersRegistretionController extends GenericController implements 
         this.humanPlayersCounter = this.gameManager.getNumOfHumanPlayers();
         //this.gameManager.setCurrentPlayer(this.gameManager.getPlayers().get(this.gameManager.getPleyerIndex()));
         //getPlayerLabelList();
-       // setCurrentPlayInLogic();
+        // setCurrentPlayInLogic();
         startGameButtonProp.set(true);
 
         //resetValues();
@@ -165,8 +144,10 @@ public class PlayersRegistretionController extends GenericController implements 
         int i = 1;
         PlayerLabel newPlayer;
         String imgPlayer = "";
+
         for (Player player : playersList) {
-            if (player.getClass().equals(ComputerPlayer.class)) {
+            if (player.getClass().equals(ComputerPlayer.class
+            )) {
                 imgPlayer = "Computer Player";
                 newPlayer = new PlayerLabel(player, imgPlayer);
             } else {

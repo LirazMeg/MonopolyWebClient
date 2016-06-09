@@ -232,7 +232,7 @@ public class MonopolyGameBoardController extends GenericController implements In
             this.gridPane.add(playerLabel, ZERO, ZERO);
             hideNode(playerLabel);
         }
-        setCurrentPlayerLabel(player);
+        MonopolyGameBoardController.this.setCurrentPlayerLabel(player);
         //show current player
         showNode(this.currentPlayerLabel);
     }
@@ -265,8 +265,9 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     public void OnYesPerchesButton(ActionEvent event) throws Exception {
         showNode(this.msgLabel);
+        hidePerchesButton();
         this.yesPerchesButtonProp.set(true);
-     
+
     }
 
     public void OnNoPerchesButton(ActionEvent event) throws InterruptedException {
@@ -306,9 +307,10 @@ public class MonopolyGameBoardController extends GenericController implements In
         }
     }
 
-    public void setCurrentPlayer() throws Exception {
+    public void setCurrentPlayerLabel() throws Exception {
         hideNode(this.currentPlayerLabel);
-        setCurrentPlayerLabel(getPlayerLabelByName(this.gameManager.getCurrentPlayer().getName()));
+        PlayerLabel playerLabel =getPlayerLabelByName(this.gameManager.getCurrentPlayer().getName());
+        MonopolyGameBoardController.this.setCurrentPlayerLabel(playerLabel);
         this.currentPlayerLabel.setToolTipText(this.gameManager.getCurrentPlayer().toString());
         showNode(this.currentPlayerLabel);
 
@@ -597,7 +599,7 @@ public class MonopolyGameBoardController extends GenericController implements In
             this.gameManager.handelPlayerPresence(currentPlayer);
             changMsgLabel(", Has Left The Game! Let's Continue...");
         }
-        // setCurrentPlayer();
+        // setCurrentPlayerLabel();
         if (this.gameManager.checkIfIsGameOver()) {
             this.endGameProp.set(true);
         }
@@ -618,7 +620,8 @@ public class MonopolyGameBoardController extends GenericController implements In
     private void addMsgLabel(String msg) throws InterruptedException {
         //try to fix quation mark//
         this.msgLabel.setText(this.msgLabel.getText() + "\n" + msg);
-        Thread.sleep(1000);
+        showNode(this.msgLabel);
+        //Thread.sleep(1000);
     }
 
     private void startNewGame(String fileName) throws Exception {
@@ -657,7 +660,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.actionMethod()");
         List<Event> events;
         try {
-            events = this.monopoly.getEvents(playerId, evntIndex);
+            events = this.monopoly.getEvents(evntIndex, playerId);
             for (Event event : events) {
                 switch (event.getType()) {
                     case GAME_OVER:
@@ -716,6 +719,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         } catch (Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
             String exp = ex.getMessage();
+       
             this.errorLabel.setText(exp);
         }
 
@@ -733,6 +737,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         for (Event event : this.eventToHandel) {
             if ((event.getType().equals(EventType.GAME_START))) {
                 res = true;
+                this.evntIndex++;
                 break;
             }
         }
@@ -776,7 +781,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     private void playerTurn(Event event) throws InterruptedException, Exception {
         addMsgLabel(event.getPlayerName() + ", It's Your Turne");
         this.gameManager.setCurrentPlayer(this.gameManager.getPlayerByName(event.getPlayerName()));
-        setCurrentPlayer();
+        setCurrentPlayerLabel();
 
     }
 
@@ -800,6 +805,7 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void proprmPlayerToBuy(Event event) throws InterruptedException {
         showMsg(event);
+
         if (event.getPlayerName().equals(this.playerName)) {
             showPerchesButton();
             //timing();
@@ -810,6 +816,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         String name = event.getPlayerName();
         String msg = event.getEventMessage();
         addMsgLabel(name + ", " + msg);
+
     }
 
     private void payment(Event event) throws InterruptedException {
