@@ -335,7 +335,7 @@ public class MonopolyGameApp extends Application {
     private WaitingController getWaitingController(FXMLLoader fxmlLoader, Stage primaryStage) {
         WaitingController fxmlDocumentController = (WaitingController) fxmlLoader.getController();
         
-        excuteReturn(fxmlDocumentController, primaryStage);
+       // excuteReturn(fxmlDocumentController, primaryStage);
 
         fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
