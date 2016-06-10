@@ -65,8 +65,6 @@ public class FileController {
     }
 
     public static File turnPathToFile(String dest) {
-// Directory where the files are located
-        //File dir = new File("src//");
         File dir = new File(dest);
         return dir;
     }

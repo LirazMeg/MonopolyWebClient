@@ -13,6 +13,7 @@ import Scene.OpeningScene.OpeningController;
 import Scene.PlayerRegistretionScene.PlayersRegistretionController;
 import Scene.StartWindowScene.StartNewGameController;
 import Scene.WaitingScene.WaitingController;
+import controllers.FileController;
 import controllers.GameController;
 import controllers.GameControllerFX;
 import controllers.GenericController;
@@ -25,8 +26,10 @@ import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
 import game.client.ws.PlayerDetails;
 import game.client.ws.PlayerType;
+import generated.Monopoly;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.List;
@@ -44,6 +47,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.swing.text.Document;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -119,6 +125,18 @@ public class MonopolyGameApp extends Application {
     private void setLogicGame(boolean isUplaodGame, GameController logic) throws Exception {
         //filechocher
         if (!isUplaodGame) {
+            String boardXml = this.monopoly.getBoardXML();
+
+//            InputStream input = IOUtils.toInputStream(source, "UTF-8");
+//            try {
+//                JAXBContext jaxbContext = JAXBContext.newInstance(generated.Monopoly.class);
+//                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+//                this.monopolyGame = (Monopoly) jaxbUnmarshaller.unmarshal(input);
+//
+//            } catch (JAXBException exception) {
+//                exception.printStackTrace();
+//            }
+
             gameManager = new GameControllerFX();
             GameController gameLogic = new GameController("monopoly_config", false, false);
             gameManager.setLogicGame(gameLogic);
@@ -416,7 +434,7 @@ public class MonopolyGameApp extends Application {
                     } catch (GameDoesNotExists_Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                  
+
                     Player currPlayer = getCurrentPlayer();
                     try {
                         //set players label list 
