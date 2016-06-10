@@ -694,7 +694,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                     case PROPMPT_PLAYER_TO_BY_HOUSE:
                     case PROPMT_PLAYER_TO_BY_ASSET:
                         proprmPlayerToBuy(event);
-                        timer.cancel();
+                       // timer.cancel();
                         break;
                     case ASSET_BOUGHT:
                         assetBought(event);
