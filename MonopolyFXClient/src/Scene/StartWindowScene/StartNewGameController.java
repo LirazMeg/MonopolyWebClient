@@ -51,6 +51,7 @@ public class StartNewGameController extends GenericController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        this.comboBoxNumHumenPlayers.setEditable(true);
         this.comboBoxNumPlayers.getItems().addAll(2, 3, 4, 5, 6);
         this.comboBoxNumPlayers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -64,15 +65,14 @@ public class StartNewGameController extends GenericController implements Initial
             @Override
             // when preesed on first combo
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-              
-                int selectedItem =(int)newValue;
-              //  int selectedItem = Integer.parseInt((String) comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem());
+                int selectedItem = (int) newValue;
+                //  int selectedItem = Integer.parseInt((String) comboBoxNumHumenPlayers.getSelectionModel().getSelectedItem());
                 gameManager.setNumOfHumanPlayers(selectedItem);
                 showNode(buttonSubmit);
             }
         });
-
-        // this.comboBoxNumHumenPlayers.setEditable(true);
+        this.comboBoxNumPlayers.setEditable(false);
+        this.comboBoxNumHumenPlayers.setEditable(false);
         hideNode(comboBoxNumPlayers);
         hideNode(comboBoxNumHumenPlayers);
         hideNode(buttonSubmit);
@@ -143,6 +143,12 @@ public class StartNewGameController extends GenericController implements Initial
         this.textFieldGameName.clear();
         this.buttonSubmitedProp.set(false);
         this.humanPlayerSelectedProp.set(false);
+    }
+
+    private void InvalidInput() {
+        StartNewGameController.this.comboBoxNumPlayers.setValue(null);
+        StartNewGameController.this.errorLabel.setText("invalid selection");
+        showNode(errorLabel);
     }
 
 }
