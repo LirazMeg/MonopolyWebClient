@@ -234,8 +234,7 @@ public final class GameController {
     public void nextPlayerTurn() {
         this.pleyerIndex = (this.pleyerIndex + 1) % this.players.size();
         this.currentPlayer = players.get(this.pleyerIndex);
-//        ConsolUI.MsgPreseEnterToContinue();
-//        ConsolUI.msgNextTurnPlayer(this.currentPlayer.getName());
+
     }
 
     public void makeMove(int numOfSteps, boolean isCanPasStart) throws Exception {
@@ -529,4 +528,20 @@ public final class GameController {
         }
         return name;
     }
+
+    public Player getPlayerByName(String playerName) {
+        Player toReturn = null;
+        for (Player player : this.players) {
+            if (playerName.equals(player.getName())) {
+                toReturn = player;
+                break;
+            }
+        }
+        return toReturn;
+    }
+
+    public void playerResinged(String playerName) {
+        this.players.remove(getPlayerByName(playerName));
+    }
+
 }

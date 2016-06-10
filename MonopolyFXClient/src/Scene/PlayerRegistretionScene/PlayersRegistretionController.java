@@ -48,16 +48,26 @@ public class PlayersRegistretionController extends GenericController implements 
     private int playersNameCounter = 1;
     private boolean newUpLoadGame = false;
 
+    public TextField getPlayerName() {
+        return playerName;
+    }
+
+    public void setErrorLabel(String msg) {
+        this.errorLabel.setText(msg);
+        showNode(this.errorLabel);
+
+    }
+
     public void setHumanPlayersCounterAndNumOfPlayers(int humanPlayersCounter, int numOfPlayers) {
         this.humanPlayersCounter = humanPlayersCounter;
         this.numOfPlayers = numOfPlayers;
-        int numOfComputerPlayers = numOfPlayers - humanPlayersCounter;
-        if (numOfComputerPlayers > 0) {
-            for (int i = 1; i <= numOfComputerPlayers; i++) {
-                String name = "Computer Player " + i;
-                this.gameManager.addComputerPlayerToPlayersList(name);
-            }
-        }
+//        int numOfComputerPlayers = numOfPlayers - humanPlayersCounter;
+//        if (numOfComputerPlayers > 0) {
+//            for (int i = 1; i <= numOfComputerPlayers; i++) {
+//                String name = "Computer Player " + i;
+//                this.gameManager.addComputerPlayerToPlayersList(name);
+//            }
+//        }
 
     }
 
@@ -71,7 +81,7 @@ public class PlayersRegistretionController extends GenericController implements 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
+        this.playerNameLabel.setText("Please Enter Your Name:");
         this.playersNameCounter++;
         this.startGameButton.setDisable(true);
         this.startGameButton.setVisible(false);
@@ -85,52 +95,23 @@ public class PlayersRegistretionController extends GenericController implements 
     public void OnSubmitPlayerButton(ActionEvent event) {
         errorLabel.setText("");
 
-        if (humanPlayersCounter == 0) {
+        if (isAName(this.playerName, this.errorLabel)) {
+
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-            submitPlayerButtonProp.set(true);
-            this.gameManager.addPlayerToPlayersList(playerName.getText());
+            // this.gameManager.addPlayerToPlayersList(playerName.getText());
             hideNode(playerName);
             hideNode(submitPlayerButton);
             showNode(startGameButton);
-
-        } else {
-            boolean isExists = checkIfAlreadyExists(playerName.getText());
-            if (!isExists) {
-                boolean isEmpty = checkIfEmpty(playerName.getText());
-                if (!isEmpty) {
-                    playerNameLabel.setText("Human Player " + playersNameCounter + " Please Enter Your Name:");
-                    this.gameManager.addPlayerToPlayersList(playerName.getText());
-                    humanPlayersCounter--;
-                    playersNameCounter++;
-                    if (humanPlayersCounter == 1) {
-                        humanPlayersCounter = 0;
-                    } else if (humanPlayersCounter == 0) {
-                        playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-                        submitPlayerButtonProp.set(true);
-                        hideNode(playerName);
-                        hideNode(submitPlayerButton);
-                        showNode(startGameButton);
-                    }
-                } else {
-                    errorLabel.setText("Invalid name, please try again");
-                    errorLabel.setVisible(true);
-                }
-
-            } else {
-                errorLabel.setText("NAME ALREADY EXISTS! Please Try Again");
-                errorLabel.setVisible(true);
-            }
+            submitPlayerButtonProp.set(true);
         }
-        this.playerName.clear();
-        //  setCurrentPlayInLogic();
 
     }
 
     public void OnStartGameButton(ActionEvent event) {
         this.humanPlayersCounter = this.gameManager.getNumOfHumanPlayers();
         //this.gameManager.setCurrentPlayer(this.gameManager.getPlayers().get(this.gameManager.getPleyerIndex()));
-        getPlayerLabelList();
-        setCurrentPlayInLogic();
+        //getPlayerLabelList();
+        // setCurrentPlayInLogic();
         startGameButtonProp.set(true);
 
         //resetValues();
@@ -158,19 +139,20 @@ public class PlayersRegistretionController extends GenericController implements 
     }
 
     public List<PlayerLabel> getPlayerLabelList() {
-        List<PlayerLabel> playerLabelList = new ArrayList<PlayerLabel>();
-
+        List<PlayerLabel> playerLabelList = new ArrayList<>();
         List<Player> playersList = this.gameManager.getPlayers();
         int i = 1;
         PlayerLabel newPlayer;
         String imgPlayer = "";
+
         for (Player player : playersList) {
-            if (player.getClass().equals(ComputerPlayer.class)) {
+            if (player.getClass().equals(ComputerPlayer.class
+            )) {
                 imgPlayer = "Computer Player";
-                newPlayer = new PlayerLabel(player.toString(), imgPlayer);
+                newPlayer = new PlayerLabel(player, imgPlayer);
             } else {
                 imgPlayer = "Player";
-                newPlayer = new PlayerLabel(player.toString(), imgPlayer + i);
+                newPlayer = new PlayerLabel(player, imgPlayer + i);
                 i++;
             }
             playerLabelList.add(newPlayer);

@@ -6,6 +6,7 @@
 package Scene.JoinScene;
 
 import controllers.GenericController;
+import game.client.ws.Event;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ import javafx.scene.layout.HBox;
 import game.client.ws.GameDetails;
 import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
+import game.client.ws.MonopolyWebService;
+import game.client.ws.PlayerDetails;
+import models.Player;
 
 /**
  * FXML Controller class
@@ -36,7 +40,7 @@ import game.client.ws.InvalidParameters_Exception;
  * @author Barak
  */
 public class JoinGameController extends GenericController implements Initializable {
-    
+
     private static final String EMPTY = "";
     @FXML
     private ListView<?> listViewOfGames;
@@ -96,15 +100,15 @@ public class JoinGameController extends GenericController implements Initializab
     private RadioButton radioButtonP5;
     @FXML
     private RadioButton radioButtonP6;
-    
+
     private SimpleBooleanProperty joinGame;
     private String namePlayer;
-    private List<String> gameNamesList;
+    private List<String> gameNamesList = new ArrayList<>();
     private ToggleGroup players;
     private List<game.client.ws.PlayerDetails> playersDetails;
     private List<Label> labelsPlayers;
     private GameDetails gameDetails;
-    
+
     public static final int SETDETAILS = 1;
     public static final int JOINGAME = 2;
     public static final int WAITINGAMES = 3;
@@ -117,7 +121,7 @@ public class JoinGameController extends GenericController implements Initializab
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.returnToMenu = new SimpleBooleanProperty(false);
+        this.returnToMenuProp = new SimpleBooleanProperty(false);
         this.joinGame = new SimpleBooleanProperty(false);
         this.players = new ToggleGroup();
         this.radioButtonP1.setToggleGroup(players);
@@ -126,101 +130,98 @@ public class JoinGameController extends GenericController implements Initializab
         this.radioButtonP4.setToggleGroup(players);
         this.radioButtonP5.setToggleGroup(players);
         this.radioButtonP6.setToggleGroup(players);
-      //  setListViewGames();
+
         hideNode(buttonJoinGame);
-        
+
     }
-    
+
     public SimpleBooleanProperty getJoinGame() {
         return this.joinGame;
     }
-    
+
     @FXML
     private void onInitDetails(MouseEvent event) {
-        
+
     }
-    
+
     @FXML
     private void onChooseGame(MouseEvent event) {
-        gameName = (String) listViewOfGames.getSelectionModel().getSelectedItem();
-        labelsPlayers = addLabels();
+        this.gameName = (String) listViewOfGames.getSelectionModel().getSelectedItem();
+        this.labelsPlayers = addLabels();
+        updatelabelPlayers(this.gameManager.getPlayers());
         
         if (gameName != null && !gameName.equals(EMPTY)) {
-            createNewThread(SETDETAILS);
+            getDetailsFromServer();
         }
     }
-    
+
     @FXML
     private void onJoinGame(ActionEvent event) {
         if (isAName(textBoxPlayerName, labelErrorMessage)) {
             namePlayer = getText(textBoxPlayerName);
-            createNewThread(JOINGAME);
+            joinGame();
         }
     }
-    
+
     private List<Label> addLabels() {
         List<Label> labelsPlayers = new ArrayList<>();
-        
+
         labelsPlayers.add(labelPlayer1);
         labelsPlayers.add(labelPlayer2);
         labelsPlayers.add(labelPlayer3);
         labelsPlayers.add(labelPlayer4);
-        
+        labelsPlayers.add(labelPlayer5);
+        labelsPlayers.add(labelPlayer6);
         return labelsPlayers;
     }
-    
-    public void setListViewGame() {
-        timing();
-    }
-    
+
     @Override
     protected void actionMethod(Timer timer) {
         ObservableList items = FXCollections.observableArrayList();
         createNewThread(WAITINGAMES);
         Platform.runLater(() -> onShow(items));
     }
-    
+
     private void onShow(ObservableList items) {
         items.addAll(gameNamesList);
         Platform.runLater(() -> listViewOfGames.setItems(items));
     }
-
 
     private void hideRadioButtons() {
         if (radioButtonP1.isSelected()) {
             hideNode(radioButtonP1);
         } else if (radioButtonP2.isSelected()) {
             hideNode(radioButtonP2);
-            
+
         } else if (radioButtonP3.isSelected()) {
             hideNode(radioButtonP3);
-            
+
         } else if (radioButtonP4.isSelected()) {
             hideNode(radioButtonP4);
         }
-        
+
     }
-    
+
     @FXML
     private void onJoinPlayerName(ActionEvent event) {
         String name = EMPTY;
-        
+
         if (radioButtonP1.isSelected()) {
             name = labelPlayer1.getText();
-            
+
         } else if (radioButtonP2.isSelected()) {
             name = labelPlayer2.getText();
-            
+
         } else if (radioButtonP3.isSelected()) {
             name = labelPlayer3.getText();
-            
+
         } else if (radioButtonP4.isSelected()) {
             name = labelPlayer4.getText();
         }
-        
+
         textBoxPlayerName.setText(name);
     }
-    
+
     @Override
     protected void createNewThread(int selection) {
         Thread thread = new Thread();
@@ -237,11 +238,11 @@ public class JoinGameController extends GenericController implements Initializab
             default:
                 break;
         }
-        
+
         thread.setDaemon(true);
         thread.start();
     }
-    
+
     @Override
     protected void guiSet(int selection) {
         switch (selection) {
@@ -255,18 +256,18 @@ public class JoinGameController extends GenericController implements Initializab
                 break;
         }
     }
-    
+
     private void getDetailsFromServer() {
         try {
-            gameDetails = this.monopoly.getGameDetails(gameName);
-            playersDetails = this.monopoly.getPlayersDetails(gameName);
-            Platform.runLater(() -> guiSet(SETDETAILS));
-            
+            this.gameDetails = this.monopoly.getGameDetails(gameName);
+            this.playersDetails = this.monopoly.getPlayersDetails(gameName);
+            guiSetDetails();
+
         } catch (GameDoesNotExists_Exception ex) {
             System.out.print(ex.getMessage());
         }
     }
-    
+
     private void guiSetDetails() {
         if (gameDetails != null) {
             labelGameName.setText(gameDetails.getName());
@@ -278,47 +279,54 @@ public class JoinGameController extends GenericController implements Initializab
             showNode(buttonJoinGame);
         }
     }
-    
+
     private void joinGame() {
         try {
-            playerId = this.monopoly.joinGame(gameName, namePlayer);
-            Platform.runLater(() -> guiSet(JOINGAME));
+            this.playerId = this.monopoly.joinGame(gameName, namePlayer);
+
         } catch (GameDoesNotExists_Exception gdne) {
             System.out.print(gdne.getMessage());
         } catch (InvalidParameters_Exception ipx) {
-            Platform.runLater(() -> showError(labelErrorMessage, ipx.getMessage()));
+            showError(labelErrorMessage, ipx.getMessage());
         }
     }
-    
+
     private void guiJoinGame() {
         hideRadioButtons();
         this.joinGame.set(true);
     }
-    
+
     private void getWaitingGamesFromServer() {
         this.gameNamesList = this.monopoly.getWaitingGames();
     }
-    
+
     @Override
     public void resetScene() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @FXML
     public void onReturn(ActionEvent event) {
     }
-    
-//    public void setListGamesName(List<String> waitingGames) {
-//        for (String name : waitingGames) {
-//            this.gameNamesList.add(name);
-//        }
-//    }
-    
-//    private void setListViewGames() {
-//        ObservableList<String> items = FXCollections.observableArrayList();
-//        for (String name : this.gameNamesList) {
-//            items.add(name);
-//        }
-//        this.listViewOfGames.setItems(items);
-//    }
+
+    public void setListGamesName(List<String> waitingGames) {
+        for (String name : waitingGames) {
+            this.gameNamesList.add(name);
+        }
+    }
+
+    public void setListViewGames() {
+        ObservableList items = FXCollections.observableArrayList();
+        items.addAll(this.gameNamesList);
+        this.listViewOfGames.setItems(items);
+    }
+
+    private void updatelabelPlayers(List<Player> players) {
+        int i = 0;
+        for (Player player : players) {
+            this.labelsPlayers.get(i).setText(player.getName());
+            i++;
+        }
+    }
+
 }

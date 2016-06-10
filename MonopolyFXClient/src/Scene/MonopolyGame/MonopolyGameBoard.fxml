@@ -55,7 +55,6 @@
               <Button fx:id="noButton" mnemonicParsing="false" onAction="#OnNoButton" prefHeight="50.0" prefWidth="100.0" text="No" GridPane.columnIndex="6" GridPane.rowIndex="4" />
             <Button fx:id="yesPerchesButton" alignment="CENTER" mnemonicParsing="false" onAction="#OnYesPerchesButton" prefHeight="50.0" prefWidth="100.0" text="Yes" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Button fx:id="noPerchesButton" mnemonicParsing="false" onAction="#OnNoPerchesButton" prefHeight="50.0" prefWidth="100.0" text="No" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-            <Button fx:id="nextTurnButton" minHeight="30.0" minWidth="320.0" mnemonicParsing="false" onAction="#OnNextTurnButton" prefHeight="29.0" prefWidth="340.0" text="Move To Next Turn" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Button fx:id="moveButton" minHeight="30.0" minWidth="320.0" mnemonicParsing="false" onAction="#OnMoveButton" prefHeight="39.0" prefWidth="320.0" text="Move" GridPane.columnIndex="3" GridPane.rowIndex="4" />
           </children>
          <opaqueInsets>

@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
+import models.Player;
 
 /**
  *
@@ -19,21 +20,20 @@ import javafx.util.Duration;
 public class PlayerLabel extends Label {
 
     private final TranslateTransition transition;
+    private String playerName;
 
-    public PlayerLabel(String playerName, String imgStr) {
-
+    public PlayerLabel(Player player, String imgStr) {
         setHeight(33);
         setWidth(44);
-
-        this.setTextForToolTip(playerName);
+        this.playerName = player.getName();
+        this.setTextForToolTip(player.toString());
         setAlignment(Pos.TOP_LEFT);
-        
-//        Image image = ImageUtils.getImage(imgStr);
-//        BackgroundImage bckImg = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-//        setBackground(new Background(bckImg));
-        
         setGraphic(ImageUtils.getImageView(imgStr));
         transition = createTransition();
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
     public void setToolTipText(String txt) {
@@ -43,12 +43,10 @@ public class PlayerLabel extends Label {
     private TranslateTransition createTransition() {
         TranslateTransition translateTransition
                 = new TranslateTransition(Duration.seconds(0.5), this);
-        //translateTransition.setOnFinished((actionEvent) -> registerEventHandlers());
+
         return translateTransition;
     }
 
-//    private void registerEventHandlers() {
-//    }
     private void MovePlayetToNextSquar(int x, int y) {
         this.relocate(x, y);
     }

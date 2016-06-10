@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class GameControllerFX {
 
-    private GameController spesificLogicGame;
+    private GameController spesificGame;
     private int currentPlayerIndex;
     private final static int ZERO = 0;
 
@@ -21,8 +21,8 @@ public class GameControllerFX {
         this.currentPlayerIndex = ZERO;
     }
 
-    public GameController getLogicGame() {
-        return this.spesificLogicGame;
+    public GameController getSpesificGame() {
+        return this.spesificGame;
     }
 
     public int getCurrentPlayerIndex() {
@@ -30,11 +30,11 @@ public class GameControllerFX {
     }
 
     public void setLogicGame(GameController logicGame) {
-        this.spesificLogicGame = logicGame;
+        this.spesificGame = logicGame;
     }
 
     public void setNewGameFromFile(String xmlFileName, boolean uploadFile, boolean uploadFileFX) throws Exception {
-        this.spesificLogicGame = new GameController(xmlFileName, uploadFile, uploadFileFX);
+        this.spesificGame = new GameController(xmlFileName, uploadFile, uploadFileFX);
     }
 
     public void setCurrentPlayerIndex(int currentPlayerIndex) {
@@ -42,7 +42,7 @@ public class GameControllerFX {
     }
 
     public void setCurrentPlayer(int playerIndex) {
-        this.spesificLogicGame.setCurrentPlayerAccordingToIndex(playerIndex);
+        this.spesificGame.setCurrentPlayerAccordingToIndex(playerIndex);
     }
 
     public void playGame() {
