@@ -236,7 +236,6 @@ public class MonopolyGameApp extends Application {
                     fxmlDocumentController.getSubmitPlayerButtonProp().set(false);
                     String playerName = fxmlDocumentController.getPlayerName().getText();
                     String gameName = fxmlDocumentController.getGameName();
-
                     int playerId = this.monopoly.joinGame(gameName, playerName);
                     initPlayerIdAndName(playerId, playerName);
                 } catch (GameDoesNotExists_Exception | InvalidParameters_Exception ex) {
@@ -409,13 +408,15 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getRefreshProp().set(false);
                 String gameName = fxmlDocumentController.getGameName();
                 if (isGameActive(gameName)) {
-                    System.out.println("MonopolyFX.MonopolyGameApp.getWaitingController()2");
+                    primaryStage.setTitle("Monopoly Game: " + gameName);
                     try {
                         //set players list in gameManager
-                        setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                        this.monopolyGameBoardController.setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                        //    this.monopolyGameBoardController.changeMsgLabelTxt("test from app");
                     } catch (GameDoesNotExists_Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                  
                     Player currPlayer = getCurrentPlayer();
                     try {
                         //set players label list 
@@ -572,19 +573,6 @@ public class MonopolyGameApp extends Application {
             Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    private void setGamePlayers(List<PlayerDetails> playersDetails) {
-
-        for (PlayerDetails playerDetails : playersDetails) {
-            Player playerToAdd = null;
-            if (playerDetails.getType().equals(PlayerType.COMPUTER)) {
-                playerToAdd = new ComputerPlayer(playerDetails.getName());
-            } else {
-                playerToAdd = new HumanPlayer(playerDetails.getName());
-            }
-            this.gameManager.getSpesificGame().getPlayers().add(playerToAdd);
-        }
     }
 
     private void checkIfEventStartGameExist() {
