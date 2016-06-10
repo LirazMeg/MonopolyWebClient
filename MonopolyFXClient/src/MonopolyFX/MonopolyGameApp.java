@@ -17,7 +17,9 @@ import controllers.GameController;
 import controllers.GameControllerFX;
 import controllers.GenericController;
 import game.client.ws.DuplicateGameName_Exception;
+import game.client.ws.GameDetails;
 import game.client.ws.GameDoesNotExists_Exception;
+import game.client.ws.GameStatus;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
@@ -405,10 +407,9 @@ public class MonopolyGameApp extends Application {
         fxmlDocumentController.getRefreshProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getRefreshProp().set(false);
-
-                if (eventStartGameExist()) {
+                String gameName = fxmlDocumentController.getGameName();
+                if (isGameActive(gameName)) {
                     System.out.println("MonopolyFX.MonopolyGameApp.getWaitingController()2");
-                    String gameName = fxmlDocumentController.getGameName();
                     try {
                         //set players list in gameManager
                         setGamePlayers(this.monopoly.getPlayersDetails(gameName));
@@ -588,6 +589,20 @@ public class MonopolyGameApp extends Application {
 
     private void checkIfEventStartGameExist() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private boolean isGameActive(String gameName) {
+        boolean res = false;
+        try {
+            GameDetails gameDetails = this.monopoly.getGameDetails(gameName);
+            if (gameDetails.getStatus().equals(GameStatus.ACTIVE)) {
+                res = true;
+
+            }
+        } catch (GameDoesNotExists_Exception ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
     }
 
 }

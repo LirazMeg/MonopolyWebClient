@@ -151,12 +151,6 @@ public class MonopolyGameBoardController extends GenericController implements In
         hideNode(this.moveButton);
     }
 
-//    public Button getNextTurnButton() {
-//        return nextTurnButton;
-//    }
-//    public SimpleBooleanProperty getNextTurnButtonProp() {
-//        return nextTurnButtonProp;
-//    }
     public void initBoardLogic(MonopolyModel monopolyGame) {
         initGridPaneMap(monopolyGame);
         List<models.SquareBase> monopolyBoard = monopolyGame.getBoard().getContent();
@@ -260,6 +254,7 @@ public class MonopolyGameBoardController extends GenericController implements In
 //            showNode(yesButton);
 //            showNode(noButton);
         }
+        changeMsgLabelTxt("test");
         timing();
     }
 
@@ -704,6 +699,8 @@ public class MonopolyGameBoardController extends GenericController implements In
                         break;
                     case PAYMENT:
                         payment(event);
+                        break;
+                    case GAME_START:
                         break;
                     default:
                         evntIndex--;
