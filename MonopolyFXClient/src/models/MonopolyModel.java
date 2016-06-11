@@ -265,24 +265,24 @@ public class MonopolyModel {
 
         public final static int NUM_OF_JAIL_SQUARE = 10;
         public final static int BOARD_SIZE = 36;
-        protected List<models.SquareBase> content;
+        protected List<models.SquareBase> contents;
 
         private int numOfCurrentSurpriseSqure;
 
         public Board(List<models.SquareBase> content) {
-            this.content = content;
+            this.contents = content;
         }
 
         public List<models.SquareBase> getContent() {
-            return content;
+            return contents;
         }
 
         public void setContent(List<models.SquareBase> content) {
-            this.content = content;
+            this.contents = content;
         }
 
         public models.SquareBase getSqureBaseBySqureNum(int squreNum) {
-            return this.content.get(squreNum);
+            return this.contents.get(squreNum);
         }
 
         public int getNumberOfStepstToSquareByType(int squreNum, String squareBaseName) {
@@ -290,7 +290,7 @@ public class MonopolyModel {
             int numberOfSteps = 0;
             boolean isFound = false;
             while (!isFound) {
-                i = (i + 1) % this.content.size();
+                i = (i + 1) % this.contents.size();
 //check if we are on the square we want to get to
                 models.SquareBase squreToCheck = this.getSqureBaseBySqureNum(i);
                 if (squreToCheck.toString().equals(squareBaseName)) {

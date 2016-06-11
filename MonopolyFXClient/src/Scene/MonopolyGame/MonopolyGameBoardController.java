@@ -260,13 +260,10 @@ public class MonopolyGameBoardController extends GenericController implements In
         } else {
         }
 
-        // this.msgLabel.setTextOverrun(OverrunStyle.CENTER_WORD_ELLIPSIS);
-        changeMsgLabelTxt("Start Playing....");
         timing();
     }
 
     public void OnYesPerchesButton(ActionEvent event) throws Exception {
-//        showNode(this.msgLabel);
         hidePerchesButton();
         this.yesPerchesButtonProp.set(true);
 
@@ -274,8 +271,9 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     public void OnNoPerchesButton(ActionEvent event) throws InterruptedException {
         hidePerchesButton();
+        this.noPerchesButtonProp.set(true);
         this.isOnPertces = false;
-//        showNode(this.nextTurnButton);
+
     }
 
     private void changMsgLabel(String msg) throws InterruptedException {
@@ -620,10 +618,8 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     private void addMsgLabel(String msg) throws InterruptedException {
-        //try to fix quation mark//
         this.msgLabel.setText(this.msgLabel.getText() + "\n" + msg);
-        // showNode(this.msgLabel);
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
     }
 
     private void startNewGame(String fileName) throws Exception {
@@ -659,7 +655,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     @Override
     protected void actionMethod(Timer timer) {
-
         try {
             setGamePlayers(this.monopoly.getPlayersDetails(this.gameName));
             List<Event> events;
@@ -706,7 +701,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                         payment(event);
                         break;
                     case GAME_START:
-                        //  this.msg="Start Playing";
+                        setText("Start Playing");
                         break;
                     default:
                         evntIndex--;
@@ -719,14 +714,14 @@ public class MonopolyGameBoardController extends GenericController implements In
 
             }
         } catch (InvalidParameters_Exception ex) {
-            errorLabel.setText(ex.getMessage());
+            Platform.runLater(() -> this.errorLabel.setText(ex.getMessage()));
         } catch (GameDoesNotExists_Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
-
+            Platform.runLater(() -> this.errorLabel.setText(ex.getMessage()));
         } catch (Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
-            String exp = ex.getMessage();
-            this.errorLabel.setText(exp);
+            Platform.runLater(() -> this.errorLabel.setText(ex.getMessage()));
+
         }
 
     }
@@ -800,10 +795,12 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     private void playerTurn(Event event) throws InterruptedException, Exception {
+        if (event.getId() > 2) {
+            clearMsgLebal();
+        }
         setText(event.getPlayerName() + ", It's Your Turne");
         this.gameManager.setCurrentPlayer(this.gameManager.getPlayerByName(event.getPlayerName()));
         setCurrentPlayerLabel();
-
     }
 
     private void showDiceResult(Event event) throws InterruptedException {
@@ -834,26 +831,20 @@ public class MonopolyGameBoardController extends GenericController implements In
     private void showMsg(Event event) throws InterruptedException {
         String name = event.getPlayerName();
         String msg = event.getEventMessage();
-        setText(name + ", " + msg);
+        setText(msg);
     }
 
     private void payment(Event event) throws InterruptedException {
-        String currPlayer = event.getPlayerName();
+        setText(event.getEventMessage());
+
         int amount = event.getPaymentAmount();
         String payTo = event.getPaymentToPlayerName();
-        String msg = "";
 
-        if (payTo.isEmpty()) {
-            payTo = "Tresury";
+        updatePlayer(event.getPlayerName(), amount);
+        if (!payTo.isEmpty()) {
+            updatePlayer(payTo, (-1) * amount);
         }
 
-        if (event.isPaymemtFromUser()) {//if the user pays the paymentToPlayerName treasury (true)
-            msg = currPlayer + ", Just Paid " + payTo + " " + amount + " Nis";
-
-        } else {//indicates if the payment is paid to the user (false)
-            msg = currPlayer + ", Just Got " + amount + " Nis From " + payTo;
-        }
-        setText(msg);
     }
 
     public PlayerLabel getPlayerLabelByName(String name) {
@@ -871,8 +862,8 @@ public class MonopolyGameBoardController extends GenericController implements In
         clearMsgLebal();
         showMsg(event);
         Player owner = this.gameManager.getPlayerByName(event.getPlayerName());
-
-        SquareType square = (SquareType) this.gameManager.getMonopolyGame().getBoard().getContent().get(event.getBoardSquareID());
+        int id = event.getBoardSquareID();
+        SquareType square = (SquareType) this.gameManager.getMonopolyGame().getBoard().getContent().get(id);
         square.updateOwner(owner);
         this.buttonMonopolyList.get(event.getBoardSquareID()).setTextForToolTip(square.getInfo());
     }
@@ -897,6 +888,7 @@ public class MonopolyGameBoardController extends GenericController implements In
             public void run() {
                 try {
                     addMsgLabel(msg);
+
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -911,6 +903,13 @@ public class MonopolyGameBoardController extends GenericController implements In
                 changeMsgLabelTxt("");
             }
         });
+    }
+
+    private void updatePlayer(String playerName, int amount) {
+        Player player = this.gameManager.getPlayerByName(playerName);
+        player.addToAmount(amount);
+        PlayerLabel playerLabel = getPlayerLabelByName(playerName);
+        playerLabel.setToolTipText(player.toString());
     }
 
 }

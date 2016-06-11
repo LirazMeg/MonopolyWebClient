@@ -125,7 +125,7 @@ public class MonopolyGameApp extends Application {
     private void setLogicGame(boolean isUplaodGame, GameController logic) throws Exception {
         //filechocher
         if (!isUplaodGame) {
-            String boardXml = this.monopoly.getBoardXML();
+            //           String boardXml = this.monopoly.getBoardXML();
 
 //            InputStream input = IOUtils.toInputStream(source, "UTF-8");
 //            try {
@@ -136,7 +136,6 @@ public class MonopolyGameApp extends Application {
 //            } catch (JAXBException exception) {
 //                exception.printStackTrace();
 //            }
-
             gameManager = new GameControllerFX();
             GameController gameLogic = new GameController("monopoly_config", false, false);
             gameManager.setLogicGame(gameLogic);
