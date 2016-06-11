@@ -27,15 +27,11 @@ public class ImageUtils {
 
     public static ImageView getImageView(String imageName) {
         ImageView image = new ImageView(getImage(imageName));
-
-//        image.setFitWidth(60);
-//        image.setFitWidth(55.0);
         image.setPreserveRatio(true);
         image.setSmooth(true);
         image.setCache(true);
         image.setOpacity(0.5);
 
-        
         return image;
     }
 

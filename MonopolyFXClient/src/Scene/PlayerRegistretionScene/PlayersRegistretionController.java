@@ -143,18 +143,12 @@ public class PlayersRegistretionController extends GenericController implements 
         List<Player> playersList = this.gameManager.getPlayers();
         int i = 1;
         PlayerLabel newPlayer;
-        String imgPlayer = "";
+        String imgPlayer = "Player";
 
         for (Player player : playersList) {
-            if (player.getClass().equals(ComputerPlayer.class
-            )) {
-                imgPlayer = "Computer Player";
-                newPlayer = new PlayerLabel(player, imgPlayer);
-            } else {
-                imgPlayer = "Player";
-                newPlayer = new PlayerLabel(player, imgPlayer + i);
-                i++;
-            }
+            imgPlayer = "Player";
+            newPlayer = new PlayerLabel(player, imgPlayer + i);
+            i++;
             playerLabelList.add(newPlayer);
         }
         showNode(playerLabelList.get(0));

@@ -216,7 +216,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void changeMsgLabelTxt(String text) {
-        this.msgLabel.setTextOverrun(OverrunStyle.CENTER_WORD_ELLIPSIS);
+        //  this.msgLabel.setTextOverrun(OverrunStyle.CENTER_WORD_ELLIPSIS);
         this.msgLabel.setText(text);
     }
 
@@ -236,7 +236,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         }
         MonopolyGameBoardController.this.setCurrentPlayerLabel(player);
         //show current player
-        showNode(this.currentPlayerLabel);
+        showNode(player);
     }
 
     public void OnYesButton(ActionEvent event) throws InterruptedException, Exception {
@@ -253,12 +253,12 @@ public class MonopolyGameBoardController extends GenericController implements In
     public void startPlaying(Player currentPlayer) throws InterruptedException, Exception {
         System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.startPlaying()");
 
-        if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
-            showNode(this.currentPlayerLabel);
-            hideYesAndNoButton();
-
-        } else {
-        }
+//        if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
+//            showNode(this.currentPlayerLabel);
+//           // hideYesAndNoButton();
+//
+//        } else {
+//        }
 
         timing();
     }
@@ -721,7 +721,6 @@ public class MonopolyGameBoardController extends GenericController implements In
         } catch (Exception ex) {
             Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
             Platform.runLater(() -> this.errorLabel.setText(ex.getMessage()));
-
         }
 
     }
