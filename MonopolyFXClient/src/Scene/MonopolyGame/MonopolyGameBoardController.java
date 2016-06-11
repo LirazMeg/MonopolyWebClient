@@ -229,7 +229,6 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void initLabelPlayersOnBoard(PlayerLabel player) {
-
         for (PlayerLabel playerLabel : this.playerLabelList) {
             this.gridPane.add(playerLabel, ZERO, ZERO);
             hideNode(playerLabel);

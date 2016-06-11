@@ -312,6 +312,7 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getNoPerchesButtonProp().set(false);
                 try {
                     this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
+                    this.monopolyGameBoardController.timing();
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
