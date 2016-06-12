@@ -251,13 +251,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     public void startPlaying(Player currentPlayer) throws InterruptedException, Exception {
         System.out.println("Scene.MonopolyGame.MonopolyGameBoardController.startPlaying()");
-
-//        if (currentPlayer.getClass().equals(ComputerPlayer.class)) {
-//            showNode(this.currentPlayerLabel);
-//           // hideYesAndNoButton();
-//
-//        } else {
-//        }
         timing();
     }
 

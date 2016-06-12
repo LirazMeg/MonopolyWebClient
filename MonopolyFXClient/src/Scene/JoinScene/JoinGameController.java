@@ -32,6 +32,8 @@ import game.client.ws.GameDoesNotExists_Exception;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.PlayerDetails;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Player;
 
 /**
@@ -147,10 +149,8 @@ public class JoinGameController extends GenericController implements Initializab
     @FXML
     private void onChooseGame(MouseEvent event) {
         this.gameName = (String) listViewOfGames.getSelectionModel().getSelectedItem();
-        this.labelsPlayers = addLabels();
         updatelabelPlayers(this.gameManager.getPlayers());
-        
-        if (gameName != null && !gameName.equals(EMPTY)) {
+        if (this.gameName != null && !this.gameName.equals(EMPTY)) {
             getDetailsFromServer();
         }
     }
@@ -165,13 +165,54 @@ public class JoinGameController extends GenericController implements Initializab
 
     private List<Label> addLabels() {
         List<Label> labelsPlayers = new ArrayList<>();
+        int i;
+        for (i = 1; i <= this.gameDetails.getHumanPlayers(); i++) {
+            switch (i) {
+                case 1:
+                    labelsPlayers.add(this.labelPlayer1);
+                    break;
+                case 2:
+                    labelsPlayers.add(this.labelPlayer2);
+                    break;
+                case 3:
+                    labelsPlayers.add(this.labelPlayer3);
+                    break;
+                case 4:
+                    labelsPlayers.add(this.labelPlayer4);
+                    break;
+                case 5:
+                    labelsPlayers.add(this.labelPlayer5);
+                    break;
+                case 6:
+                    labelsPlayers.add(this.labelPlayer6);
+                    break;
+            }
 
-        labelsPlayers.add(labelPlayer1);
-        labelsPlayers.add(labelPlayer2);
-        labelsPlayers.add(labelPlayer3);
-        labelsPlayers.add(labelPlayer4);
-        labelsPlayers.add(labelPlayer5);
-        labelsPlayers.add(labelPlayer6);
+        }
+        for (int j = i; j <= 6; j++) {
+            switch (j) {
+                case 1:
+                    hideNode(this.panePlayer1);
+                    break;
+                case 2:
+                    hideNode(this.panePlayer2);
+                    break;
+                case 3:
+                    hideNode(this.panePlayer3);
+                    break;
+                case 4:
+                    hideNode(this.panePlayer4);
+                    break;
+                case 5:
+                    hideNode(this.panePlayer5);
+                    break;
+                case 6:
+                    hideNode(this.panePlayer6);
+                    break;
+            }
+
+        }
+
         return labelsPlayers;
     }
 
@@ -259,13 +300,21 @@ public class JoinGameController extends GenericController implements Initializab
 
     private void getDetailsFromServer() {
         try {
-            this.gameDetails = this.monopoly.getGameDetails(gameName);
-            this.playersDetails = this.monopoly.getPlayersDetails(gameName);
-            guiSetDetails();
-
+            this.gameDetails = this.monopoly.getGameDetails(this.gameName);
+            this.playersDetails = this.monopoly.getPlayersDetails(this.gameName);
+            this.labelsPlayers = addLabels();
         } catch (GameDoesNotExists_Exception ex) {
-            System.out.print(ex.getMessage());
+            Logger.getLogger(JoinGameController.class.getName()).log(Level.SEVERE, null, ex);
+
         }
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                guiSetDetails();
+            }
+
+        });
     }
 
     private void guiSetDetails() {
@@ -274,9 +323,10 @@ public class JoinGameController extends GenericController implements Initializab
             labelNumOfJoinPlayers.setText(((Integer) gameDetails.getJoinedHumanPlayers()).toString());
             labelNumOfPlayer.setText(((Integer) gameDetails.getHumanPlayers()).toString());
             labelNumOfPcPlayer.setText(((Integer) gameDetails.getComputerizedPlayers()).toString());
-            addPayersNames(labelsPlayers, playersDetails, true);
+            addPayersNames(this.labelsPlayers, this.playersDetails, true);
             //setXMLGame(gameDetails, playersDetails);
-            showNode(buttonJoinGame);
+            showNode(this.textBoxPlayerName);
+            showNode(this.buttonJoinGame);
         }
     }
 
@@ -327,6 +377,10 @@ public class JoinGameController extends GenericController implements Initializab
             this.labelsPlayers.get(i).setText(player.getName());
             i++;
         }
+    }
+
+    private void swich(int humanPlayers) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -48,7 +48,7 @@ public final class GameController {
     }
 
     public MonopolyModel getMonopolyGame() {
-        return monopolyGame;
+        return this.monopolyGame;
     }
 
     public void setNumOfPlayers(int numOfPlayers) {
@@ -60,23 +60,23 @@ public final class GameController {
     }
 
     public int getNumOfPlayers() {
-        return numOfPlayers;
+        return this.numOfPlayers;
     }
 
     public int getNumOfHumanPlayers() {
-        return numOfHumanPlayers;
+        return this.numOfHumanPlayers;
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     public void addPlayerToPlayersList(String playerName) {
-        players.add(new HumanPlayer(playerName));
+        this.players.add(new HumanPlayer(playerName));
     }
 
     public void addComputerPlayerToPlayersList(String playerName) {
-        players.add(new ComputerPlayer(playerName));
+        this.players.add(new ComputerPlayer(playerName));
     }
 
     public GameController(String xmlFileName, boolean uploadFile, boolean uploadFileFX) throws Exception {
