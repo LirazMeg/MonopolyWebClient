@@ -14,11 +14,10 @@
         <URL value="@Waiting.css" />
     </stylesheets>
    <children>
-      <Label layoutX="63.0" layoutY="29.0" text="Waiting...">
+      <Label layoutX="68.0" layoutY="29.0" text="Waiting...">
          <font>
             <Font name="Tahoma Bold" size="36.0" />
          </font></Label>
-      <Button layoutX="24.0" layoutY="111.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
-      <Button layoutX="230.0" layoutY="111.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
+      <Button layoutX="92.0" layoutY="111.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="118.0" text="Refresh" />
    </children>
 </AnchorPane>
