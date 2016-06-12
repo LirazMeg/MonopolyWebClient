@@ -423,13 +423,11 @@ public class MonopolyGameApp extends Application {
                         setSceneAndCenter(primaryStage, this.monopolyBoardScene);
                     } catch (GameDoesNotExists_Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                        fxmlDocumentController.setLabelError(ex.getMessage());
                     } catch (Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                        String exp = ex.getMessage();
+                        fxmlDocumentController.setLabelError(ex.getMessage());
                     }
-//                    setSceneAndCenter(primaryStage, this.monopolyBoardScene);
-//                    primaryStage.setScene(this.monopolyBoardScene);
-//                    primaryStage.centerOnScreen();
                 }
             }
         });

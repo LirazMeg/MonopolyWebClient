@@ -9,16 +9,11 @@ import MonopolyFX.component.PlayerLabel;
 import controllers.GenericController;
 import game.client.ws.Event;
 import game.client.ws.EventType;
-import game.client.ws.GameDetails;
-import game.client.ws.GameDoesNotExists_Exception;
-import game.client.ws.GameStatus;
 import game.client.ws.InvalidParameters_Exception;
-import game.client.ws.PlayerDetails;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +33,8 @@ public class WaitingController extends GenericController implements Initializabl
     public static final String EMPTY = "";
 
     @FXML
+    private Label labelError;
+    @FXML
     private Button refresh;
     private SimpleBooleanProperty refreshProp;
 
@@ -51,8 +48,14 @@ public class WaitingController extends GenericController implements Initializabl
 
     @FXML
     private void onRefresh(ActionEvent event) {
+        hideNode(labelError);
         System.out.println("Scene.WaitingScene.WaitingController.onRefresh()");
         this.refreshProp.set(true);
+    }
+
+    public void setLabelError(String error) {
+        this.labelError.setText(error);
+        showNode(labelError);
     }
 
     public SimpleBooleanProperty getRefreshProp() {
