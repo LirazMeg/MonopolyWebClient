@@ -14,10 +14,15 @@
         <URL value="@Waiting.css" />
     </stylesheets>
    <children>
-      <Label layoutX="68.0" layoutY="29.0" text="Waiting...">
+      <Label layoutX="68.0" layoutY="14.0" text="Waiting...">
          <font>
             <Font name="Tahoma Bold" size="36.0" />
          </font></Label>
       <Button layoutX="92.0" layoutY="111.0" mnemonicParsing="false" onAction="#onRefresh" prefHeight="25.0" prefWidth="118.0" text="Refresh" />
+      <Label fx:id="labelError" alignment="CENTER" layoutX="49.0" layoutY="67.0" prefHeight="35.0" prefWidth="216.0" textFill="RED" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
