@@ -47,6 +47,10 @@ public final class GameController {
         this.pleyerIndex = pleyerIndex;
     }
 
+    public void setMonopolyGame(MonopolyModel monopolyGame) {
+        this.monopolyGame = monopolyGame;
+    }
+
     public MonopolyModel getMonopolyGame() {
         return this.monopolyGame;
     }

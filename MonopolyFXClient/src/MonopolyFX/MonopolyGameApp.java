@@ -27,6 +27,7 @@ import game.client.ws.MonopolyWebServiceService;
 import game.client.ws.PlayerDetails;
 import game.client.ws.PlayerType;
 import generated.Monopoly;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,10 +63,12 @@ import javax.xml.transform.stream.StreamResult;
 import jdk.nashorn.internal.runtime.Timing;
 import models.ComputerPlayer;
 import models.HumanPlayer;
+import models.MonopolyModel;
 import models.Player;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import sun.misc.IOUtils;
 
 /**
  *
@@ -125,19 +128,21 @@ public class MonopolyGameApp extends Application {
     private void setLogicGame(boolean isUplaodGame, GameController logic) throws Exception {
         //filechocher
         if (!isUplaodGame) {
-            //           String boardXml = this.monopoly.getBoardXML();
+            String boardXml = this.monopoly.getBoardXML();
 
-//            InputStream input = IOUtils.toInputStream(source, "UTF-8");
+//            InputStream stream = new ByteArrayInputStream(boardXml.getBytes());
 //            try {
 //                JAXBContext jaxbContext = JAXBContext.newInstance(generated.Monopoly.class);
 //                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//                this.monopolyGame = (Monopoly) jaxbUnmarshaller.unmarshal(input);
+//
 //
 //            } catch (JAXBException exception) {
 //                exception.printStackTrace();
+//                String ex = exception.getMessage();
 //            }
             gameManager = new GameControllerFX();
-            GameController gameLogic = new GameController("monopoly_config", false, false);
+            GameController gameLogic = new GameController(boardXml, false, true);
+            //GameController gameLogic = new GameController("monopoly_config", false, false);
             gameManager.setLogicGame(gameLogic);
 
         } else {
