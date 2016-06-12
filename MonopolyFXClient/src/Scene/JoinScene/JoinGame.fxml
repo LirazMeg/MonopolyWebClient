@@ -51,42 +51,42 @@
                   <HBox fx:id="panePlayer1" layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP1" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer1" text="Player 1:" />
+                        <Label text="Player 1:" />
                         <Label fx:id="labelPlayer1" />
                      </children>
                   </HBox>
                   <HBox fx:id="panePlayer2" layoutX="10.0" layoutY="292.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP2" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer2" text="Player 2:" />
+                        <Label text="Player 2:" />
                         <Label fx:id="labelPlayer2" />
                      </children>
                   </HBox>
                   <HBox fx:id="panePlayer3" layoutX="10.0" layoutY="335.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP3" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer3" text="Player 3:" />
+                        <Label text="Player 3:" />
                         <Label fx:id="labelPlayer3" />
                      </children>
                   </HBox>
                   <HBox fx:id="panePlayer4" layoutX="10.0" layoutY="347.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP4" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer4" text="Player 4:" />
+                        <Label text="Player 4:" />
                         <Label fx:id="labelPlayer4" />
                      </children>
                   </HBox>
                   <HBox fx:id="panePlayer5" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP5" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer5" text="Player 5:" />
+                        <Label text="Player 5:" />
                         <Label fx:id="labelPlayer5" />
                      </children>
                   </HBox>
                   <HBox fx:id="panePlayer6" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <RadioButton fx:id="radioButtonP6" mnemonicParsing="false" onAction="#onJoinPlayerName" visible="false" />
-                        <Label fx:id="labelPlayer6" text="Player 6:" />
+                        <Label text="Player 6:" />
                         <Label fx:id="labelPlayer6" />
                      </children>
                   </HBox>

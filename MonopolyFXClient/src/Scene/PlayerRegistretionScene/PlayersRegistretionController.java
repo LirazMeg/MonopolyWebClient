@@ -30,7 +30,7 @@ import models.Player;
 public class PlayersRegistretionController extends GenericController implements Initializable {
 
     @FXML
-    private TextField playerName;
+    private TextField playerNameTextFild;
     @FXML
     private Button submitPlayerButton;
     @FXML
@@ -48,8 +48,8 @@ public class PlayersRegistretionController extends GenericController implements 
     private int playersNameCounter = 1;
     private boolean newUpLoadGame = false;
 
-    public TextField getPlayerName() {
-        return playerName;
+    public TextField getPlayerNameTextField() {
+        return this.playerNameTextFild;
     }
 
     public void setErrorLabel(String msg) {
@@ -95,11 +95,11 @@ public class PlayersRegistretionController extends GenericController implements 
     public void OnSubmitPlayerButton(ActionEvent event) {
         errorLabel.setText("");
 
-        if (isAName(this.playerName, this.errorLabel)) {
+        if (isAName(this.playerNameTextFild, this.errorLabel)) {
 
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
-            // this.gameManager.addPlayerToPlayersList(playerName.getText());
-            hideNode(playerName);
+            // this.gameManager.addPlayerToPlayersList(playerNameTextFild.getText());
+            hideNode(playerNameTextFild);
             hideNode(submitPlayerButton);
             showNode(startGameButton);
             submitPlayerButtonProp.set(true);
@@ -173,7 +173,7 @@ public class PlayersRegistretionController extends GenericController implements 
         hideNode(startGameButton);
         this.errorLabel.setVisible(false);
         showNode(this.submitPlayerButton);
-        showNode(this.playerName);
+        showNode(this.playerNameTextFild);
         //getPlayerLabelList();
         submitPlayerButtonProp.set(false);
         startGameButtonProp.set(false);

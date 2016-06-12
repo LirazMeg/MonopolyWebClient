@@ -103,7 +103,7 @@ public class JoinGameController extends GenericController implements Initializab
     @FXML
     private RadioButton radioButtonP6;
 
-    private SimpleBooleanProperty joinGame;
+    private SimpleBooleanProperty joinGameProp;
     private String namePlayer;
     private List<String> gameNamesList = new ArrayList<>();
     private ToggleGroup players;
@@ -124,7 +124,7 @@ public class JoinGameController extends GenericController implements Initializab
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.returnToMenuProp = new SimpleBooleanProperty(false);
-        this.joinGame = new SimpleBooleanProperty(false);
+        this.joinGameProp = new SimpleBooleanProperty(false);
         this.players = new ToggleGroup();
         this.radioButtonP1.setToggleGroup(players);
         this.radioButtonP2.setToggleGroup(players);
@@ -137,8 +137,8 @@ public class JoinGameController extends GenericController implements Initializab
 
     }
 
-    public SimpleBooleanProperty getJoinGame() {
-        return this.joinGame;
+    public SimpleBooleanProperty getJoinGameProp() {
+        return this.joinGameProp;
     }
 
     @FXML
@@ -158,9 +158,10 @@ public class JoinGameController extends GenericController implements Initializab
     @FXML
     private void onJoinGame(ActionEvent event) {
         if (isAName(textBoxPlayerName, labelErrorMessage)) {
-            namePlayer = getText(textBoxPlayerName);
+            this.namePlayer = getText(this.textBoxPlayerName);
             joinGame();
         }
+        this.joinGameProp.set(true);
     }
 
     private List<Label> addLabels() {
@@ -343,7 +344,7 @@ public class JoinGameController extends GenericController implements Initializab
 
     private void guiJoinGame() {
         hideRadioButtons();
-        this.joinGame.set(true);
+        this.joinGameProp.set(true);
     }
 
     private void getWaitingGamesFromServer() {
