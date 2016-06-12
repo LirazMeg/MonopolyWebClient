@@ -9,7 +9,9 @@ import MonopolyFX.MonopolyGameApp;
 import controllers.GameController;
 import game.client.ws.Event;
 import game.client.ws.EventType;
+import game.client.ws.GameDetails;
 import game.client.ws.GameDoesNotExists_Exception;
+import game.client.ws.GameStatus;
 import game.client.ws.InvalidParameters_Exception;
 import game.client.ws.MonopolyWebService;
 import game.client.ws.MonopolyWebServiceService;
@@ -50,6 +52,7 @@ public abstract class GenericController {
     protected int evntIndex = 0;
     protected SimpleBooleanProperty returnToMenuProp;
     protected List<Event> eventToHandel = new ArrayList<>();
+    protected boolean isActive = false;
     //   protected int evntIndex = 0;
 
     public void setEventToHandel(List<Event> eventToHandel) {
@@ -263,4 +266,20 @@ public abstract class GenericController {
         this.gameName = gameName;
     }
 
+    public boolean isGameActive() {
+        return this.isActive;
+    }
+
+    public void setGameStatus() {
+        boolean res = false;
+        try {
+            GameDetails gameDetails = this.monopoly.getGameDetails(gameName);
+            if (gameDetails.getStatus().equals(GameStatus.ACTIVE)) {
+                res = true;
+            }
+        } catch (GameDoesNotExists_Exception ex) {
+            Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.isActive = res;
+    }
 }

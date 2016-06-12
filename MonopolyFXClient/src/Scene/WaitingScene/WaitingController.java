@@ -140,4 +140,6 @@ public class WaitingController extends GenericController implements Initializabl
         showNode(playerLabelList.get(0));
         return playerLabelList;
     }
+
+  
 }

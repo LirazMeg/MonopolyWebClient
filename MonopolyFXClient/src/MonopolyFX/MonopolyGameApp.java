@@ -222,7 +222,7 @@ public class MonopolyGameApp extends Application {
                         int numOfHumenPlayers = MonopolyGameApp.this.gameManager.getSpesificGame().getNumOfHumanPlayers();
                         int munOfComputerPlayers = numOfPlayers - numOfHumenPlayers;
                         String gameName = fxmlDocumentController.getGameName();
-
+                        primaryStage.setTitle("Monopoly Game: " + gameName);
                         monopoly.createGame(munOfComputerPlayers, numOfHumenPlayers, gameName);
                         initGameName(gameName);
                         playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
@@ -413,18 +413,12 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
 
                 String gameName = fxmlDocumentController.getGameName();
-                if (isGameActive(gameName)) {
-                    primaryStage.setTitle("Monopoly Game: " + gameName);
+               fxmlDocumentController.setGameStatus();
+                if (fxmlDocumentController.isGameActive()) {
+                    Player currPlayer = getCurrentPlayer();
                     try {
                         //set players list in gameManager
                         this.monopolyGameBoardController.setGamePlayers(this.monopoly.getPlayersDetails(gameName));
-                        //    this.monopolyGameBoardController.changeMsgLabelTxt("test from app");
-                    } catch (GameDoesNotExists_Exception ex) {
-                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    Player currPlayer = getCurrentPlayer();
-                    try {
                         //set players label list 
                         List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();
                         this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
@@ -433,12 +427,14 @@ public class MonopolyGameApp extends Application {
                         MonopolyGameApp.this.monopolyGameBoardController.initLabelPlayersOnBoard(playerLabel);
 
                         MonopolyGameApp.this.monopolyGameBoardController.startPlaying(currPlayer);
-//                         setSceneAndCenter(primaryStage, this.monopolyBoardScene);
+                        setSceneAndCenter(primaryStage, this.monopolyBoardScene);
+                    } catch (GameDoesNotExists_Exception ex) {
+                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                         String exp = ex.getMessage();
                     }
-                    setSceneAndCenter(primaryStage, this.monopolyBoardScene);
+//                    setSceneAndCenter(primaryStage, this.monopolyBoardScene);
 //                    primaryStage.setScene(this.monopolyBoardScene);
 //                    primaryStage.centerOnScreen();
                 }
@@ -475,8 +471,9 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getJoinGameProp().set(false);
                 initGameName(fxmlDocumentController.getGameName());
                 initPlayerIdAndName(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getPlayerName());
-                //this.waitingController.setGameDetails(fxmlDocumentController.getGameName(), fxmlDocumentController.getEventId());
+                primaryStage.setTitle("Monopoly Game: " + fxmlDocumentController.getGameName());
                 setSceneAndCenter(primaryStage, this.waitingScene);
+
             }
         });
         return fxmlDocumentController;
