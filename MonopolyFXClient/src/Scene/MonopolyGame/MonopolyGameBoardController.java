@@ -646,7 +646,6 @@ public class MonopolyGameBoardController extends GenericController implements In
     @Override
     protected void actionMethod(Timer timer) {
         try {
-
             List<Event> events;
             events = this.monopoly.getEvents(evntIndex, playerId);
             for (Event event : events) {
@@ -834,7 +833,8 @@ public class MonopolyGameBoardController extends GenericController implements In
             //this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
             Thread.sleep(4000);
 
-        } else {
+        }
+        if (!event.getEventMessage().isEmpty()) {
             setText(event.getEventMessage());
         }
     }

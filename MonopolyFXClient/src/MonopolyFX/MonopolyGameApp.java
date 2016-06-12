@@ -309,7 +309,10 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 fxmlDocumentController.getNoPerchesButtonProp().set(false);
                 try {
-                    this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
+                    synchronized (this) {
+                        this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
+                    }
+
                     fxmlDocumentController.timing();
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,9 +334,13 @@ public class MonopolyGameApp extends Application {
         playerResingeProp.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 try {
+                    List<String> waitingGames = null;
                     fxmlDocumentController.getPlayerResingeProp().set(false);
-                    this.monopoly.resign(fxmlDocumentController.getPlayerId());
-                    List<String> waitingGames = this.monopoly.getWaitingGames();
+                    synchronized (this) {
+                        this.monopoly.resign(fxmlDocumentController.getPlayerId());
+                        waitingGames = this.monopoly.getWaitingGames();
+                    }
+
                     if (waitingGames.size() > 0) {
                         setSceneAndCenter(primaryStage, this.openingScene);
                         this.joinGameController.setListGamesName(waitingGames);
