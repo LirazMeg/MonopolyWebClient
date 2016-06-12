@@ -656,11 +656,11 @@ public class MonopolyGameBoardController extends GenericController implements In
                     case GAME_WINNER:
                         gameWinner(event);
                         break;
+                    case PLAYER_LOST:
                     case PLAYER_RESIGNED:
                         removePlayerFromGame(event);
                         break;
                     case PLAYER_TURN:
-                    case PLAYER_LOST:
                         playerTurn(event);
                         break;
                     case MOVE:
