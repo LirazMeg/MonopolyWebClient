@@ -103,7 +103,7 @@ public class StartNewGameController extends GenericController implements Initial
 
     @FXML
     private void onSubmitButten(ActionEvent event) {
-        buttonSubmitedProp.set(true);
+        this.buttonSubmitedProp.set(true);
     }
 
     @FXML
