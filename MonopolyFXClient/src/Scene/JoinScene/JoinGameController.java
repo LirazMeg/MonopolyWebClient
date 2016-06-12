@@ -158,7 +158,8 @@ public class JoinGameController extends GenericController implements Initializab
     @FXML
     private void onJoinGame(ActionEvent event) {
         if (isAName(textBoxPlayerName, labelErrorMessage)) {
-            this.namePlayer = getText(this.textBoxPlayerName);
+            String name = getText(this.textBoxPlayerName);
+            this.setPlayerName(name);
             joinGame();
         }
         this.joinGameProp.set(true);
