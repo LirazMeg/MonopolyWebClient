@@ -293,7 +293,10 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getYesPerchesButtonProp().set(false);
                 int playerId = fxmlDocumentController.getPlayerId();
                 try {
-                    this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
+                    synchronized (this) {
+                        this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
+                    }
+
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -466,7 +469,6 @@ public class MonopolyGameApp extends Application {
                 initPlayerIdAndName(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getPlayerName());
                 primaryStage.setTitle("Monopoly Game: " + fxmlDocumentController.getGameName() + "(" + fxmlDocumentController.getPlayerName() + ")");
                 setSceneAndCenter(primaryStage, this.waitingScene);
-
             }
         });
 

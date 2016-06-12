@@ -18,8 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import models.ComputerPlayer;
-import models.HumanPlayer;
 import models.Player;
 
 /**
@@ -61,14 +59,6 @@ public class PlayersRegistretionController extends GenericController implements 
     public void setHumanPlayersCounterAndNumOfPlayers(int humanPlayersCounter, int numOfPlayers) {
         this.humanPlayersCounter = humanPlayersCounter;
         this.numOfPlayers = numOfPlayers;
-//        int numOfComputerPlayers = numOfPlayers - humanPlayersCounter;
-//        if (numOfComputerPlayers > 0) {
-//            for (int i = 1; i <= numOfComputerPlayers; i++) {
-//                String name = "Computer Player " + i;
-//                this.gameManager.addComputerPlayerToPlayersList(name);
-//            }
-//        }
-
     }
 
     public SimpleBooleanProperty getStartGameButtonProp() {
@@ -107,18 +97,8 @@ public class PlayersRegistretionController extends GenericController implements 
 
     public void OnStartGameButton(ActionEvent event) {
         this.humanPlayersCounter = this.gameManager.getNumOfHumanPlayers();
-        //this.gameManager.setCurrentPlayer(this.gameManager.getPlayers().get(this.gameManager.getPleyerIndex()));
-        //getPlayerLabelList();
-        // setCurrentPlayInLogic();
         startGameButtonProp.set(true);
-
-        //resetValues();
-//        if (newUpLoadGame) {
-//            startGameButtonPropAfterUpLoad.set(true);
-//        } else {
-//            startGameButtonProp.set(true);
-//        }
-    }
+ }
 
     private boolean checkIfAlreadyExists(String name) {
         boolean isExsits = false;
