@@ -9,16 +9,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="105.0" prefWidth="237.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
+<AnchorPane id="AnchorPane" prefHeight="150.0" prefWidth="310.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Scene.WaitingScene.WaitingController">
     <stylesheets>
         <URL value="@Waiting.css" />
     </stylesheets>
    <children>
-      <Label layoutX="71.0" layoutY="25.0" text="Waiting...">
+      <Label layoutX="63.0" layoutY="29.0" text="Waiting...">
          <font>
-            <Font name="Tahoma Bold" size="18.0" />
+            <Font name="Tahoma Bold" size="36.0" />
          </font></Label>
-      <Button layoutX="24.0" layoutY="68.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
-      <Button layoutX="157.0" layoutY="68.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
+      <Button layoutX="24.0" layoutY="111.0" mnemonicParsing="false" onAction="#onBackToMenu" text="Back To menu" />
+      <Button layoutX="230.0" layoutY="111.0" mnemonicParsing="false" onAction="#onRefresh" text="Refresh" />
    </children>
 </AnchorPane>

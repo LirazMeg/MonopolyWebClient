@@ -3,6 +3,7 @@ package controllers;
 import generated.CityType;
 import generated.Monopoly;
 import generated.SimpleAssetType;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -32,8 +33,9 @@ public class FileController {
     public FileController(String xmlFileName, boolean uploadFile, boolean uploadFX) throws SAXException, JAXBException, FileNotFoundException, Exception {
 
         if (uploadFX) {
-            File xmlFileFromString = turnPathToFile(xmlFileName);
-            loadXmlFromUser(xmlFileFromString);
+//            File xmlFileFromString = turnPathToFile(xmlFileName);
+//            loadXmlFromUser(xmlFileFromString);
+            loadXmlFromInputStream(xmlFileName);
         } else {
             String xmlFile = "/" + RESOURCES + "/" + xmlFileName + ".xml";
             if (uploadFile) {
@@ -73,6 +75,13 @@ public class FileController {
         JAXBContext jaxbContext = JAXBContext.newInstance(generated.Monopoly.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         this.monopolyGame = (Monopoly) jaxbUnmarshaller.unmarshal(LoadFile);
+    }
+
+    public void loadXmlFromInputStream(String input) throws JAXBException {
+        InputStream stream = new ByteArrayInputStream(input.getBytes());
+        JAXBContext jaxbContext = JAXBContext.newInstance(generated.Monopoly.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        this.monopolyGame = (Monopoly) jaxbUnmarshaller.unmarshal(stream);
     }
 
     public MonopolyModel initalizeGameFromXMLFile() {
