@@ -406,8 +406,8 @@ public class MonopolyGameApp extends Application {
             if (newValue) {
                 fxmlDocumentController.getRefreshProp().set(false);
                 String gameName = fxmlDocumentController.getGameName();
-               fxmlDocumentController.setGameStatus();
-                if (fxmlDocumentController.isGameActive()) {
+                //  fxmlDocumentController.setGameStatus();
+                if (isGameActive(gameName)) {
                     Player currPlayer = getCurrentPlayer();
                     try {
                         //set players list in gameManager
@@ -476,7 +476,7 @@ public class MonopolyGameApp extends Application {
                 setSceneAndCenter(primaryStage, this.openingScene);
             }
         });
-        
+
         return fxmlDocumentController;
     }
 
@@ -587,15 +587,16 @@ public class MonopolyGameApp extends Application {
 
     private boolean isGameActive(String gameName) {
         boolean res = false;
+        GameDetails gameDetails;
         try {
-            GameDetails gameDetails = this.monopoly.getGameDetails(gameName);
+            gameDetails = this.monopoly.getGameDetails(gameName);
             if (gameDetails.getStatus().equals(GameStatus.ACTIVE)) {
                 res = true;
-
             }
         } catch (GameDoesNotExists_Exception ex) {
             Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return res;
     }
 
