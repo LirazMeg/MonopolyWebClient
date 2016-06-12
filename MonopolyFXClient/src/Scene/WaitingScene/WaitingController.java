@@ -38,11 +38,7 @@ public class WaitingController extends GenericController implements Initializabl
     public static final String EMPTY = "";
 
     @FXML
-    private Button backToMenu;
-    @FXML
     private Button refresh;
-
-    private SimpleBooleanProperty backToMenuProp;
     private SimpleBooleanProperty refreshProp;
 
     /**
@@ -50,7 +46,6 @@ public class WaitingController extends GenericController implements Initializabl
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.backToMenuProp = new SimpleBooleanProperty(false);
         this.refreshProp = new SimpleBooleanProperty(false);
     }
 
@@ -58,16 +53,6 @@ public class WaitingController extends GenericController implements Initializabl
     private void onRefresh(ActionEvent event) {
         System.out.println("Scene.WaitingScene.WaitingController.onRefresh()");
         this.refreshProp.set(true);
-    }
-
-    @FXML
-    protected void onBackToMenu(ActionEvent event) {
-        super.onReturn(event);
-        this.backToMenuProp.set(true);
-    }
-
-    public SimpleBooleanProperty getBackToMenuProp() {
-        return backToMenuProp;
     }
 
     public SimpleBooleanProperty getRefreshProp() {

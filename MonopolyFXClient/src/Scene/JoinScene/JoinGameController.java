@@ -358,6 +358,7 @@ public class JoinGameController extends GenericController implements Initializab
 
     @FXML
     public void onReturn(ActionEvent event) {
+        this.returnToMenuProp.set(true);
     }
 
     public void setListGamesName(List<String> waitingGames) {

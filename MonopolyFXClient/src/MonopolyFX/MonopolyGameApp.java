@@ -402,16 +402,9 @@ public class MonopolyGameApp extends Application {
     private WaitingController getWaitingController(FXMLLoader fxmlLoader, Stage primaryStage) {
         WaitingController fxmlDocumentController = (WaitingController) fxmlLoader.getController();
 
-        // excuteReturn(fxmlDocumentController, primaryStage);
-        fxmlDocumentController.getBackToMenuProp().addListener((source, oldValue, newValue) -> {
-            if (newValue) {
-                setSceneAndCenter(primaryStage, this.openingScene);
-            }
-        });
-
         fxmlDocumentController.getRefreshProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-
+                fxmlDocumentController.getRefreshProp().set(false);
                 String gameName = fxmlDocumentController.getGameName();
                fxmlDocumentController.setGameStatus();
                 if (fxmlDocumentController.isGameActive()) {
@@ -476,6 +469,14 @@ public class MonopolyGameApp extends Application {
 
             }
         });
+
+        fxmlDocumentController.getReturnToMenuProp().addListener((source, oldValue, newValue) -> {
+            if (newValue) {
+                fxmlDocumentController.getReturnToMenuProp().set(false);
+                setSceneAndCenter(primaryStage, this.openingScene);
+            }
+        });
+        
         return fxmlDocumentController;
     }
 
