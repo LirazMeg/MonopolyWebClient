@@ -292,8 +292,7 @@ public class MonopolyGameApp extends Application {
                     this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                }
-          
+                }          
                 fxmlDocumentController.timing();
             }
         });
