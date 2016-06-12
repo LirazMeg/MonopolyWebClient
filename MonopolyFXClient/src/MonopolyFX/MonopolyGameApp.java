@@ -408,10 +408,10 @@ public class MonopolyGameApp extends Application {
                 String gameName = fxmlDocumentController.getGameName();
                 //  fxmlDocumentController.setGameStatus();
                 if (isGameActive(gameName)) {
-                    Player currPlayer = getCurrentPlayer();
                     try {
                         //set players list in gameManager
                         this.monopolyGameBoardController.setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                        Player currPlayer = getCurrentPlayer();
                         //set players label list 
                         List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();
                         this.gameManager.getSpesificGame().setCurrentPlayer(currPlayer);
