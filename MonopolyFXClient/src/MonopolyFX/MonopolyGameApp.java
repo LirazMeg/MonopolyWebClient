@@ -129,17 +129,6 @@ public class MonopolyGameApp extends Application {
         //filechocher
         if (!isUplaodGame) {
             String boardXml = this.monopoly.getBoardXML();
-
-//            InputStream stream = new ByteArrayInputStream(boardXml.getBytes());
-//            try {
-//                JAXBContext jaxbContext = JAXBContext.newInstance(generated.Monopoly.class);
-//                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//
-//
-//            } catch (JAXBException exception) {
-//                exception.printStackTrace();
-//                String ex = exception.getMessage();
-//            }
             gameManager = new GameControllerFX();
             GameController gameLogic = new GameController(boardXml, false, true);
             //GameController gameLogic = new GameController("monopoly_config", false, false);
