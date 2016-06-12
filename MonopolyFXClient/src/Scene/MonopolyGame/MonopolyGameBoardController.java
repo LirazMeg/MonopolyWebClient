@@ -258,7 +258,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 //
 //        } else {
 //        }
-
         timing();
     }
 
@@ -794,6 +793,7 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void playerTurn(Event event) throws InterruptedException, Exception {
         if (event.getId() > 2) {
+            Thread.sleep(6000);
             clearMsgLebal();
         }
         setText(event.getPlayerName() + ", It's Your Turne");
@@ -806,11 +806,13 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     private void moveEvent(Event event) throws Exception {
+        Thread.sleep(4000);
         Player currentPlayer = this.gameManager.getCurrentPlayer();
         int squareNum = event.getNextBoardSquareID();
 
         if (event.isPlayerMove()) {
             this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
+            Thread.sleep(4000);
 
         } else {
             setText(event.getEventMessage());
@@ -858,7 +860,7 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void assetBought(Event event) throws InterruptedException {
         clearMsgLebal();
-        showMsg(event);
+        setText(event.getPlayerName() + ", " + event.getEventMessage());
         Player owner = this.gameManager.getPlayerByName(event.getPlayerName());
         int id = event.getBoardSquareID();
         SquareType square = (SquareType) this.gameManager.getMonopolyGame().getBoard().getContent().get(id);
