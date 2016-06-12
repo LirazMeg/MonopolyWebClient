@@ -697,7 +697,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                         evntIndex--;
                         break;
                 }
-                updateGamePlayersDetails(this.monopoly.getPlayersDetails(this.gameName));
+                updateGamePlayersDetails();
                 evntIndex++;
 
             }
@@ -713,16 +713,38 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     }
 
-    public void updateGamePlayersDetails(List<PlayerDetails> playersDetails) {
+    public void updateGamePlayersDetails() {
         this.gameManager.getPlayers().clear();
-        for (PlayerDetails playerDetails : playersDetails) {
-            Player playerToAdd = null;
-            if (playerDetails.getType().equals(PlayerType.COMPUTER)) {
-                playerToAdd = new ComputerPlayer(playerDetails.getName(),(long)playerDetails.getMoney());
-            } else {
-                playerToAdd = new HumanPlayer(playerDetails.getName(),(long)playerDetails.getMoney());
+        List<PlayerDetails> playersDetails;
+        List<Player> players = this.gameManager.getPlayers();
+        List<Player> playersExist = new ArrayList<>();
+        try {
+            playersDetails = this.monopoly.getPlayersDetails(this.gameName);
+
+            int i = 1;
+            for (PlayerDetails playerDetails : playersDetails) {
+                for (Player player : players) {
+                    if (player.getName().equals(playerDetails.getName())) {
+                        player.setAmount(playerDetails.getMoney());
+                        playersExist.add(player);
+                        i++;
+                    }
+                }
             }
-            this.gameManager.getPlayers().add(playerToAdd);
+            if (i < players.size()) {
+                for (Player player : players) {
+                    for (Player playerExist : playersExist) {
+                        if (!player.getName().equals(playerExist.getName())) {
+                            if (player.isQuit()) {
+                                players.remove(player);
+                            }
+                        }
+                    }
+                }
+
+            }
+        } catch (GameDoesNotExists_Exception ex) {
+            Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -751,6 +773,7 @@ public class MonopolyGameBoardController extends GenericController implements In
         if (!isEventNull(event)) {
             timer.cancel();
             this.endGameProp.set(true);
+            this.gameManager.getPlayerByName(event.getPlayerName()).setIsQuit(true);
         }
     }
 
@@ -775,10 +798,12 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void removePlayerFromGame(Event event) throws InterruptedException {
         showMsg(event);
-        this.gameManager.playerResinged(playerName);
+        this.gameManager.getPlayerByName(event.getPlayerName()).setIsQuit(true);
+        this.gameManager.playerResinged(event.getPlayerName());
         if (this.playerName.equals(event.getPlayerName())) {
             this.playerResingeProp.set(true);
         }
+
     }
 
     private void playerTurn(Event event) throws InterruptedException, Exception {
@@ -834,7 +859,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private void payment(Event event) throws InterruptedException {
         setText(event.getEventMessage());
-
         int amount = event.getPaymentAmount();
         String payTo = event.getPaymentToPlayerName();
 
@@ -908,6 +932,26 @@ public class MonopolyGameBoardController extends GenericController implements In
         player.addToAmount(amount);
         PlayerLabel playerLabel = getPlayerLabelByName(playerName);
         playerLabel.setToolTipText(player.toString());
+    }
+
+    public void setGamePlayersDetails() {
+        this.gameManager.getPlayers().clear();
+        List<PlayerDetails> playersDetails;
+        try {
+            playersDetails = this.monopoly.getPlayersDetails(this.gameName);
+
+            for (PlayerDetails playerDetails : playersDetails) {
+                Player playerToAdd = null;
+                if (playerDetails.getType().equals(PlayerType.COMPUTER)) {
+                    playerToAdd = new ComputerPlayer(playerDetails.getName(), (long) playerDetails.getMoney());
+                } else {
+                    playerToAdd = new HumanPlayer(playerDetails.getName(), (long) playerDetails.getMoney());
+                }
+                this.gameManager.getPlayers().add(playerToAdd);
+            }
+        } catch (GameDoesNotExists_Exception ex) {
+            Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

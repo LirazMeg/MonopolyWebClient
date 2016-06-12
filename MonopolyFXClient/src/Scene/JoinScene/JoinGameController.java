@@ -104,7 +104,7 @@ public class JoinGameController extends GenericController implements Initializab
     private RadioButton radioButtonP6;
 
     private SimpleBooleanProperty joinGameProp;
-    private String namePlayer;
+
     private List<String> gameNamesList = new ArrayList<>();
     private ToggleGroup players;
     private List<game.client.ws.PlayerDetails> playersDetails;
@@ -158,7 +158,7 @@ public class JoinGameController extends GenericController implements Initializab
     @FXML
     private void onJoinGame(ActionEvent event) {
         if (isAName(textBoxPlayerName, labelErrorMessage)) {
-            this.namePlayer = getText(this.textBoxPlayerName);
+            this.playerName = getText(this.textBoxPlayerName);
             joinGame();
         }
         this.joinGameProp.set(true);
@@ -333,7 +333,7 @@ public class JoinGameController extends GenericController implements Initializab
 
     private void joinGame() {
         try {
-            this.playerId = this.monopoly.joinGame(gameName, namePlayer);
+            this.playerId = this.monopoly.joinGame(gameName, this.playerName);
 
         } catch (GameDoesNotExists_Exception gdne) {
             System.out.print(gdne.getMessage());

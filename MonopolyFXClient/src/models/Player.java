@@ -259,4 +259,12 @@ public abstract class Player {
 
     }
 
+    public void setAmount(int money) {
+        this.amount = money;
+    }
+
+    public void setIsQuit(boolean isQuit) {
+        this.isNeedToQuit = isQuit;
+    }
+
 }

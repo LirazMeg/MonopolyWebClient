@@ -228,8 +228,10 @@ public class MonopolyGameApp extends Application {
                         playerRegisterController.setHumanPlayersCounterAndNumOfPlayers(numOfHumenPlayers, numOfPlayers);
                         setSceneAndCenter(primaryStage, MonopolyGameApp.this.playerRsisterationScene);
 
-                    } catch (DuplicateGameName_Exception | InvalidParameters_Exception ex) {
+                    } catch (DuplicateGameName_Exception ex) {
                         MonopolyGameApp.this.startWindowController.setErrorLabel(ex.getMessage());
+                        Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvalidParameters_Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -249,9 +251,11 @@ public class MonopolyGameApp extends Application {
                     int playerId = this.monopoly.joinGame(gameName, playerName);
                     initPlayerIdAndName(playerId, playerName);
                     primaryStage.setTitle("Monopoly Game: " + gameName + "(" + playerName + ")");
-                } catch (GameDoesNotExists_Exception | InvalidParameters_Exception ex) {
+                } catch (GameDoesNotExists_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -292,7 +296,7 @@ public class MonopolyGameApp extends Application {
                     this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                }          
+                }
                 fxmlDocumentController.timing();
             }
         });
@@ -409,7 +413,7 @@ public class MonopolyGameApp extends Application {
                 if (isGameActive(gameName)) {
                     try {
                         //set players list in gameManager
-                        this.monopolyGameBoardController.updateGamePlayersDetails(this.monopoly.getPlayersDetails(gameName));
+                        this.monopolyGameBoardController.setGamePlayersDetails();
                         Player currPlayer = getCurrentPlayer();
                         //set players label list 
                         List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();
@@ -425,7 +429,6 @@ public class MonopolyGameApp extends Application {
                         fxmlDocumentController.setLabelError(ex.getMessage());
                     } catch (Exception ex) {
                         Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                        fxmlDocumentController.setLabelError(ex.getMessage());
                     }
                 }
             }
