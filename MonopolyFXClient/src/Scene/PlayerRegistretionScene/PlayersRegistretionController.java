@@ -94,9 +94,7 @@ public class PlayersRegistretionController extends GenericController implements 
 
     public void OnSubmitPlayerButton(ActionEvent event) {
         errorLabel.setText("");
-
         if (isAName(this.playerNameTextFild, this.errorLabel)) {
-
             playerNameLabel.setText("Well Done! Now You Can Start Play Monopoly!");
             // this.gameManager.addPlayerToPlayersList(playerNameTextFild.getText());
             hideNode(playerNameTextFild);
