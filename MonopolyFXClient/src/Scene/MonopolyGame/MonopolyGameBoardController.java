@@ -714,7 +714,6 @@ public class MonopolyGameBoardController extends GenericController implements In
     }
 
     public void updateGamePlayersDetails() {
-        this.gameManager.getPlayers().clear();
         List<PlayerDetails> playersDetails;
         List<Player> players = this.gameManager.getPlayers();
         List<Player> playersExist = new ArrayList<>();
