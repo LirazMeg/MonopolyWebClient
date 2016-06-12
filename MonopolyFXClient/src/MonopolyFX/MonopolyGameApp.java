@@ -404,7 +404,7 @@ public class MonopolyGameApp extends Application {
 
         fxmlDocumentController.getRefreshProp().addListener((source, oldValue, newValue) -> {
             if (newValue) {
-
+                fxmlDocumentController.getRefreshProp().set(false);
                 String gameName = fxmlDocumentController.getGameName();
                 if (isGameActive(gameName)) {
                     primaryStage.setTitle("Monopoly Game: " + gameName);
