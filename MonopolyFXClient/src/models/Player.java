@@ -51,6 +51,11 @@ public abstract class Player {
         this.isOnJailOrFreePass = isOnJailOrFreePass;
     }
 
+    public Player(String name, long amount) {
+        this.name = name;
+        this.amount = amount;
+    }
+
     abstract public boolean doYouWantToPurchaseHouse(CityType square, long price);
 
     abstract public boolean doYouWantToPurchase(AssetType square, long price);
@@ -139,7 +144,7 @@ public abstract class Player {
         this.squreNum = this.squreNum + numberOfSteps;
         if (this.squreNum > 36 && isCanPasByStart) {//// the player pass on start square
             addToAmount(200);
-           // ConsolUI.msgPassedByStartSquar();
+            // ConsolUI.msgPassedByStartSquar();
         }
         this.squreNum = this.squreNum % 36;
     }
@@ -157,7 +162,7 @@ public abstract class Player {
     public void goTOJail() {
         this.squreNum = NUM_OF_JAIL_SQUARE;
         this.isInJail = true;
-         //ConsolUI.msgPlayerInJail(player.getName());
+        //ConsolUI.msgPlayerInJail(player.getName());
     }
 
     public void isNeetToGoJail(boolean isNeedToGoJail) {
@@ -190,7 +195,7 @@ public abstract class Player {
         if (this.isPlayerHaveTheMany(price)) {
             owner.addToAmount(price);
             this.amount = (int) (this.amount - price);
-           haveEnoughMony = true;
+            haveEnoughMony = true;
 
         } else {
             owner.addToAmount(this.amount);
@@ -201,6 +206,7 @@ public abstract class Player {
         return haveEnoughMony;
     }
 // return is player have the many
+
     public boolean payToTreasury(long sum) {
         if (this.isPlayerHaveTheMany(sum)) {
             this.amount = (int) (this.amount - sum);
@@ -249,9 +255,8 @@ public abstract class Player {
 
     @Override
     public String toString() {
-        return this.getName() + "\namount: " +this.amount;
-    
+        return this.getName() + "\namount: " + this.amount;
+
     }
 
-    
 }

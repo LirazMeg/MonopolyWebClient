@@ -14,6 +14,10 @@ import views.ConsolUI;
  */
 public class HumanPlayer extends Player {
 
+    public HumanPlayer(String name, long amount) {
+        super(name, amount);
+    }
+
     public HumanPlayer(String name) {
         super(name);
     }

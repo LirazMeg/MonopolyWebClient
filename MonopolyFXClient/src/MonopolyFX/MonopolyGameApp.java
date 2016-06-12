@@ -303,7 +303,7 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getNoPerchesButtonProp().set(false);
                 try {
                     this.monopoly.buy(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getEventId(), false);
-                    this.monopolyGameBoardController.timing();
+                    fxmlDocumentController.timing();
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
@@ -409,7 +409,7 @@ public class MonopolyGameApp extends Application {
                 if (isGameActive(gameName)) {
                     try {
                         //set players list in gameManager
-                        this.monopolyGameBoardController.setGamePlayers(this.monopoly.getPlayersDetails(gameName));
+                        this.monopolyGameBoardController.updateGamePlayersDetails(this.monopoly.getPlayersDetails(gameName));
                         Player currPlayer = getCurrentPlayer();
                         //set players label list 
                         List<PlayerLabel> playersLabel = MonopolyGameApp.this.playerRegisterController.getPlayerLabelList();

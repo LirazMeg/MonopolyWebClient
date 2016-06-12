@@ -13,6 +13,10 @@ import views.ConsolUI;
  */
 public class ComputerPlayer extends Player {
 
+    public ComputerPlayer(String name, long amount) {
+        super(name, amount);
+    }
+
     public ComputerPlayer(String name) {
         super(name);
     }

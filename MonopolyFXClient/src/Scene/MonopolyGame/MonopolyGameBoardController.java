@@ -697,7 +697,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                         evntIndex--;
                         break;
                 }
-                setGamePlayers(this.monopoly.getPlayersDetails(this.gameName));
+                updateGamePlayersDetails(this.monopoly.getPlayersDetails(this.gameName));
                 evntIndex++;
 
             }
@@ -713,14 +713,14 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     }
 
-    public void setGamePlayers(List<PlayerDetails> playersDetails) {
+    public void updateGamePlayersDetails(List<PlayerDetails> playersDetails) {
         this.gameManager.getPlayers().clear();
         for (PlayerDetails playerDetails : playersDetails) {
             Player playerToAdd = null;
             if (playerDetails.getType().equals(PlayerType.COMPUTER)) {
-                playerToAdd = new ComputerPlayer(playerDetails.getName());
+                playerToAdd = new ComputerPlayer(playerDetails.getName(),(long)playerDetails.getMoney());
             } else {
-                playerToAdd = new HumanPlayer(playerDetails.getName());
+                playerToAdd = new HumanPlayer(playerDetails.getName(),(long)playerDetails.getMoney());
             }
             this.gameManager.getPlayers().add(playerToAdd);
         }
