@@ -646,7 +646,7 @@ public class MonopolyGameBoardController extends GenericController implements In
     @Override
     protected void actionMethod(Timer timer) {
         try {
-            setGamePlayers(this.monopoly.getPlayersDetails(this.gameName));
+
             List<Event> events;
             events = this.monopoly.getEvents(evntIndex, playerId);
             for (Event event : events) {
@@ -697,9 +697,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                         evntIndex--;
                         break;
                 }
-//                playerDetails = this.monopoly.getPlayerDetails(playerId);
-//                gameDet = this.monopoly.getGameDetails(gameName);
-//                Platform.runLFater(() -> SetView());
+                setGamePlayers(this.monopoly.getPlayersDetails(this.gameName));
                 evntIndex++;
 
             }
