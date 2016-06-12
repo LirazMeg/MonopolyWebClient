@@ -798,7 +798,6 @@ public class MonopolyGameBoardController extends GenericController implements In
     private void removePlayerFromGame(Event event) throws InterruptedException {
         showMsg(event);
         this.gameManager.getPlayerByName(event.getPlayerName()).setIsQuit(true);
-        this.gameManager.playerResinged(event.getPlayerName());
         if (this.playerName.equals(event.getPlayerName())) {
             this.playerResingeProp.set(true);
         }
