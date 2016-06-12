@@ -362,7 +362,13 @@ public class MonopolyGameApp extends Application {
                 if (newValue) {
                     fxmlDocumentController.getEndGameProp().set(false);
                     MonopolyGameApp.this.gameOverController.setWinnerName(MonopolyGameApp.this.gameManager.getSpesificGame().getWinnerName());
-                    setSceneAndCenter(primaryStage, gameOverScene);
+                    Platform.runLater(() -> {
+                        try {
+                            setSceneAndCenter(primaryStage, gameOverScene);
+                        } catch (Exception ex) {
+                            Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
                 }
             }
         });
