@@ -340,14 +340,27 @@ public class MonopolyGameApp extends Application {
                         this.monopoly.resign(fxmlDocumentController.getPlayerId());
                         waitingGames = this.monopoly.getWaitingGames();
                     }
-
+                    MonopolyGameApp.this.monopolyGameBoardController.getNoPerchesButtonProp().set(true);
                     if (waitingGames.size() > 0) {
-                        setSceneAndCenter(primaryStage, this.openingScene);
                         this.joinGameController.setListGamesName(waitingGames);
                         this.joinGameController.setListViewGames();
+                        Platform.runLater(() -> {
+                            try {
+                                setSceneAndCenter(primaryStage, this.openingScene);
+                            } catch (Exception ex) {
+                                Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+
                     } else {
-                        this.startWindowController.resetScene();
-                        setSceneAndCenter(primaryStage, this.startWindowScene);
+                        Platform.runLater(() -> {
+                            try {
+                                this.startWindowController.resetScene();
+                                setSceneAndCenter(primaryStage, this.startWindowScene);
+                            } catch (Exception ex) {
+                                Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
                     }
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);

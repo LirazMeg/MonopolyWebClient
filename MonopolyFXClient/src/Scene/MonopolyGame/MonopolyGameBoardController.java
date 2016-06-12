@@ -777,7 +777,6 @@ public class MonopolyGameBoardController extends GenericController implements In
 
     private boolean isEventNull(Event event) {
         boolean res = event == null;
-
         if (res) {
             System.out.println("error event sequenceCreated  is null");
         }
