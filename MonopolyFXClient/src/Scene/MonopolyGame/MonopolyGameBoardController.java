@@ -809,8 +809,8 @@ public class MonopolyGameBoardController extends GenericController implements In
         int squareNum = event.getNextBoardSquareID();
 
         if (event.isPlayerMove()) {
-         Platform.runLater(() ->  this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum)));     
-         //this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
+            Platform.runLater(() -> this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum)));
+            //this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
             Thread.sleep(4000);
 
         } else {
@@ -823,8 +823,9 @@ public class MonopolyGameBoardController extends GenericController implements In
 
         if (event.getPlayerName().equals(this.playerName)) {
             showPerchesButton();
+            timer.cancel();
         }
-        timer.cancel();
+
     }
 
     private void showMsg(Event event) throws InterruptedException {
