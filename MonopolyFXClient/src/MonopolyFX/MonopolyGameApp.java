@@ -330,15 +330,20 @@ public class MonopolyGameApp extends Application {
         SimpleBooleanProperty playerResingeProp = fxmlDocumentController.getPlayerResingeProp();
         playerResingeProp.addListener((source, oldValue, newValue) -> {
             if (newValue) {
-                fxmlDocumentController.getPlayerResingeProp().set(false);
-                List<String> waitingGames = this.monopoly.getWaitingGames();
-                if (waitingGames.size() > 0) {
-                    setSceneAndCenter(primaryStage, this.openingScene);
-                    this.joinGameController.setListGamesName(waitingGames);
-                    this.joinGameController.setListViewGames();
-                } else {
-                    this.startWindowController.resetScene();
-                    setSceneAndCenter(primaryStage, this.startWindowScene);
+                try {
+                    fxmlDocumentController.getPlayerResingeProp().set(false);
+                    this.monopoly.resign(fxmlDocumentController.getPlayerId());
+                    List<String> waitingGames = this.monopoly.getWaitingGames();
+                    if (waitingGames.size() > 0) {
+                        setSceneAndCenter(primaryStage, this.openingScene);
+                        this.joinGameController.setListGamesName(waitingGames);
+                        this.joinGameController.setListViewGames();
+                    } else {
+                        this.startWindowController.resetScene();
+                        setSceneAndCenter(primaryStage, this.startWindowScene);
+                    }
+                } catch (InvalidParameters_Exception ex) {
+                    Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
