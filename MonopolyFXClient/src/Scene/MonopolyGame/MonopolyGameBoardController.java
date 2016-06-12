@@ -700,7 +700,7 @@ public class MonopolyGameBoardController extends GenericController implements In
                 }
 //                playerDetails = this.monopoly.getPlayerDetails(playerId);
 //                gameDet = this.monopoly.getGameDetails(gameName);
-//                Platform.runLater(() -> SetView());
+//                Platform.runLFater(() -> SetView());
                 evntIndex++;
 
             }
@@ -791,7 +791,13 @@ public class MonopolyGameBoardController extends GenericController implements In
         }
         setText(event.getPlayerName() + ", It's Your Turne");
         this.gameManager.setCurrentPlayer(this.gameManager.getPlayerByName(event.getPlayerName()));
-        setCurrentPlayerLabel();
+        Platform.runLater(() -> {
+            try {
+                setCurrentPlayerLabel();
+            } catch (Exception ex) {
+                Logger.getLogger(MonopolyGameBoardController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     private void showDiceResult(Event event) throws InterruptedException {
@@ -804,7 +810,8 @@ public class MonopolyGameBoardController extends GenericController implements In
         int squareNum = event.getNextBoardSquareID();
 
         if (event.isPlayerMove()) {
-            this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
+         Platform.runLater(() ->  this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum)));     
+         //this.currentPlayerLabel.move(this.gridPaneMap.get(squareNum));
             Thread.sleep(4000);
 
         } else {

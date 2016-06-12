@@ -98,6 +98,6 @@
       <Button fx:id="buttonReturn" contentDisplay="CENTER" layoutY="480.0" mnemonicParsing="false" onAction="#onReturn" prefHeight="25.0" prefWidth="117.0" text="Back To Menu" />
    </children>
    <stylesheets>
-      <URL value="@../../../../../../../../../../JavaProjects/Users/Barak/Desktop/Java%20-%20ex3/RummikubeClient/src/view/scenes/joinGame/JoinGame.css" />
+      <URL value="@JoinGame.css" />
    </stylesheets>
 </AnchorPane>

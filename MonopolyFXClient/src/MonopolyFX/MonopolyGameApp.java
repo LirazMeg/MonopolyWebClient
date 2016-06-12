@@ -248,6 +248,7 @@ public class MonopolyGameApp extends Application {
                     String gameName = fxmlDocumentController.getGameName();
                     int playerId = this.monopoly.joinGame(gameName, playerName);
                     initPlayerIdAndName(playerId, playerName);
+                    primaryStage.setTitle("Monopoly Game: " + gameName + "(" + playerName + ")");
                 } catch (GameDoesNotExists_Exception | InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
                     fxmlDocumentController.setErrorLabel(ex.getMessage());
@@ -286,15 +287,14 @@ public class MonopolyGameApp extends Application {
         yesPerchesBtnProperty.addListener((source, oldValue, newValue) -> {
             if (newValue) {
                 fxmlDocumentController.getYesPerchesButtonProp().set(false);
+                int playerId = fxmlDocumentController.getPlayerId();
                 try {
-                    int playerId = fxmlDocumentController.getPlayerId();
                     this.monopoly.buy(playerId, fxmlDocumentController.getEventId(), true);
-
-                    fxmlDocumentController.timing();
                 } catch (InvalidParameters_Exception ex) {
                     Logger.getLogger(MonopolyGameApp.class.getName()).log(Level.SEVERE, null, ex);
-                    fxmlDocumentController.setErrorLabel(ex.getMessage());
                 }
+          
+                fxmlDocumentController.timing();
             }
         });
 
@@ -464,7 +464,7 @@ public class MonopolyGameApp extends Application {
                 fxmlDocumentController.getJoinGameProp().set(false);
                 initGameName(fxmlDocumentController.getGameName());
                 initPlayerIdAndName(fxmlDocumentController.getPlayerId(), fxmlDocumentController.getPlayerName());
-                primaryStage.setTitle("Monopoly Game: " + fxmlDocumentController.getGameName());
+                primaryStage.setTitle("Monopoly Game: " + fxmlDocumentController.getGameName() + "(" + fxmlDocumentController.getPlayerName() + ")");
                 setSceneAndCenter(primaryStage, this.waitingScene);
 
             }
